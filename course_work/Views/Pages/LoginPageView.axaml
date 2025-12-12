@@ -1,0 +1,53 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="using:course_work.ViewModels.Pages"
+             x:Class="course_work.Views.Pages.LoginPageView"
+             x:DataType="vm:LoginPageViewModel">
+    <Grid>
+        <Border HorizontalAlignment="Center" 
+                VerticalAlignment="Center" 
+                BorderThickness="1" 
+                 
+                Padding="20"
+                CornerRadius="20"
+                BoxShadow="5 5 10 0 DarkGray"
+                Background="White" Width="500">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                
+                <TextBlock Text="Авторизация" Classes="header"/>
+                
+                <StackPanel Grid.Row="1" Spacing="15">
+                    <TextBox BorderBrush="Gray" 
+                             BorderThickness="2" 
+                             CornerRadius="5"
+                             Watermark="Login"
+                             Padding="5"/>
+        
+                    <TextBox Watermark="Password"
+                             BorderBrush="Gray"
+                             BorderThickness="2"
+                             CornerRadius="5"
+                             Padding="5"/>
+                    <Button Content="Войти" Background="#237DF5" Command="{Binding LoginCommand}"/>
+                    <TextBlock Text="Забыли пароль?"/>
+                </StackPanel>
+                
+                <TextBlock Grid.Row="2" Text="Новый пользователь?" Classes="header"/>
+                <StackPanel Grid.Row="3" Spacing="15">
+                    <TextBlock Text="Для полноценного доступа Вам необходимо создать учетную запись" TextWrapping="Wrap"/>
+                    <Button Content="Создать учетную запись" Background="#237DF5"/>
+                </StackPanel>
+            </Grid>        
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="course_work/App.axaml" value="course_work/course_work.csproj" />
+        <entry key="course_work/Styles/UI/Window.axaml" value="course_work/course_work.csproj" />
+        <entry key="course_work/Views/MainWindow.axaml" value="course_work/course_work.csproj" />
+        <entry key="course_work/Views/Pages/CourseListPage.axaml" value="course_work/course_work.csproj" />
+        <entry key="course_work/Views/Pages/LoginPage.axaml" value="course_work/course_work.csproj" />
+        <entry key="course_work/Views/Pages/LoginPageView.axaml" value="course_work/course_work.csproj" />
+        <entry key="course_work/Views/Pages/MainPage.axaml" value="course_work/course_work.csproj" />
+        <entry key="course_work/Views/Pages/MainPageView.axaml" value="course_work/course_work.csproj" />
+        <entry key="course_work/Views/Pages/Register.axaml" value="course_work/course_work.csproj" />
+        <entry key="course_work/Views/Pages/RegisterPage.axaml" value="course_work/course_work.csproj" />
+        <entry key="course_work/Views/Pages/UserProfilePageView.axaml" value="course_work/course_work.csproj" />
+        <entry key="course_work/Views/Pages/UserProfileView.axaml" value="course_work/course_work.csproj" />
+        <entry key="course_work/Views/Test.axaml" value="course_work/course_work.csproj" />
+        <entry key="course_work/Views/Test2.axaml" value="course_work/course_work.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

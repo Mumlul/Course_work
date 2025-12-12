@@ -1,0 +1,43 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="using:course_work.ViewModels.Pages"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:pages="clr-namespace:course_work.ViewModels.Pages"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="course_work.Views.Pages.MainPageView"
+             x:DataType="pages:MainPageViewModel">
+    
+    <Design.DataContext>
+        <vm:MainPageViewModel/>
+    </Design.DataContext>
+    
+    <SplitView IsPaneOpen="True"
+               OpenPaneLength="200"
+               DisplayMode="Inline"
+               x:Name="SplitView"
+    >
+        <SplitView.Pane>
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center">
+                    <TextBlock Text="UMCPK"/>
+                </StackPanel>
+                <ListBox ItemsSource="{Binding Pages}"
+                         SelectedItem="{Binding CurrentPage,Mode=TwoWay}"
+                         SelectionMode="Single">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Title}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate> 
+                </ListBox>
+            </DockPanel>
+        </SplitView.Pane>
+        <SplitView.Content>
+            <ContentControl Content="{Binding CurrentPage}"/>
+        </SplitView.Content>
+    </SplitView>
+    
+</UserControl>
