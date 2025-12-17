@@ -14,6 +14,7 @@
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="11.3.9"/>
         <PackageReference Include="Avalonia.Desktop" Version="11.3.9"/>
+        <PackageReference Include="Avalonia.Svg.Skia" Version="11.3.0" />
         <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.9"/>
         <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.9"/>
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
@@ -22,7 +23,23 @@
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.10">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="MySqlConnector" Version="2.5.0" />
+        <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
         <PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Convertors\" />
+      <Folder Include="Files\" />
+      <Folder Include="ValidationRules\" />
     </ItemGroup>
 </Project>

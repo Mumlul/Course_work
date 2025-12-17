@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using course_work.Data;
 using course_work.Models.Classes;
@@ -9,6 +10,7 @@ namespace course_work.Services;
 public class UserService:IUserService
 {
     private readonly ApplicationDbContext _context;
+    
 
     public UserService(ApplicationDbContext context)
     {
@@ -52,5 +54,16 @@ public class UserService:IUserService
     {
         _context.Users.Update(user);
         await  _context.SaveChangesAsync();
+    }
+
+    public async Task<bool> CheckPassword(User user, string password)
+    {
+        var _user = await _context.Users
+            .FirstOrDefaultAsync(u => u.Login == user.Login);
+        
+        if (_user == null) return false;
+        
+        return user.Password == password;
+        
     }
 }

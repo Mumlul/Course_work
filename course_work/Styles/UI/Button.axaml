@@ -10,4 +10,8 @@
         <Setter Property="Background" Value="Transparent"/>
     </Style>
     
+    <Style Selector="Button.Basic">
+        <Setter Property="Background" Value="#237DF5"/>
+    </Style>
+    
 </Styles>

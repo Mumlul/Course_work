@@ -2,8 +2,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1200"
+             xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
+             x:DataType="vm:UserProfilePageViewModel"
              x:Class="course_work.Views.Pages.UserProfilePageView">
+    <Design.DataContext>
+        <vm:UserProfilePageViewModel/>
+    </Design.DataContext>
+    
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -24,7 +31,7 @@
             </Grid.ColumnDefinitions>
             
             <StackPanel Spacing="10">
-                <Image Source="../../Assets/avalonia-logo.ico"></Image>
+                <Image Source="../../Assets/avalonia-logo.ico"/>
                 <TextBlock Text="User_name"/>
                 <Button Content="Изменить профиль"/>
             </StackPanel>
@@ -32,16 +39,39 @@
             
             <ScrollViewer Grid.Column="1">
                 <StackPanel>
-                    <UniformGrid Columns="3" Rows="2">
-                        <Border Height="80" Background="LightBlue" Margin="2" CornerRadius="4"/>
-                        <Border Height="80" Background="LightCoral" Margin="2" CornerRadius="4"/>
-                        <Border Height="80" Background="LightGreen" Margin="2" CornerRadius="4"/>
-                        <Border Height="80" Background="LightGoldenrodYellow" Margin="2" CornerRadius="4"/>
-                        <Border Height="80" Background="LightPink" Margin="2" CornerRadius="4"/>
-                        <Border Height="80" Background="LightGray" Margin="2" CornerRadius="4"/>
-                    </UniformGrid>
-                    <TextBlock Text="Тут еще какая-то информация" Margin="10"/>
-                    <Button Content="что то делает" Margin="10"/>
+                    <!--Последние курсы которые были пройдены-->
+                    <ItemsControl ItemsSource="{Binding Courses}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="3" Rows="2"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+            
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                    <StackPanel Margin="10">
+                                        <Border Height="300" Margin="2" CornerRadius="4" 
+                                                Background="Red"/>
+                                        <TextBlock Text="{Binding Title}" 
+                                                   FontSize="18" 
+                                                   FontWeight="Bold"
+                                                   Margin="0 0 0 10"/>
+                                        <TextBlock Text="{Binding Author}" 
+                                                   FontSize="14"
+                                                   Margin="0 0 0 5"/>
+                                        <TextBlock Text="{Binding Description}" 
+                                                   TextWrapping="Wrap"/>
+                                    </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    
+                    <!--Краткая статистика-->
+                    
+                    
+                    
+                    
+                    
                 </StackPanel>
             </ScrollViewer>
             

@@ -1,6 +1,6 @@
 ﻿namespace course_work.Services;
 
-public class ITestSurvice
+public class ITestService
 {
-    
+    //Тут надо подумать
 }

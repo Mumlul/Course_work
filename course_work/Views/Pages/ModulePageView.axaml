@@ -1,0 +1,52 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1200"
+             x:Class="course_work.Views.Pages.ModulePageView"
+             Background="#5B5B5B"
+             >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+        
+        
+        
+        <!--Image-->
+        <Image Source="../../Assets/test/back.jpg" Stretch="UniformToFill"/>
+        <!--Header-->
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+            <TextBlock Text="Основы дистанционного обучения" FontSize="40"  FontWeight="Bold" HorizontalAlignment="Center"/> 
+            <TextBlock Text="Вводный курс, посвящённый принципам и возможностям дистанционного обучения." FontSize="24"/>
+            <!--<TextBlock Text="{Binding Title}"/>--> 
+            <!--<TextBlock Text="{Binding Description}" FontSize="24"/>-->
+        </StackPanel>
+        <!--Main-->
+        
+        <Label Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="60">ТУТ ПРОСТО БУДЕТ ТЕКСТОМ</Label>
+        <ItemsControl Grid.Row="2" >
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="4"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Grid.Row="2" CornerRadius="10" Background="White" Width="400" Height="300" ClipToBounds="True">  
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Image Source="../../Assets/test/back.jpg" Stretch="UniformToFill"/>
+                            <TextBlock Grid.Row="1" Text="Введение" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

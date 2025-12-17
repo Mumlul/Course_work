@@ -13,4 +13,5 @@ public interface IUserService
     Task DeleteUserById(User user);
     Task<User> AddUser(User user);
     Task UpdateUser(User user);
+    Task<bool> CheckPassword(User user, string password);
 }

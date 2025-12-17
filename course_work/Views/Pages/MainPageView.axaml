@@ -4,7 +4,7 @@
              xmlns:vm="using:course_work.ViewModels.Pages"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pages="clr-namespace:course_work.ViewModels.Pages"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1200"
              x:Class="course_work.Views.Pages.MainPageView"
              x:DataType="pages:MainPageViewModel">
     
@@ -12,31 +12,56 @@
         <vm:MainPageViewModel/>
     </Design.DataContext>
     
-    <SplitView IsPaneOpen="True"
+    <SplitView IsPaneOpen="{Binding Isopensidebar}"
                OpenPaneLength="200"
-               DisplayMode="Inline"
-               x:Name="SplitView"
-    >
+               CompactPaneLength="50"
+               DisplayMode="CompactInline"
+               Background="#5B5B5B"
+               x:Name="SplitView">
         <SplitView.Pane>
-            <DockPanel>
-                <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Center">
-                    <TextBlock Text="UMCPK"/>
-                </StackPanel>
-                <ListBox ItemsSource="{Binding Pages}"
-                         SelectedItem="{Binding CurrentPage,Mode=TwoWay}"
-                         SelectionMode="Single">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Title}"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate> 
-                </ListBox>
+            <DockPanel   Background="#404040">
+                
+                <Border Classes="Sidebar">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                   
+                        <!--header-->
+                        <Border Background="#404040">
+                            <Button DockPanel.Dock="Left"  Width="20" Height="20" Padding="0" Command="{Binding OpenPaneCommand}">
+                                <Image Source="{SvgImage ../../Assets/icons/arrow-left-square.svg}"/>
+                            </Button>
+                        </Border>
+                        
+                        <!--Body-->
+                        <Border Grid.Row="1" Background="#404040">
+                            <ListBox ItemsSource="{Binding Pages}"
+                                     SelectedItem="{Binding Currentpagemain}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" >
+                                            <Svg Path="{Binding Image}" Height="20"/>
+                                            <TextBlock Text="{Binding Title}" IsVisible="{Binding TextVisible}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Border>
+                        
+                        <!--bottom-->
+                        <Border Grid.Row="2" Background="#404040">
+                            <Button Content="Log out" Classes="sidebar"/>
+                        </Border>
+                    </Grid>
+                </Border>
+                
             </DockPanel>
         </SplitView.Pane>
         <SplitView.Content>
-            <ContentControl Content="{Binding CurrentPage}"/>
+            <ContentControl Content="{Binding Currentpagemain}"/>
         </SplitView.Content>
     </SplitView>
     

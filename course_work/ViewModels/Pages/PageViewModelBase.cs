@@ -1,6 +1,12 @@
-﻿namespace course_work.ViewModels.Pages;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-public class PageViewModelBase:ViewModelBase
+namespace course_work.ViewModels.Pages;
+
+public partial class PageViewModelBase:ViewModelBase
 {
     public string? Title { get; set; }
+    public string? Image { get; set; }
+    
+    [ObservableProperty]
+    public bool _textVisible  = true;
 }

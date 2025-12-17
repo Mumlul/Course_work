@@ -16,18 +16,23 @@ public class ViewLocator : IDataTemplate
 {
     public Control? Build(object? param)
     {
-        if (param is null)
-            return null;
+        if (param == null) return null;
 
-        var name = param.GetType().FullName!.Replace("ViewModel", "View", StringComparison.Ordinal);
-        var type = Type.GetType(name);
+        var viewModelType = param.GetType();
+        var viewTypeName = viewModelType.FullName!.Replace("ViewModel", "View");
 
-        if (type != null)
+        // Ищем в том же assembly
+        var viewType = viewModelType.Assembly.GetType(viewTypeName);
+        if (viewType == null)
         {
-            return (Control)Activator.CreateInstance(type)!;
+            Console.WriteLine($"View not found for {viewTypeName}");
+            return new TextBlock { Text = "View not found: " + viewTypeName };
         }
 
-        return new TextBlock { Text = "Not Found: " + name };
+        var control = (Control)Activator.CreateInstance(viewType)!;
+        control.DataContext = param;
+        Console.WriteLine($"View built for {viewModelType.Name}");
+        return control;
     }
 
     public bool Match(object? data)

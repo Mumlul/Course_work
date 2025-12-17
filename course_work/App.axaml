@@ -12,5 +12,9 @@
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="../Styles/UI/Window.axaml"/>
+        <StyleInclude Source="../Styles/UI/Button.axaml"/>
+        <StyleInclude Source="../Styles/UI/Border.axaml"/>
+        <StyleInclude Source="../Styles/UI/Text.axaml"/>
+        <StyleInclude Source="../Styles/UI/TextBox.axaml"/>
     </Application.Styles>
 </Application>

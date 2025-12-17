@@ -1,6 +1,6 @@
 ﻿namespace course_work.Services;
 
-public class ILessonService
+public class LessonService
 {
     
 }
