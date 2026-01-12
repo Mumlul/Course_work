@@ -11,5 +11,5 @@ public interface IModuleService
     Task<Module> AddModule(Module module);
     Task<Module> UpdateModule(Module module);
     Task DeleteModule(int id);
-    Task<ICollection<Lesson>> GetLessons(Module module);
+    Task<List<Lesson>> GetLessons(int moduleId);
 }

@@ -9,14 +9,16 @@ namespace course_work.ViewModels.Pages;
 
 public partial class RegisterPageViewModel:PageViewModelBase
 {
+    private readonly MainWindowViewModel _mainWindowVm;
     private readonly IUserService _userService;
     
     [ObservableProperty]
     private User _user = new User();
     
-    public RegisterPageViewModel(IUserService userService)
+    public RegisterPageViewModel(MainWindowViewModel mainWindowVm,IUserService userService)
     {
         _userService=userService;
+        _mainWindowVm = mainWindowVm;
         Title = "Register Page";
     }
 
@@ -37,5 +39,13 @@ public partial class RegisterPageViewModel:PageViewModelBase
         };
 
         _userService.AddUser(_newUser);
+        
+        /*_mainWindowVm.GotoLoginPage();*/
+    }
+
+    [RelayCommand]
+    private void GoToLoginPage()
+    {
+        /*_mainWindowVm.GotoLoginPage();*/
     }
 }

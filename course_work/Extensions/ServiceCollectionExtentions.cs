@@ -11,8 +11,6 @@ public static class ServiceCollectionExtentions
 {
     public static void AddCommonService(this IServiceCollection services)
     {
-        
-        
         //Register Db Context
         services.AddDbContext<ApplicationDbContext>(options =>
         {
@@ -27,10 +25,14 @@ public static class ServiceCollectionExtentions
         services.AddTransient<RegisterPageViewModel>();
         services.AddTransient<LoginPageViewModel>();
         services.AddTransient<MainPageViewModel>();
-        
+        services.AddTransient<CoursePageViewModel>();
+        services.AddTransient<UserProfilePageViewModel>();
         
         //Register services
-        services.AddTransient<IUserService, UserService>();
-        services.AddTransient<IUserTypeService, UserTypeService>();
+        services.AddSingleton<IUserService, UserService>();
+        services.AddSingleton<IUserTypeService, UserTypeService>();
+        services.AddSingleton<ICourseService, CourseService>();
+        services.AddSingleton<IModuleService, ModuleService>();
+        services.AddSingleton<ILessonService, LessonService>();
     }
 }

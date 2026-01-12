@@ -24,7 +24,6 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="20"/>
         <Setter Property="CornerRadius" Value="20"/>
-        <Setter Property="BoxShadow" Value="5 5 10 0 DarkGray"/>
-        <Setter Property="Background" Value="White"/>
+        <Setter Property="Background" Value="#4D4D4D"/>
     </Style>
 </Styles>

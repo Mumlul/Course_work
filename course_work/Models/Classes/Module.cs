@@ -12,7 +12,7 @@ public class Module
     public int CourseId { get; set; }
     public string Title { get; set; } = string.Empty;
     public int OrderIndex { get; set; }
-    public byte[]? PreviewImage { get; set; } // BLOB для превью
+    public byte[]? PreviewImage { get; set; }
 
     public Course Course { get; set; } = null!;
     public ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();

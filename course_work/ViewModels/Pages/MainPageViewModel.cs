@@ -6,6 +6,9 @@ using System.Reactive.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using course_work.Models;
+using course_work.Models.Classes;
+using course_work.Services;
+using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -13,46 +16,43 @@ namespace course_work.ViewModels.Pages;
 
 public partial class MainPageViewModel:PageViewModelBase
 {
-    [ObservableProperty] private ViewModelBase _currentpagemain;
+    private readonly IServiceProvider _provider;
+    private readonly IUserService _userService;
+    private readonly ICourseService _courseService;
+
+    [ObservableProperty] private PageViewModelBase _currentpagemain;
     
-    [ObservableProperty] private bool _isopensidebar = true;
-    public ObservableCollection<PageViewModelBase> Pages { get; } = new()
+    partial void OnCurrentpagemainChanged(PageViewModelBase value)
     {
-        new UserProfilePageViewModel(),
-        new CourseListPageViewModel()
-    };
-    
-    public MainPageViewModel()
-    {
-        Title = "Главная";
-        Currentpagemain=Pages[0];
+        if (value != null)
+            _ = value.OnNavigatedTo();
     }
     
-    //Возможно пригодится что бы не писать 
-    /*public ObservableCollection<MenuItem> test { get; } = new ObservableCollection<MenuItem>()
-        { 
-            new MenuItem
-            {
-                Title = "Search",
-                SourceImg = "../../Assets/icons/search.svg"
-            },
-            new MenuItem
-            {
-                Title = "Profile",
-                SourceImg = "../../Assets/icons/arrow-left-square.svg"
-            },
-            new MenuItem
-            {
-                Title = "Course List",
-                SourceImg = "../../Assets/icons/course_list.svg"
-            },
-            new MenuItem
-            {
-                Title = "Settings",
-                SourceImg = "../../Assets/icons/settings.svg"
-            }
-        };*/
+    [ObservableProperty] private bool _isopensidebar = true;
+    [ObservableProperty] private User _user;
 
+    public ObservableCollection<PageViewModelBase> Pages { get; }
+
+    public MainPageViewModel(IServiceProvider provider,IUserService userService)
+    {
+        _provider = provider;
+        _userService = userService;
+        User = _userService.CurrentUser;
+        _courseService = provider.GetRequiredService<ICourseService>();
+
+        Title = "Главная";
+
+        Pages = new ObservableCollection<PageViewModelBase>
+        {
+            new UserProfilePageViewModel(_userService, course => OpenCurse(course)),
+            new CatalogPageViewModel(_userService,_courseService),
+            new SettingPageViewModel(),
+            /*new LessonPageViewModel()*/
+        };
+        
+        Currentpagemain = Pages[0];
+    }
+    
     [RelayCommand]
     private void OpenPane()
     {
@@ -62,5 +62,40 @@ public partial class MainPageViewModel:PageViewModelBase
             page.TextVisible = !page.TextVisible;
         }
     }
+
+    public void OpenCurse(Course course)
+    {
+        Currentpagemain = null;
+        
+        var courseVm = ActivatorUtilities.CreateInstance<CoursePageViewModel>(
+            _provider,
+            _provider.GetRequiredService<ICourseService>(),
+            _provider.GetRequiredService<IModuleService>(),
+            (Lesson lesson) => OpenLesson(lesson),
+            course
+        );
+
+        if(courseVm == null)
+            throw new Exception("Не удалось создать CoursePageViewModel через DI");
+
+        Currentpagemain = courseVm;
+    }
+
+    public void OpenLesson(Lesson lesson)
+    {
+        
+        Currentpagemain = null;
+        var lessonVm = ActivatorUtilities.CreateInstance<LessonPageViewModel>(
+            _provider,
+            _provider.GetRequiredService<ILessonService>(),
+            lesson
+        );
+        
+        if(lessonVm == null)
+            throw new Exception("Не удалось создать CoursePageViewModel через DI");
+        
+        Currentpagemain = lessonVm;
+    }
+    
 
 }

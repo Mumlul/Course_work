@@ -6,11 +6,6 @@
              xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
              x:DataType="vm:UserProfilePageViewModel"
              x:Class="course_work.Views.Pages.UserProfilePageView">
-    <Design.DataContext>
-        <vm:UserProfilePageViewModel/>
-    </Design.DataContext>
-    
-    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -31,40 +26,39 @@
             </Grid.ColumnDefinitions>
             
             <StackPanel Spacing="10">
-                <Image Source="../../Assets/avalonia-logo.ico"/>
-                <TextBlock Text="User_name"/>
-                <Button Content="Изменить профиль"/>
+                <Image Source="{Binding Avatar}"/>
+                <TextBlock Text="{Binding User.Name}"/>
+                <Button Content="Изменить профиль" Command="{Binding LoadAvatarCommand}"/>
             </StackPanel>
             
             
             <ScrollViewer Grid.Column="1">
                 <StackPanel>
                     <!--Последние курсы которые были пройдены-->
-                    <ItemsControl ItemsSource="{Binding Courses}">
-                        <ItemsControl.ItemsPanel>
+                    <ListBox ItemsSource="{Binding Courses}"
+                             SelectedItem="{Binding SelectedCourse}">
+                        <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <UniformGrid Columns="3" Rows="2"/>
                             </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
+                        </ListBox.ItemsPanel>
             
-                        <ItemsControl.ItemTemplate>
+                        <ListBox.ItemTemplate>
                             <DataTemplate>
                                     <StackPanel Margin="10">
+                                        <!--Изображение курса тут будет-->
                                         <Border Height="300" Margin="2" CornerRadius="4" 
                                                 Background="Red"/>
                                         <TextBlock Text="{Binding Title}" 
                                                    FontSize="18" 
                                                    FontWeight="Bold"
                                                    Margin="0 0 0 10"/>
-                                        <TextBlock Text="{Binding Author}" 
-                                                   FontSize="14"
-                                                   Margin="0 0 0 5"/>
                                         <TextBlock Text="{Binding Description}" 
                                                    TextWrapping="Wrap"/>
                                     </StackPanel>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                     
                     <!--Краткая статистика-->
                     

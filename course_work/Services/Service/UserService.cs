@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using course_work.Data;
 using course_work.Models.Classes;
@@ -10,7 +11,7 @@ namespace course_work.Services;
 public class UserService:IUserService
 {
     private readonly ApplicationDbContext _context;
-    
+    public User CurrentUser { get; set; } = new User();
 
     public UserService(ApplicationDbContext context)
     {
@@ -29,12 +30,14 @@ public class UserService:IUserService
 
     public async Task<User> GetUserByUsername(string username)
     {
-       return await  _context.Users.FindAsync(username);
+        return await _context.Users
+            .FirstOrDefaultAsync(u => u.Login == username);
     }
 
     public async Task<User> GetUserByEmail(string email)
     {
-        return await  _context.Users.FindAsync(email);
+        return await _context.Users
+            .FirstOrDefaultAsync(u => u.Email == email);
     }
 
     public async Task DeleteUserById(User user)
@@ -65,5 +68,15 @@ public class UserService:IUserService
         
         return user.Password == password;
         
+    }
+
+    public async Task<ObservableCollection<Course>> GetAllCourses(User user)
+    {
+        var courses = await _context.CourseStudents
+            .Where(cs => cs.UserId == user.Id)
+            .Select(cs => cs.Course)
+            .ToListAsync();
+        
+        return new ObservableCollection<Course>(courses);
     }
 }

@@ -13,13 +13,7 @@
     
     
     <Grid>
-        <Border HorizontalAlignment="Center" 
-                VerticalAlignment="Center" 
-                BorderThickness="1" 
-                Padding="20"
-                CornerRadius="20"
-                BoxShadow="5 5 10 0 DarkGray"
-                Background="White" Width="500">
+        <Border Classes="PlaceHolder">
             <Grid >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -32,41 +26,36 @@
                 <TextBlock Text="Новая учетная запись" Classes="header"/>
                 
                 <StackPanel Grid.Row="1" Spacing="15">
-                    <TextBox BorderBrush="Gray" 
-                             BorderThickness="2" 
-                             CornerRadius="5"
+                    <TextBox Classes="Border"
                              Watermark="Login"
                              Padding="5"
                              Text="{Binding User.Login}"
                              />
         
                     <TextBox Watermark="Password"
-                             BorderBrush="Gray"
-                             BorderThickness="2"
-                             CornerRadius="5"
-                             Padding="5"
+                             Classes="Border"
+                             PasswordChar="*"
                              Text="{Binding User.Password}"
                              />
                     
+                    <TextBox Watermark="Repeat Password"
+                             Classes="Border"
+                             PasswordChar="*"
+                    />
+                    
                     <TextBox Watermark="Email"
-                             BorderBrush="Gray"
-                             BorderThickness="2"
-                             CornerRadius="5"
-                             Padding="5"
+                             Classes="Border"
                              Text="{Binding User.Email}"
                              />
                     
                     <TextBox Watermark="Name"
-                             BorderBrush="Gray"
-                             BorderThickness="2"
-                             CornerRadius="5"
-                             Padding="5"
+                             Classes="Border"
                              Text="{Binding User.Name}"
                              />
                     
                     <StackPanel Orientation="Horizontal" Spacing="10">
-                        <Button Content="Создать учетную запись" Background="#237DF5" Command="{Binding RegisterCommand}"/>
-                        <Button Content="Отмена" Background="Gray"/>
+                        <Button Content="Создать учетную запись" Classes="Basic" Command="{Binding RegisterCommand}"/>
+                        <Button Content="Отмена" Classes="Cancel" Command="{Binding GoToLoginPageCommand}"/>
                     </StackPanel>
                    
                    

@@ -184,3 +184,6 @@ C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\course_wo
 C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\ref\course_work.dll
 C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\course_work.csproj.Fody.CopyLocal.cache
 C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\course_work.csproj.Fody.RuntimeCopyLocal.cache
+C:\Users\mumlul\RiderProjects\course_work\course_work\bin\Debug\net9.0\Avalonia.Controls.ItemsRepeater.dll
+C:\Users\mumlul\RiderProjects\course_work\course_work\bin\Debug\net9.0\AWSSDK.Core.dll
+C:\Users\mumlul\RiderProjects\course_work\course_work\bin\Debug\net9.0\AWSSDK.S3.dll

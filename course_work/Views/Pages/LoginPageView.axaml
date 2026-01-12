@@ -2,11 +2,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1200"
              xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
              x:Class="course_work.Views.Pages.LoginPageView"
              x:DataType="vm:LoginPageViewModel">
-    <Grid>
+    <Grid >
         <Border Classes="PlaceHolder">
             <Grid >
                 <Grid.RowDefinitions>
@@ -22,12 +22,15 @@
                 <StackPanel Grid.Row="1" Spacing="15">
                     
                     <TextBox Watermark="Login"
-                             Classes="Border"
+                             Classes="MyPasswordBox"
                              Text="{Binding User.Login}"
+                             
                     />
-        
+                    
                     <TextBox Watermark="Password"
-                             Classes="Border"
+                             Classes="MyPasswordBox"
+                             PasswordChar="*"
+                             
                              Text="{Binding User.Password}"
                              />
                     <Button
@@ -36,14 +39,16 @@
                         Command="{Binding LoginCommand}"
                         />
                     
-                    <TextBlock Text="Забыли пароль?"/>
+                    <TextBlock Text="Забыли пароль?" Classes="Hint"/>
                     
                 </StackPanel>
                 
                 <TextBlock Grid.Row="2" Text="Новый пользователь?" Classes="Header" />
                 
                 <StackPanel Grid.Row="3" Spacing="15">
-                    <TextBlock Text="Для полноценного доступа Вам необходимо создать учетную запись" TextWrapping="Wrap"/>
+                    <TextBlock Text="Для полноценного доступа Вам необходимо создать учетную запись" 
+                               TextWrapping="Wrap"
+                               Classes="Hint"/>
                     <Button 
                         Content="Создать учетную запись" 
                         Classes="Basic" 

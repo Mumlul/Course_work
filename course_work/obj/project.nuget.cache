@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PLqWxwLGazs=",
+  "dgSpecHash": "9ASVe+q/YKA=",
   "success": true,
   "projectFilePath": "C:\\Users\\mumlul\\RiderProjects\\course_work\\course_work\\course_work.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\mumlul\\.nuget\\packages\\avalonia.angle.windows.natives\\2.1.25547.20250602\\avalonia.angle.windows.natives.2.1.25547.20250602.nupkg.sha512",
     "C:\\Users\\mumlul\\.nuget\\packages\\avalonia.buildservices\\11.3.2\\avalonia.buildservices.11.3.2.nupkg.sha512",
     "C:\\Users\\mumlul\\.nuget\\packages\\avalonia.controls.colorpicker\\11.3.9\\avalonia.controls.colorpicker.11.3.9.nupkg.sha512",
+    "C:\\Users\\mumlul\\.nuget\\packages\\avalonia.controls.itemsrepeater\\11.1.5\\avalonia.controls.itemsrepeater.11.1.5.nupkg.sha512",
     "C:\\Users\\mumlul\\.nuget\\packages\\avalonia.desktop\\11.3.9\\avalonia.desktop.11.3.9.nupkg.sha512",
     "C:\\Users\\mumlul\\.nuget\\packages\\avalonia.diagnostics\\11.3.9\\avalonia.diagnostics.11.3.9.nupkg.sha512",
     "C:\\Users\\mumlul\\.nuget\\packages\\avalonia.fonts.inter\\11.3.9\\avalonia.fonts.inter.11.3.9.nupkg.sha512",
@@ -20,6 +21,8 @@
     "C:\\Users\\mumlul\\.nuget\\packages\\avalonia.themes.simple\\11.3.9\\avalonia.themes.simple.11.3.9.nupkg.sha512",
     "C:\\Users\\mumlul\\.nuget\\packages\\avalonia.win32\\11.3.9\\avalonia.win32.11.3.9.nupkg.sha512",
     "C:\\Users\\mumlul\\.nuget\\packages\\avalonia.x11\\11.3.9\\avalonia.x11.11.3.9.nupkg.sha512",
+    "C:\\Users\\mumlul\\.nuget\\packages\\awssdk.core\\4.0.3.8\\awssdk.core.4.0.3.8.nupkg.sha512",
+    "C:\\Users\\mumlul\\.nuget\\packages\\awssdk.s3\\4.0.17\\awssdk.s3.4.0.17.nupkg.sha512",
     "C:\\Users\\mumlul\\.nuget\\packages\\communitytoolkit.mvvm\\8.2.1\\communitytoolkit.mvvm.8.2.1.nupkg.sha512",
     "C:\\Users\\mumlul\\.nuget\\packages\\dynamicdata\\8.3.27\\dynamicdata.8.3.27.nupkg.sha512",
     "C:\\Users\\mumlul\\.nuget\\packages\\excss\\4.3.0\\excss.4.3.0.nupkg.sha512",

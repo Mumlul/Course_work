@@ -2,7 +2,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Design.PreviewWith>
         <Border Padding="20">
-            <!-- Add Controls for Previewer Here -->
         </Border>
     </Design.PreviewWith>
 
@@ -11,7 +10,13 @@
     </Style>
     
     <Style Selector="Button.Basic">
-        <Setter Property="Background" Value="#237DF5"/>
+        <Setter Property="Background" Value="#19BD62"/>
+        <Setter Property="Foreground" Value="#FFFFFF"/>
+    </Style>
+    
+    <Style Selector="Button.Cancel">
+        <Setter Property="Background" Value="#3C3C3C"/>
+        <Setter Property="Foreground" Value="#FFFFFF"/>
     </Style>
     
 </Styles>

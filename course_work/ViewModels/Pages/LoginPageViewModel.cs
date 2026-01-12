@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using course_work.Models;
@@ -13,30 +14,37 @@ public partial class LoginPageViewModel:PageViewModelBase
 {
     private readonly MainWindowViewModel _mainWindowVm;
     private readonly IUserService _userService;
+    private readonly Action OnLoginSuccess;
     
     [ObservableProperty] 
     private User _user=new User();
 
-    public LoginPageViewModel(MainWindowViewModel mainWindowVm,IUserService userService)
+    public LoginPageViewModel(IUserService userService, Action onLoginSuccess)
     {
-        Title = "Вход";
-        _mainWindowVm = mainWindowVm;
         _userService = userService;
+        OnLoginSuccess = onLoginSuccess;
     }
-    
-    //тут надо валидацию придумать
+
     [RelayCommand]
-    public async void Login()
+    public async Task Login()
     {
-        if(await _userService.CheckPassword(User, User.Password))
-            _mainWindowVm.GotoMain();
+        var isValid = await _userService.CheckPassword(User, User.Password);
+        if (isValid)
+        {
+            
+            _userService.CurrentUser = await _userService.GetUserByUsername(User.Login);
+            Console.WriteLine(_userService.CurrentUser.Name);
+            OnLoginSuccess?.Invoke();
+        }
         else
-        Console.WriteLine("не");
+        {
+            Console.WriteLine("Неверный логин или пароль");
+        }
     }
 
     [RelayCommand]
     private void AddUser()
     {
-        _mainWindowVm.GotoRegisterPage();
+        /*_mainWindowVm.GotoRegisterPage();*/
     }
 }

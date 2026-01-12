@@ -7,13 +7,18 @@
         <entry key="Styles/UI/Border.axaml" value="course_work.csproj" />
         <entry key="Styles/UI/Buttin.axaml" value="course_work.csproj" />
         <entry key="Styles/UI/Button.axaml" value="course_work.csproj" />
+        <entry key="Styles/UI/ListBox.axaml" value="course_work.csproj" />
         <entry key="Styles/UI/Text.axaml" value="course_work.csproj" />
         <entry key="Styles/UI/TextBox.axaml" value="course_work.csproj" />
         <entry key="Styles/UI/Window.axaml" value="course_work.csproj" />
         <entry key="Views/MainWindow.axaml" value="course_work.csproj" />
         <entry key="Views/Pages/CourseListPageView.axaml" value="course_work.csproj" />
+        <entry key="Views/Pages/CoursePageView.axaml" value="course_work.csproj" />
+        <entry key="Views/Pages/LessonPageViewModel.axaml" value="course_work.csproj" />
         <entry key="Views/Pages/LoginPageView.axaml" value="course_work.csproj" />
         <entry key="Views/Pages/MainPageView.axaml" value="course_work.csproj" />
+        <entry key="Views/Pages/ModulePageView.axaml" value="course_work.csproj" />
+        <entry key="Views/Pages/MyCoursesPageView.axaml" value="course_work.csproj" />
         <entry key="Views/Pages/RegisterPageView.axaml" value="course_work.csproj" />
         <entry key="Views/Pages/UserProfilePageView.axaml" value="course_work.csproj" />
         <entry key="Views/Test.axaml" value="course_work.csproj" />

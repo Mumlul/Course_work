@@ -22,6 +22,8 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v9.0
 build_property.RootNamespace = course_work
 build_property.ProjectDir = C:\Users\mumlul\RiderProjects\course_work\course_work\
 build_property.EnableComHosting = 
@@ -38,6 +40,9 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/Button.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/ListBox.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/Text.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
@@ -50,13 +55,16 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Views/Pages/CatalogPageView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Views/Pages/CourseListPageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Views/Pages/CoursePageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/mumlul/RiderProjects/course_work/course_work/Views/Pages/LessonPageViewModel.axaml]
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Views/Pages/LessonPageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Views/Pages/LoginPageView.axaml]
@@ -72,6 +80,9 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Views/Pages/RegisterPageView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Views/Pages/SettingPageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Views/Pages/UserProfilePageView.axaml]

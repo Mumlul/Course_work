@@ -1,0 +1,154 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+             x:Class="course_work.Views.Pages.CatalogPageView"
+             Background="#3B3B3B"
+             xmlns:models="using:course_work.Models.Classes"
+             x:DataType="vm:CatalogPageViewModel"
+             >
+    <UserControl.Resources>
+        <DataTemplate x:Key="CourseSuggestionTemplate">
+          
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!--Header-->
+        <!--<TextBox Background="#4D4D4D" Text="{Binding SearcText}" Width="1100" BorderBrush="#19BD62" CornerRadius="10" Margin="20"/>-->
+        <AutoCompleteBox Grid.Row="0"
+                         Width="1100"
+                         Margin="20"
+                         Watermark="Поиск курсов..."
+                         Background="#4D4D4D"
+                         BorderBrush="#19BD62"
+                         CornerRadius="10"
+                         FontSize="16"
+                         ItemsSource="{Binding Courses}"
+                         SelectedItem="{Binding SelectedCourse}"
+                         ValueMemberBinding="{Binding Title}"
+                         FilterMode="Contains"
+                         MinimumPrefixLength="2"         
+                         IsTextCompletionEnabled="False" 
+                         >
+            <AutoCompleteBox.ItemTemplate>
+                <DataTemplate DataType="models:Course">
+                    <TextBlock Text="{Binding  Title}"
+                               FontSize="14"
+                               Margin="8,4"/>
+                </DataTemplate>
+            </AutoCompleteBox.ItemTemplate>
+        </AutoCompleteBox>
+        
+        
+        <!--Main-->
+        <ScrollViewer Grid.Row="1" Width="1100">
+            <StackPanel Orientation="Vertical" Spacing="60">
+                <!--Banner-->
+                <Image Source="../../Assets/images/baner/first.jpg" Width="1100" Height="120" Stretch="UniformToFill"/>
+                <!--1 group-->
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Text="Популярные курсы"/>
+                    <ItemsRepeater ItemsSource="{Binding Courses}">
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <Border Width="300"
+                                        Height="200"
+                                        Margin="12"
+                                        CornerRadius="14"
+                                        ClipToBounds="True"
+                                        BorderThickness="1"
+                                        BorderBrush="#19BD62">
+
+                                    <!-- Фон карточки -->
+                                    <Grid RowDefinitions="*,Auto">
+                                        <!-- Верх (можно потом картинку) -->
+                                        <Image Source="../../Assets/images/baner/first.jpg"  Stretch="UniformToFill"/>
+                                        <!-- Низ -->
+                                        <TextBlock Grid.Row="1" Text="{Binding Title}"
+                                                   FontSize="16"
+                                                   FontWeight="SemiBold"
+                                                   TextWrapping="Wrap"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                        <ItemsRepeater.Layout>
+                          <UniformGridLayout Orientation="Vertical" MaximumRowsOrColumns="2"/> 
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+                </Grid>
+                
+                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Text="Популярные курсы"/>
+                    <ItemsRepeater ItemsSource="{Binding Courses}">
+                        <ItemsRepeater.ItemTemplate>
+                            <DataTemplate>
+                                <Border Width="300"
+                                        Height="200"
+                                        Margin="12"
+                                        CornerRadius="14"
+                                        ClipToBounds="True"
+                                        BorderThickness="1"
+                                        BorderBrush="#A9D6C3">
+
+                                    <!-- Фон карточки -->
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Color="#F1FBF6" Offset="0"/>
+                                            <GradientStop Color="#D9F2E6" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+
+                                    <Grid RowDefinitions="*,Auto">
+
+                                        <!-- Верх (можно потом картинку) -->
+                                        <Border Background="#BFE6D3"/>
+
+                                        <!-- Низ -->
+                                        <Border Grid.Row="1"
+                                                Background="#FFFFFFAA"
+                                                Padding="12">
+                                            <TextBlock  Text="{Binding Title}"
+                                                       FontSize="16"
+                                                       FontWeight="SemiBold"
+                                                       TextWrapping="Wrap"/>
+                                        </Border>
+
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsRepeater.ItemTemplate>
+                        <ItemsRepeater.Layout>
+                          <UniformGridLayout Orientation="Vertical" MaximumRowsOrColumns="2"/> 
+                        </ItemsRepeater.Layout>
+                    </ItemsRepeater>
+                </Grid>
+                
+            </StackPanel>
+        </ScrollViewer>
+        
+        
+        
+    </Grid>
+</UserControl>

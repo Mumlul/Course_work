@@ -31,7 +31,7 @@ public class ViewLocator : IDataTemplate
 
         var control = (Control)Activator.CreateInstance(viewType)!;
         control.DataContext = param;
-        Console.WriteLine($"View built for {viewModelType.Name}");
+        /*Console.WriteLine($"View built for {viewModelType.Name}");*/
         return control;
     }
 

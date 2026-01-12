@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace course_work.Views.Pages;
 
-public partial class LessonPageViewModel : UserControl
+public partial class SettingPageView : UserControl
 {
-    public LessonPageViewModel()
+    public SettingPageView()
     {
         InitializeComponent();
     }

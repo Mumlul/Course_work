@@ -1,0 +1,28 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
+             x:DataType="vm:LessonPageViewModel"
+             x:Class="course_work.Views.Pages.LessonPageView">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+            
+        <!--Image-->
+        <Image Source="../../Assets/test/back.jpg" Stretch="UniformToFill"/>
+        
+        <!--Header-->
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+            <TextBlock Text="{Binding CurrentLesson.Title}" FontSize="40"  FontWeight="Bold" HorizontalAlignment="Center"/> 
+        </StackPanel>
+        
+        <!--Main-->
+        <TextBox Grid.Row="2" Text="{Binding CurrentLesson.ContentJson}"/>
+        
+    </Grid>
+</UserControl>

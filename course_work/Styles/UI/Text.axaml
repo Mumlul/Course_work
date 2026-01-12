@@ -6,6 +6,11 @@
     <Style Selector="TextBlock.Header">
         <Setter Property="FontSize" Value="24"/>
         <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="#FFFFFF"/>
+    </Style>
+    
+    <Style Selector="TextBlock.Hint">
+        <Setter Property="Foreground" Value="#BDBDBD"/>
     </Style>
     
     

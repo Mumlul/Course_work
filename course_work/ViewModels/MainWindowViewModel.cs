@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Reactive;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using course_work.Models.Classes;
 using course_work.Services;
 using course_work.ViewModels.Pages;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,33 +27,21 @@ public partial class MainWindowViewModel : ViewModelBase
     public MainWindowViewModel(IServiceProvider provider)
     {
         _provider = provider;
-        CurrentViewModel = ActivatorUtilities.CreateInstance<LoginPageViewModel>(_provider, this);
+        NavigateToLogin();
     }
 
-    [RelayCommand]
-    private void MainPageCommand()
+    public void NavigateToLogin()
     {
-        
+        CurrentViewModel = ActivatorUtilities.CreateInstance<LoginPageViewModel>(_provider,new Action(NavigateToMain));
     }
 
-    
-    public void GotoRegisterPage()
+    public void NavigateToRegister()
     {
-        Console.WriteLine("RegisterPageCommand called");
         CurrentViewModel = _provider.GetRequiredService<RegisterPageViewModel>();
-        Console.WriteLine("CurrentViewModel set to " + CurrentViewModel.GetType().Name);
     }
 
-    [RelayCommand]
-    private void TestCommand()
+    public void NavigateToMain()
     {
-        
-    }
-    
-    public void GotoMain()
-    {
-        Console.WriteLine("GotoMain called");
-        CurrentViewModel = new MainPageViewModel();
-        Console.WriteLine("CurrentViewModel set to " + CurrentViewModel.GetType().Name);
+        CurrentViewModel = ActivatorUtilities.CreateInstance<MainPageViewModel>(_provider);
     }
 }

@@ -124,6 +124,22 @@
           }
         }
       },
+      "Avalonia.Controls.ItemsRepeater/11.1.5": {
+        "type": "package",
+        "dependencies": {
+          "Avalonia": "11.1.5"
+        },
+        "compile": {
+          "lib/net8.0/Avalonia.Controls.ItemsRepeater.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Avalonia.Controls.ItemsRepeater.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Avalonia.Desktop/11.3.9": {
         "type": "package",
         "dependencies": {
@@ -337,6 +353,35 @@
         "runtime": {
           "lib/net8.0/Avalonia.X11.dll": {
             "related": ".xml"
+          }
+        }
+      },
+      "AWSSDK.Core/4.0.3.8": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.Core.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "AWSSDK.S3/4.0.17": {
+        "type": "package",
+        "dependencies": {
+          "AWSSDK.Core": "[4.0.3.8, 5.0.0)"
+        },
+        "compile": {
+          "lib/net8.0/AWSSDK.S3.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/AWSSDK.S3.dll": {
+            "related": ".pdb;.xml"
           }
         }
       },
@@ -1915,6 +1960,24 @@
         "lib/netstandard2.0/Avalonia.Controls.ColorPicker.xml"
       ]
     },
+    "Avalonia.Controls.ItemsRepeater/11.1.5": {
+      "sha512": "MfsDSvpa/QUvOw8c8BQtDHHu3DUHYYGjkDBpN0uOpjFqng6qCzkuoyJZ7vIXSlDNb685yqW8VluWMjniz5BI4A==",
+      "type": "package",
+      "path": "avalonia.controls.itemsrepeater/11.1.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "avalonia.controls.itemsrepeater.11.1.5.nupkg.sha512",
+        "avalonia.controls.itemsrepeater.nuspec",
+        "lib/net6.0/Avalonia.Controls.ItemsRepeater.dll",
+        "lib/net6.0/Avalonia.Controls.ItemsRepeater.xml",
+        "lib/net8.0/Avalonia.Controls.ItemsRepeater.dll",
+        "lib/net8.0/Avalonia.Controls.ItemsRepeater.xml",
+        "lib/netstandard2.0/Avalonia.Controls.ItemsRepeater.dll",
+        "lib/netstandard2.0/Avalonia.Controls.ItemsRepeater.xml"
+      ]
+    },
     "Avalonia.Desktop/11.3.9": {
       "sha512": "zOHbAssjjLz85a2RONK2UMfV/uqMtot9lxcUrSrwa3SneEm8ALeg6Pewc0u/YqvVRI5pyTm4HCtN9w5yRK0uZg==",
       "type": "package",
@@ -2133,6 +2196,61 @@
         "lib/net8.0/Avalonia.X11.xml",
         "lib/netstandard2.0/Avalonia.X11.dll",
         "lib/netstandard2.0/Avalonia.X11.xml"
+      ]
+    },
+    "AWSSDK.Core/4.0.3.8": {
+      "sha512": "nJyNzaz3pcD8c8hZvtJXuziJm1dkd3/BYmZvhf1TPNfMo3G3lsesGFZl1UVyQhGEfmQOS+efT0H8tf00PMmjug==",
+      "type": "package",
+      "path": "awssdk.core/4.0.3.8",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "awssdk.core.4.0.3.8.nupkg.sha512",
+        "awssdk.core.nuspec",
+        "images/AWSLogo.png",
+        "lib/net472/AWSSDK.Core.dll",
+        "lib/net472/AWSSDK.Core.pdb",
+        "lib/net472/AWSSDK.Core.xml",
+        "lib/net8.0/AWSSDK.Core.dll",
+        "lib/net8.0/AWSSDK.Core.pdb",
+        "lib/net8.0/AWSSDK.Core.xml",
+        "lib/netcoreapp3.1/AWSSDK.Core.dll",
+        "lib/netcoreapp3.1/AWSSDK.Core.pdb",
+        "lib/netcoreapp3.1/AWSSDK.Core.xml",
+        "lib/netstandard2.0/AWSSDK.Core.dll",
+        "lib/netstandard2.0/AWSSDK.Core.pdb",
+        "lib/netstandard2.0/AWSSDK.Core.xml",
+        "tools/account-management.ps1"
+      ]
+    },
+    "AWSSDK.S3/4.0.17": {
+      "sha512": "bW61dnzr1nRUWiuswge2Nq7mMmJXODrvokt1VaqqKfy9QRKBiC9qt4ogh3HV6crQRikP5mdncIWymRSxihK2Mw==",
+      "type": "package",
+      "path": "awssdk.s3/4.0.17",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "analyzers/dotnet/cs/AWSSDK.S3.CodeAnalysis.dll",
+        "analyzers/dotnet/cs/SharedAnalysisCode.dll",
+        "awssdk.s3.4.0.17.nupkg.sha512",
+        "awssdk.s3.nuspec",
+        "images/AWSLogo.png",
+        "lib/net472/AWSSDK.S3.dll",
+        "lib/net472/AWSSDK.S3.pdb",
+        "lib/net472/AWSSDK.S3.xml",
+        "lib/net8.0/AWSSDK.S3.dll",
+        "lib/net8.0/AWSSDK.S3.pdb",
+        "lib/net8.0/AWSSDK.S3.xml",
+        "lib/netcoreapp3.1/AWSSDK.S3.dll",
+        "lib/netcoreapp3.1/AWSSDK.S3.pdb",
+        "lib/netcoreapp3.1/AWSSDK.S3.xml",
+        "lib/netstandard2.0/AWSSDK.S3.dll",
+        "lib/netstandard2.0/AWSSDK.S3.pdb",
+        "lib/netstandard2.0/AWSSDK.S3.xml",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
       ]
     },
     "CommunityToolkit.Mvvm/8.2.1": {
@@ -4816,7 +4934,9 @@
   },
   "projectFileDependencyGroups": {
     "net9.0": [
+      "AWSSDK.S3 >= 4.0.17",
       "Avalonia >= 11.3.9",
+      "Avalonia.Controls.ItemsRepeater >= 11.1.5",
       "Avalonia.Desktop >= 11.3.9",
       "Avalonia.Diagnostics >= 11.3.9",
       "Avalonia.Fonts.Inter >= 11.3.9",
@@ -4875,15 +4995,23 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "10.0.100"
     },
     "frameworks": {
       "net9.0": {
         "targetAlias": "net9.0",
         "dependencies": {
+          "AWSSDK.S3": {
+            "target": "Package",
+            "version": "[4.0.17, )"
+          },
           "Avalonia": {
             "target": "Package",
             "version": "[11.3.9, )"
+          },
+          "Avalonia.Controls.ItemsRepeater": {
+            "target": "Package",
+            "version": "[11.1.5, )"
           },
           "Avalonia.Desktop": {
             "target": "Package",
@@ -4954,7 +5082,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
