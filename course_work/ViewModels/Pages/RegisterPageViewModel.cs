@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using course_work.Models.Classes;
@@ -9,29 +10,34 @@ namespace course_work.ViewModels.Pages;
 
 public partial class RegisterPageViewModel:PageViewModelBase
 {
-    private readonly MainWindowViewModel _mainWindowVm;
     private readonly IUserService _userService;
-
     [ObservableProperty] private bool _isOpen = false;
-
-    [RelayCommand] private void Test() =>IsOpen = true;
-
-    [RelayCommand] private void CloseDialog()=> IsOpen = false;
-
-    [ObservableProperty]
-    private User _user = new User();
-    
-    public RegisterPageViewModel(/*MainWindowViewModel mainWindowVm,*/IUserService userService)
+    [ObservableProperty] private string _secretCode;
+    [ObservableProperty] private string _confirmPassword;
+    [ObservableProperty] private User _user = new User();
+    private string _secretcodeSend;
+    [ObservableProperty] private bool _isAuthot = false;
+    public RegisterPageViewModel(IUserService userService)
     {
         _userService=userService;
-        //_mainWindowVm = mainWindowVm;
+        
         Title = "Register Page";
     }
-
-
-    [RelayCommand]
-    private void Register()
+    
+    [RelayCommand] private void CloseDialog()=> IsOpen = false;
+    [RelayCommand] private async Task Register()
     {
+        _secretcodeSend= await SendSecretCode(User.Email);
+        IsOpen = true;
+    }
+    [RelayCommand] private void GoToLoginPage()
+    {
+        /*_mainWindowVm.GotoLoginPage();*/
+    }
+    
+    [RelayCommand] private void CheckPassword()
+    {
+        if (string.IsNullOrWhiteSpace(_secretcodeSend) || _secretcodeSend != SecretCode) { return;}
         
         //Сделать как то по хорошему как будет роль выбиратсья просто пока не придумал
         var _newUser = new User()
@@ -41,17 +47,14 @@ public partial class RegisterPageViewModel:PageViewModelBase
             Email = User.Email,
             Password = User.Password,
             CreatedAt = DateTime.Today,
-            UserTypeId = 1,
+            UserTypeId = IsAuthot switch
+            {
+                true => 2,
+                false=>1
+            }
         };
 
         _userService.AddUser(_newUser);
-        
-        /*_mainWindowVm.GotoLoginPage();*/
-    }
-
-    [RelayCommand]
-    private void GoToLoginPage()
-    {
         /*_mainWindowVm.GotoLoginPage();*/
     }
 }

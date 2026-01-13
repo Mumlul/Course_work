@@ -50,6 +50,17 @@ public class UserService:IUserService
     {
         var c=_context.Users.Add(user);
         await _context.SaveChangesAsync();
+        
+        var profile = new UserProfile
+        {
+            UserId = c.Entity.Id
+        };
+        
+        _context.UserProfiles.Add(profile);
+        await _context.SaveChangesAsync();
+        
+        c.Entity.Profile = profile;
+        
         return c.Entity;
     }
 
@@ -79,5 +90,13 @@ public class UserService:IUserService
             .ToListAsync();
         
         return new ObservableCollection<Course>(courses);
+    }
+
+    public async Task<UserProfile> GetUserProfile(User user)
+    {
+        var profile = await _context.UserProfiles
+            .FirstOrDefaultAsync(p => p.UserId == user.Id);
+
+        return profile;
     }
 }

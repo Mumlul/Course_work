@@ -18,6 +18,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<TestQuestionOption> TestQuestionOptions { get; set; } = null!;
     public DbSet<TestResult> TestResults { get; set; } = null!;
     public DbSet<CourseReview> CourseReviews { get; set; } = null!;
+    public DbSet<UserProfile> UserProfiles { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -40,5 +41,12 @@ public class ApplicationDbContext : DbContext
             Id = 1,
             Name = "Читатель"
         });
+        
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Profile)
+            .WithOne(p => p.User)
+            .HasForeignKey<UserProfile>(p => p.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
     }
 }

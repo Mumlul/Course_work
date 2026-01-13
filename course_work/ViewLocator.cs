@@ -28,7 +28,7 @@ public class ViewLocator : IDataTemplate
             Console.WriteLine($"View not found for {viewTypeName}");
             return new TextBlock { Text = "View not found: " + viewTypeName };
         }
-
+        
         var control = (Control)Activator.CreateInstance(viewType)!;
         control.DataContext = param;
         /*Console.WriteLine($"View built for {viewModelType.Name}");*/

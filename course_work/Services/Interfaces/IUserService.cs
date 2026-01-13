@@ -18,4 +18,5 @@ public interface IUserService
     Task UpdateUser(User user);
     Task<bool> CheckPassword(User user, string password);
     Task<ObservableCollection<Course>> GetAllCourses(User user);
+    Task<UserProfile> GetUserProfile(User user);
 }

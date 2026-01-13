@@ -30,7 +30,6 @@
                     <TextBox Watermark="Password"
                              Classes="MyPasswordBox"
                              PasswordChar="*"
-                             
                              Text="{Binding User.Password}"
                              />
                     <Button

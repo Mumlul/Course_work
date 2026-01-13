@@ -6,12 +6,6 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="course_work.Views.Pages.RegisterPageView"
              x:DataType="vm:RegisterPageViewModel">
-    
-    <Design.DataContext>
-        <vm:RegisterPageViewModel/>
-    </Design.DataContext>
-    
-    
     <Grid>
         <Border Classes="PlaceHolder">
             <Grid >
@@ -53,11 +47,10 @@
                              Classes="Border"
                              Text="{Binding User.Name}"
                              />
-                    
+                    <CheckBox Content="Хотите быть автором?" IsChecked="{Binding}"/>
                     <StackPanel Orientation="Horizontal" Spacing="10">
                         <Button Content="Создать учетную запись" Classes="Basic" Command="{Binding RegisterCommand}"/>
                         <Button Content="Отмена" Classes="Cancel" Command="{Binding GoToLoginPageCommand}"/>
-						<Button Content="TEST" Command="{Binding TestCommand}"/>
                     </StackPanel>
                 </StackPanel>
             </Grid>        
@@ -69,7 +62,7 @@
 			          ZIndex="1">
 			<Border Width="500"
 					Height="200"
-					Background="Test"
+					Background="#3B3B3B"
 					CornerRadius="14"
 					Padding="24"
 					HorizontalAlignment="Center"
@@ -80,11 +73,15 @@
 						<RowDefinition Height="*"/>
 					</Grid.RowDefinitions>
 					<StackPanel Spacing="14">
-						<Button Content="Код доступа"
+						<Button Content="Закрыть"
 								HorizontalAlignment="Right"
 								Command="{Binding CloseDialogCommand}"/>
 					</StackPanel>
-					
+					<StackPanel Grid.Row="1">
+						<TextBlock Text="Вам на почту направлено сообщение впишите код чтобы мы удостоверились что это вы"/>
+						<TextBox Text="{Binding SecretCode}" PasswordChar="#"/>
+						<Button Content="Проверить" Command="{Binding CheckPasswordCommand}"/>
+					</StackPanel>
 					
 					
 				</Grid>

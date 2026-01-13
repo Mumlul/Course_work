@@ -23,6 +23,7 @@ public partial class UserProfilePageViewModel : PageViewModelBase
     private readonly Action<Course> _openCourse;
 
     [ObservableProperty] private User _user;
+    [ObservableProperty] private UserProfile _profile;
     [ObservableProperty] private Course _selectedCourse;
     public ObservableCollection<Course> Courses { get; } = new();
 
@@ -32,23 +33,23 @@ public partial class UserProfilePageViewModel : PageViewModelBase
     [RelayCommand]
     private async Task LoadAvatarAsync()
     {
-        var tets = ChooseFile();
-        Console.WriteLine($"TTTTT:{tets}");
+        Profile = await _userService.GetUserProfile(User);
 
-        /*using var http = new HttpClient();
-
-        using var response = await http.GetAsync(
-            "https://6a3814f9-ce7403ca-f211-439b-8e9f-f85196600672.s3.twcstorage.ru/photo.jpg",
-            HttpCompletionOption.ResponseHeadersRead
-        );
-
-        response.EnsureSuccessStatusCode();
-
-        // КЛЮЧЕВОЕ МЕСТО
-        var bytes = await response.Content.ReadAsByteArrayAsync();
-
-        using var ms = new MemoryStream(bytes);
-        Avatar = new Bitmap(ms);*/
+        if (!string.IsNullOrEmpty(Profile.Avatar))
+        {
+            try
+            {
+                using var http = new HttpClient();
+                var bytes = await http.GetByteArrayAsync(Profile.Avatar);
+                using var ms = new MemoryStream(bytes);
+                Avatar = new Bitmap(ms); // Avatar – это Bitmap
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Не удалось загрузить аватар: {ex.Message}");
+                Avatar = null; // Можно поставить дефолтное изображение
+            }
+        }
     }
 
     
@@ -61,16 +62,21 @@ public partial class UserProfilePageViewModel : PageViewModelBase
         Title = "UserProfile";
         Image = "../../Assets/icons/arrow-left-square.svg";
         _ = LoadCoursesAsync();
-        
+        /*_ =LoadAvatarAsync();*/
     }
 
     public async Task LoadCoursesAsync()
     {
-        var courses = await _userService.GetAllCourses(_user);
+        var courses = await _userService.GetAllCourses(User);
         Courses.Clear();
         foreach (var course in courses)
             Courses.Add(course);
     }
+    /*public async Task LoadAvatarAsync()
+    {
+        Profile = await _userService.GetUserProfile(_user);
+        Console.WriteLine("tt:"+Profile.Avatar);
+    }*/
 
     [RelayCommand]
     public void CourseView()

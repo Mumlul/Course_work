@@ -37,7 +37,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public void NavigateToRegister()
     {
-        CurrentViewModel = ActivatorUtilities.CreateInstance<RegisterPageViewModel>(_provider);
+        CurrentViewModel = _provider.GetRequiredService<RegisterPageViewModel>();
     }
 
     public void NavigateToMain()

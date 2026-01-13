@@ -71,6 +71,33 @@ public partial class PageViewModelBase:ViewModelBase
         return filePath;
     }
 
+    public static int GenerateSecretCode()
+    {
+        Random random = new Random();
+        return random.Next(100000, 999999);
+    }
+
+    public async Task<string> SendSecretCode(string email)
+    {
+        var code = GenerateSecretCode();
+        SendMessageAsync(
+            fromEmail: "ploskih44@gmail.com",
+            password: "qhyz ocrc yvfi lxbr",
+            toEmail: email,
+            subject: "Секретный код",
+            body: $"Здравствуйте,вот ваш секретный код: {code}. Никому не сообщайте его"
+        );
+        return code.ToString();
+    }
+    
+    //Вот так ии выдало но что то сильно 
+    /*public static string GenerateSecretCode_()
+    {
+        return RandomNumberGenerator
+            .GetInt32(100000, 1_000_000)
+            .ToString();
+    }*/
+
 
 
 
