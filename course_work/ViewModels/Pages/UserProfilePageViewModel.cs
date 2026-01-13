@@ -32,7 +32,10 @@ public partial class UserProfilePageViewModel : PageViewModelBase
     [RelayCommand]
     private async Task LoadAvatarAsync()
     {
-        using var http = new HttpClient();
+        var tets = ChooseFile();
+        Console.WriteLine($"TTTTT:{tets}");
+
+        /*using var http = new HttpClient();
 
         using var response = await http.GetAsync(
             "https://6a3814f9-ce7403ca-f211-439b-8e9f-f85196600672.s3.twcstorage.ru/photo.jpg",
@@ -45,7 +48,7 @@ public partial class UserProfilePageViewModel : PageViewModelBase
         var bytes = await response.Content.ReadAsByteArrayAsync();
 
         using var ms = new MemoryStream(bytes);
-        Avatar = new Bitmap(ms);
+        Avatar = new Bitmap(ms);*/
     }
 
     
@@ -88,7 +91,8 @@ public partial class UserProfilePageViewModel : PageViewModelBase
     [RelayCommand]
     public async Task Test()
     {
-        var config = new AmazonS3Config
+      
+       /* var config = new AmazonS3Config
         {
             ServiceURL = "https://s3.twcstorage.ru", 
             ForcePathStyle = true 
@@ -105,6 +109,6 @@ public partial class UserProfilePageViewModel : PageViewModelBase
         };
 
         var response = await client.PutObjectAsync(putRequest);
-        Console.WriteLine("Файл загружен!");
+        Console.WriteLine("Файл загружен!");*/
     }
 }

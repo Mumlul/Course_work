@@ -36,6 +36,7 @@
                 <StackPanel>
                     <!--Последние курсы которые были пройдены-->
                     <ListBox ItemsSource="{Binding Courses}"
+							 Background="Transparent"
                              SelectedItem="{Binding SelectedCourse}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>

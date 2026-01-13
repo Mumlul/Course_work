@@ -15,14 +15,16 @@ public partial class LoginPageViewModel:PageViewModelBase
     private readonly MainWindowViewModel _mainWindowVm;
     private readonly IUserService _userService;
     private readonly Action OnLoginSuccess;
+    private readonly Action Register;
     
     [ObservableProperty] 
     private User _user=new User();
 
-    public LoginPageViewModel(IUserService userService, Action onLoginSuccess)
+    public LoginPageViewModel(IUserService userService, Action onLoginSuccess,Action RegisterUser)
     {
         _userService = userService;
         OnLoginSuccess = onLoginSuccess;
+        Register = RegisterUser;
     }
 
     [RelayCommand]
@@ -45,6 +47,6 @@ public partial class LoginPageViewModel:PageViewModelBase
     [RelayCommand]
     private void AddUser()
     {
-        /*_mainWindowVm.GotoRegisterPage();*/
+        Register?.Invoke();
     }
 }

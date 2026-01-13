@@ -61,6 +61,7 @@ public class UserService:IUserService
 
     public async Task<bool> CheckPassword(User user, string password)
     {
+        
         var _user = await _context.Users
             .FirstOrDefaultAsync(u => u.Login == user.Login);
         

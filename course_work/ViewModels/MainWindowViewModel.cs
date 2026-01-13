@@ -32,12 +32,12 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public void NavigateToLogin()
     {
-        CurrentViewModel = ActivatorUtilities.CreateInstance<LoginPageViewModel>(_provider,new Action(NavigateToMain));
+        CurrentViewModel = ActivatorUtilities.CreateInstance<LoginPageViewModel>(_provider,new Action(NavigateToMain),new Action(NavigateToRegister));
     }
 
     public void NavigateToRegister()
     {
-        CurrentViewModel = _provider.GetRequiredService<RegisterPageViewModel>();
+        CurrentViewModel = ActivatorUtilities.CreateInstance<RegisterPageViewModel>(_provider);
     }
 
     public void NavigateToMain()

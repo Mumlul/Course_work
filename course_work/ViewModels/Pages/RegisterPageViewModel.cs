@@ -11,14 +11,20 @@ public partial class RegisterPageViewModel:PageViewModelBase
 {
     private readonly MainWindowViewModel _mainWindowVm;
     private readonly IUserService _userService;
-    
+
+    [ObservableProperty] private bool _isOpen = false;
+
+    [RelayCommand] private void Test() =>IsOpen = true;
+
+    [RelayCommand] private void CloseDialog()=> IsOpen = false;
+
     [ObservableProperty]
     private User _user = new User();
     
-    public RegisterPageViewModel(MainWindowViewModel mainWindowVm,IUserService userService)
+    public RegisterPageViewModel(/*MainWindowViewModel mainWindowVm,*/IUserService userService)
     {
         _userService=userService;
-        _mainWindowVm = mainWindowVm;
+        //_mainWindowVm = mainWindowVm;
         Title = "Register Page";
     }
 

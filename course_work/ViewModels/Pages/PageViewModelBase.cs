@@ -1,10 +1,14 @@
-﻿using System;
+﻿using Amazon.S3;
+using Amazon.S3.Model;
+using Appi_Stand.Models.Services;
+using Avalonia.Controls;
+using Avalonia.Platform.Storage;
+using CommunityToolkit.Mvvm.ComponentModel;
+using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Amazon.S3;
-using Amazon.S3.Model;
 
 
 namespace course_work.ViewModels.Pages;
@@ -54,9 +58,22 @@ public partial class PageViewModelBase:ViewModelBase
         return choice;
     }
 
-    
-    
-    
+
+
+    public static async Task<string?> ChooseFile()
+    {
+        var file = new FileDialogService();
+
+        var filePath = await file.ShowOpenFileDialogAsync("jpg");
+        if (string.IsNullOrEmpty(filePath))
+            return "";
+        Console.WriteLine(filePath);
+        return filePath;
+    }
+
+
+
+
     //how use 
     /*SendMessageAsync(
             fromEmail: "ploskih44@gmail.com",
@@ -65,5 +82,5 @@ public partial class PageViewModelBase:ViewModelBase
             subject: "Тестовое сообщение",
             body: "Привет! Это тестовое письмо."
         );*/
-    
+
 }
