@@ -4,8 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1200"
              xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
+             xmlns:conv="clr-namespace:course_work.Convertors"
              x:DataType="vm:UserProfilePageViewModel"
              x:Class="course_work.Views.Pages.UserProfilePageView">
+    <UserControl.Resources>
+        <conv:UrlToBitmap x:Key="UrlToBitmapConverter"/>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -28,13 +33,12 @@
             <StackPanel Spacing="10">
                 <Image Source="{Binding Avatar}"/>
                 <TextBlock Text="{Binding User.Name}"/>
-                <Button Content="Изменить профиль" Command="{Binding LoadAvatarCommand}"/>
+                <Button Content="Изменить профиль" Command="{Binding ChangeAvatarCommand}"/>
             </StackPanel>
             
             
             <ScrollViewer Grid.Column="1">
                 <StackPanel>
-                    <!--Последние курсы которые были пройдены-->
                     <ListBox ItemsSource="{Binding Courses}"
 							 Background="Transparent"
                              SelectedItem="{Binding SelectedCourse}">
@@ -62,7 +66,18 @@
                     </ListBox>
                     
                     <!--Краткая статистика-->
+                    <TextBlock Text="{Binding Profile.Description}"/>
                     
+                    <Border IsEnabled="{Binding IsAuthor}">
+                        <ListBox ItemsSource="{Binding AllCursesAuthor}" 
+                                 SelectedItem="{Binding SelectedCourse}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Title}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Border>
                     
                     
                     

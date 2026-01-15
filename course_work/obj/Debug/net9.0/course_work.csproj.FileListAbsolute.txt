@@ -369,11 +369,11 @@ C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\course_wo
 C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\course_work.AssemblyInfo.cs
 C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\course_work.csproj.CoreCompileInputs.cache
 C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\course_work.sourcelink.json
+C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\course_work.csproj.Fody.CopyLocal.cache
+C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\course_work.csproj.Fody.RuntimeCopyLocal.cache
 C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\course_w.2B3A26DB.Up2Date
 C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\course_work.dll
 C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\refint\course_work.dll
 C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\course_work.pdb
 C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\course_work.genruntimeconfig.cache
 C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\ref\course_work.dll
-C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\course_work.csproj.Fody.CopyLocal.cache
-C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\course_work.csproj.Fody.RuntimeCopyLocal.cache

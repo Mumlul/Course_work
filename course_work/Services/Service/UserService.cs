@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ public class UserService:IUserService
 {
     private readonly ApplicationDbContext _context;
     public User CurrentUser { get; set; } = new User();
+    public UserProfile Profile { get; set; } = new UserProfile();
 
     public UserService(ApplicationDbContext context)
     {
@@ -77,9 +79,7 @@ public class UserService:IUserService
             .FirstOrDefaultAsync(u => u.Login == user.Login);
         
         if (_user == null) return false;
-        
         return user.Password == password;
-        
     }
 
     public async Task<ObservableCollection<Course>> GetAllCourses(User user)
@@ -96,7 +96,11 @@ public class UserService:IUserService
     {
         var profile = await _context.UserProfiles
             .FirstOrDefaultAsync(p => p.UserId == user.Id);
-
         return profile;
+    }
+
+    public Task<List<User>> GetAllAuthors()
+    {
+        return _context.Users.Where(u => u.UserTypeId == 2).ToListAsync();
     }
 }

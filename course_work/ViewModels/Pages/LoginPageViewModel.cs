@@ -35,6 +35,7 @@ public partial class LoginPageViewModel:PageViewModelBase
         {
             
             _userService.CurrentUser = await _userService.GetUserByUsername(User.Login);
+            _userService.Profile = await _userService.GetUserProfile(_userService.CurrentUser);
             Console.WriteLine(_userService.CurrentUser.Name);
             OnLoginSuccess?.Invoke();
         }

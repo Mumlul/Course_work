@@ -8,7 +8,7 @@ namespace course_work.Services;
 public interface IUserService
 {
     User CurrentUser { get; set; }
-
+    UserProfile Profile { get; set; }
     Task<ICollection<User>> GetAllUsers();
     Task<User> GetUserById(int id);
     Task<User> GetUserByUsername(string username);
@@ -19,4 +19,6 @@ public interface IUserService
     Task<bool> CheckPassword(User user, string password);
     Task<ObservableCollection<Course>> GetAllCourses(User user);
     Task<UserProfile> GetUserProfile(User user);
+    Task<List<User>> GetAllAuthors();
+    
 }

@@ -1,5 +1,7 @@
 ﻿using course_work.Data;
 using course_work.Services;
+using course_work.Services.Interfaces;
+using course_work.Services.Service;
 using course_work.ViewModels;
 using course_work.ViewModels.Pages;
 using Microsoft.EntityFrameworkCore;
@@ -34,5 +36,6 @@ public static class ServiceCollectionExtentions
         services.AddSingleton<ICourseService, CourseService>();
         services.AddSingleton<IModuleService, ModuleService>();
         services.AddSingleton<ILessonService, LessonService>();
+        services.AddSingleton<IUserProfile, UserProfile>();
     }
 }

@@ -17,6 +17,12 @@ public partial class RegisterPageViewModel:PageViewModelBase
     [ObservableProperty] private User _user = new User();
     private string _secretcodeSend;
     [ObservableProperty] private bool _isAuthot = false;
+
+    partial void OnIsAuthotChanged(bool value)
+    {
+        Console.WriteLine(value);
+    }
+
     public RegisterPageViewModel(IUserService userService)
     {
         _userService=userService;

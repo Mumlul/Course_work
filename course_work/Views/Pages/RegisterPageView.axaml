@@ -47,7 +47,7 @@
                              Classes="Border"
                              Text="{Binding User.Name}"
                              />
-                    <CheckBox Content="Хотите быть автором?" IsChecked="{Binding}"/>
+                    <CheckBox Content="Хотите быть автором?" IsChecked="{Binding IsAuthot}"/>
                     <StackPanel Orientation="Horizontal" Spacing="10">
                         <Button Content="Создать учетную запись" Classes="Basic" Command="{Binding RegisterCommand}"/>
                         <Button Content="Отмена" Classes="Cancel" Command="{Binding GoToLoginPageCommand}"/>

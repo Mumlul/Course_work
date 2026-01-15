@@ -6,6 +6,7 @@ using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -67,7 +68,6 @@ public partial class PageViewModelBase:ViewModelBase
         var filePath = await file.ShowOpenFileDialogAsync("jpg");
         if (string.IsNullOrEmpty(filePath))
             return "";
-        Console.WriteLine(filePath);
         return filePath;
     }
 
@@ -110,4 +110,26 @@ public partial class PageViewModelBase:ViewModelBase
             body: "Привет! Это тестовое письмо."
         );*/
 
+    //Добавить проверке есть ли такой файл уже 
+    public static  async Task<string> UploadImage(string name)
+    {
+         var config = new AmazonS3Config
+        {
+            ServiceURL = "https://s3.twcstorage.ru",
+            ForcePathStyle = true
+        };
+
+        using var client = new AmazonS3Client("2H4NLFXQSWUC8A31U1PB", "EYBr2GBUGTtSdS7fTM8XgBXwSEUDROFMK1wpCwcF", config);
+
+        var putRequest = new PutObjectRequest
+        {
+            BucketName = "6a3814f9-ce7403ca-f211-439b-8e9f-f85196600672",
+            Key = $"{Path.GetFileName(name)}",
+            FilePath = $"{name}",
+            ContentType = "image/jpeg"
+        };
+        var response = await client.PutObjectAsync(putRequest);
+        return $"https://6a3814f9-ce7403ca-f211-439b-8e9f-f85196600672.s3.twcstorage.ru/{Path.GetFileName(name)}";
+    }
+    
 }

@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.Input;
 using course_work.Models;
 using course_work.Models.Classes;
 using course_work.Services;
+using course_work.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -19,20 +20,15 @@ public partial class MainPageViewModel:PageViewModelBase
     private readonly IServiceProvider _provider;
     private readonly IUserService _userService;
     private readonly ICourseService _courseService;
-
     [ObservableProperty] private PageViewModelBase _currentpagemain;
-    
     partial void OnCurrentpagemainChanged(PageViewModelBase value)
     {
         if (value != null)
             _ = value.OnNavigatedTo();
     }
-    
     [ObservableProperty] private bool _isopensidebar = true;
     [ObservableProperty] private User _user;
-
     public ObservableCollection<PageViewModelBase> Pages { get; }
-
     public MainPageViewModel(IServiceProvider provider,IUserService userService)
     {
         _provider = provider;
@@ -44,8 +40,8 @@ public partial class MainPageViewModel:PageViewModelBase
 
         Pages = new ObservableCollection<PageViewModelBase>
         {
-            new UserProfilePageViewModel(_userService, course => OpenCurse(course)),
-            new CatalogPageViewModel(_userService,_courseService),
+            new UserProfilePageViewModel(_userService,provider.GetRequiredService<IUserProfile>(), course => OpenCurse(course),null),
+            new CatalogPageViewModel(_userService,_courseService,course => OpenCurse(course),user => OpenProfile(user)),
             new SettingPageViewModel(),
             /*new LessonPageViewModel()*/
         };
@@ -62,7 +58,6 @@ public partial class MainPageViewModel:PageViewModelBase
             page.TextVisible = !page.TextVisible;
         }
     }
-
     public void OpenCurse(Course course)
     {
         Currentpagemain = null;
@@ -80,7 +75,20 @@ public partial class MainPageViewModel:PageViewModelBase
 
         Currentpagemain = courseVm;
     }
-
+    public void OpenProfile(User user)
+    {
+        Currentpagemain = null;
+        
+        var profileVm = ActivatorUtilities.CreateInstance<UserProfilePageViewModel>(
+            _provider,
+            _provider.GetRequiredService<IUserService>(),
+            _provider.GetRequiredService<IUserProfile>(),
+            (Course course) => OpenCurse(course),
+            user
+        );
+        
+        Currentpagemain = profileVm;
+    }
     public void OpenLesson(Lesson lesson)
     {
         
