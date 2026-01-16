@@ -1,0 +1,20 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1900" d:DesignHeight="1200"
+             x:Class="course_work.Views.Pages.AddCoursePageView"
+             xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
+             Background="#5B5B5B"
+             x:DataType="vm:AddCoursePageViewModel"
+             >
+    <StackPanel>
+        <TextBox Text="{Binding NewCourse.Title}" Watermark="Название курса"/>
+        <TextBox Text="{Binding NewCourse.Description}" Watermark="Описание курса" TextWrapping="Wrap"/>
+        <TextBox Text="{Binding NewCourse.Slug}" Watermark="Краткое название"/>
+        <TextBlock Text="{Binding NewCourse.PreviewImage}"/>
+        <Button Content="Добавить фото" Command="{Binding SelectPhotoCommand}"/>
+        <Button Content="Добавить" Command="{Binding CreateCourseCommand}"/>
+    </StackPanel>
+    
+</UserControl>

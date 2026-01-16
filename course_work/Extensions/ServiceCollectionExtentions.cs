@@ -29,6 +29,9 @@ public static class ServiceCollectionExtentions
         services.AddTransient<MainPageViewModel>();
         services.AddTransient<CoursePageViewModel>();
         services.AddTransient<UserProfilePageViewModel>();
+        services.AddTransient<CoursePageViewModel>();
+        services.AddTransient<CourseListPageViewModel>();
+        services.AddTransient<AddCoursePageViewModel>();
         
         //Register services
         services.AddSingleton<IUserService, UserService>();

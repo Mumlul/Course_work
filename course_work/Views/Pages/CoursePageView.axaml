@@ -14,12 +14,18 @@
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
         <!--Image-->
-        <Image Source="../../Assets/test/back.jpg" Stretch="UniformToFill"/>
+        <Image Source="{Binding Image}" Stretch="UniformToFill"/>
         <!--Header-->
         <StackPanel Grid.Row="1" HorizontalAlignment="Center">
-            <TextBlock Text="{Binding Currentcourse.Title}" FontSize="40"  FontWeight="Bold" HorizontalAlignment="Center"/> 
+            <StackPanel>
+                <TextBlock Text="{Binding Currentcourse.Title}" FontSize="40"  FontWeight="Bold" HorizontalAlignment="Center"/> 
+                <Button Content="Отслеживать" Command="{Binding TrackCourseCommand}"/>
+                <Button Content="Добавить "/>
+            </StackPanel>
+            
             <TextBlock Text="{Binding Currentcourse.Description}" FontSize="24"/>
         </StackPanel>
+        
         <!--Main-->
         <ListBox Grid.Row="2" 
                  ItemsSource="{Binding Module}" 

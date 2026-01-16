@@ -45,6 +45,7 @@ public class Lesson
     [Column("updates_at")]
     public DateTime UpdatedAt { get; set; }
 
-    [Column("preview_image", TypeName = "BLOB")]
-    public byte[]? PreviewImage { get; set; }
+    [Column("preview_image")]
+    public string PreviewImage { get; set; } =
+        "https://6a3814f9-ce7403ca-f211-439b-8e9f-f85196600672.s3.twcstorage.ru/lesson.jpg";
 }

@@ -12,7 +12,9 @@ public class Module
     public int CourseId { get; set; }
     public string Title { get; set; } = string.Empty;
     public int OrderIndex { get; set; }
-    public byte[]? PreviewImage { get; set; }
+
+    public string PreviewImage { get; set; } =
+        "https://6a3814f9-ce7403ca-f211-439b-8e9f-f85196600672.s3.twcstorage.ru/module.jpg";
 
     public Course Course { get; set; } = null!;
     public ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();

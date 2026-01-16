@@ -27,8 +27,9 @@ public class Course
     [Column("updated_at")]
     public DateTime UpdatedAt { get; set; }
 
-    [Column("preview_image", TypeName = "BLOB")]
-    public byte[]? PreviewImage { get; set; }
+    [Column("preview_image")]
+    public string? PreviewImage { get; set; } =
+        "https://6a3814f9-ce7403ca-f211-439b-8e9f-f85196600672.s3.twcstorage.ru/course.jpg";
 
     public ICollection<Module> Modules { get; set; } = new List<Module>();
     public ICollection<CourseAuthors> Authors { get; set; } = new List<CourseAuthors>();

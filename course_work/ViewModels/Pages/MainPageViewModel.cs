@@ -43,6 +43,8 @@ public partial class MainPageViewModel:PageViewModelBase
             new UserProfilePageViewModel(_userService,provider.GetRequiredService<IUserProfile>(), course => OpenCurse(course),null),
             new CatalogPageViewModel(_userService,_courseService,course => OpenCurse(course),user => OpenProfile(user)),
             new SettingPageViewModel(),
+            new CourseListPageViewModel(_courseService,course => OpenCurse(course)),
+            new AddCoursePageViewModel(_courseService,User,course => OpenCurse(course)),
             /*new LessonPageViewModel()*/
         };
         
@@ -67,7 +69,8 @@ public partial class MainPageViewModel:PageViewModelBase
             _provider.GetRequiredService<ICourseService>(),
             _provider.GetRequiredService<IModuleService>(),
             (Lesson lesson) => OpenLesson(lesson),
-            course
+            course,
+            User
         );
 
         if(courseVm == null)

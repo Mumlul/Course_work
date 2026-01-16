@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using course_work.Data;
 
@@ -11,9 +12,11 @@ using course_work.Data;
 namespace course_work.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260116150229_ChangeType")]
+    partial class ChangeType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -203,9 +206,8 @@ namespace course_work.Migrations
                         .HasColumnType("int")
                         .HasColumnName("order_index");
 
-                    b.Property<string>("PreviewImage")
-                        .IsRequired()
-                        .HasColumnType("longtext")
+                    b.Property<byte[]>("PreviewImage")
+                        .HasColumnType("BLOB")
                         .HasColumnName("preview_image");
 
                     b.Property<string>("Slug")
@@ -243,9 +245,8 @@ namespace course_work.Migrations
                     b.Property<int>("OrderIndex")
                         .HasColumnType("int");
 
-                    b.Property<string>("PreviewImage")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<byte[]>("PreviewImage")
+                        .HasColumnType("longblob");
 
                     b.Property<string>("Title")
                         .IsRequired()

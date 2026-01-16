@@ -49,6 +49,7 @@ public partial class CatalogPageViewModel:PageViewModelBase
 
     public async override Task OnNavigatedTo()
     {
+        Console.WriteLine("1");
         if (Courses.Count > 0)
             return;
         
@@ -77,6 +78,7 @@ public partial class CatalogPageViewModel:PageViewModelBase
         Action<User?> openUserProfile
         )
     {
+        Console.WriteLine("2");
         Title = "Главная";
         _userService = userService;
         _courseService = courseService;

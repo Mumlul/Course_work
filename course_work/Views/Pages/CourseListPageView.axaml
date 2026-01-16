@@ -2,12 +2,84 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="1900" d:DesignHeight="1200"
              xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
              x:DataType="vm:CourseListPageViewModel"
-             x:Class="course_work.Views.Pages.CourseListPageView">
-    <Design.DataContext>
-        <vm:CourseListPageViewModel/>
-    </Design.DataContext>
-    Course!
+             x:Class="course_work.Views.Pages.CourseListPageView"
+             xmlns:models="clr-namespace:course_work.Models.Classes"
+             >
+    <Grid RowDefinitions="Auto,*">
+        <AutoCompleteBox Grid.Row="0"
+                         Width="1100"
+                         Margin="20"
+                         Watermark="Поиск"
+                         Background="#4D4D4D"
+                         BorderBrush="#19BD62"
+                         CornerRadius="10"
+                         FontSize="16"
+                         ItemsSource="{Binding Courses}"
+                         SelectedItem="{Binding SelectedCourse}"
+                         ValueMemberBinding="{Binding Title}"
+                         FilterMode="Contains"
+                         MinimumPrefixLength="2"         
+                         IsTextCompletionEnabled="False" 
+        >
+            <AutoCompleteBox.ItemTemplate>
+                <DataTemplate DataType="models:Course">
+                    <TextBlock Text="{Binding  Title}"
+                               FontSize="14"
+                               Margin="8,4"/>
+                </DataTemplate>
+            </AutoCompleteBox.ItemTemplate>
+        </AutoCompleteBox>
+        
+        <ListBox 
+            Grid.Row="1" 
+            ItemsSource="{Binding Courses}"
+            SelectedItem="{Binding SelectedCourse}"
+            Background="Transparent"
+            >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Title}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <Grid Grid.RowSpan="3" 
+              IsVisible="{Binding IsDialogOpen}"
+              Background="#80000000"
+              ZIndex="1">
+            
+
+            <Border Width="1000"
+                    Height="500"
+                    Background="#3B3B3B"
+                    CornerRadius="14"
+                    Padding="24"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Spacing="14">
+                        <TextBlock Text="{Binding SelectedCourse.Title}"
+                                   FontSize="26"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Center"/>
+                        <Button Content="Закрыть"
+                                HorizontalAlignment="Right"
+                                Command="{Binding CloseDialogCommand}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1">
+                        <TextBlock Text="{Binding SelectedCourse.Description}"/>
+                        <Button Content="Подробнее" Command="{Binding ViewCurseCommand}"/>
+                    </StackPanel>
+                   
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
 </UserControl>

@@ -55,6 +55,9 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Views/Pages/AddCoursePageView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Views/Pages/CatalogPageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 

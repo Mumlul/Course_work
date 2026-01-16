@@ -50,4 +50,7 @@ public partial class LoginPageViewModel:PageViewModelBase
     {
         Register?.Invoke();
     }
+
+    
+    
 }

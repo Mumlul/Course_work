@@ -32,9 +32,21 @@ public class CourseService : ICourseService
         throw new System.NotImplementedException();
     }
 
-    public Task<Course> CreateCourse(Course course)
+    public async Task<Course> CreateCourse(Course course, User user)
     {
-        throw new System.NotImplementedException();
+        course.CreatedAt = DateTime.UtcNow;
+        course.UpdatedAt = DateTime.UtcNow;
+        _context.Courses.Add(course);
+        await _context.SaveChangesAsync();
+        var courseAuthor = new CourseAuthors
+        {
+            CourseId = course.Id,
+            UserId = user.Id
+        };
+        _context.CourseAuthors.Add(courseAuthor);
+        await _context.SaveChangesAsync();
+
+        return course;
     }
 
     public Task<Course> UpdateCourse(Course course)
@@ -75,4 +87,27 @@ public class CourseService : ICourseService
             .Take(maxResults)
             .ToListAsync();
     }
+
+    public async Task TrackCourse(Course course,User user)
+    {
+        var exists = await _context.CourseStudents
+            .AnyAsync(cs => cs.CourseId == course.Id && cs.UserId == user.Id);
+        
+        if (exists)
+            return; 
+        
+        var courseStudent = new CourseStudents()
+        {
+            CourseId = course.Id,
+            UserId = user.Id,
+            ProgressPercent = 0,
+            Completed = false,
+            StartedAt = DateTime.UtcNow
+        };
+
+        _context.CourseStudents.Add(courseStudent);
+        await _context.SaveChangesAsync();
+    }
+
+   
 }
