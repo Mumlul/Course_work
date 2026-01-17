@@ -8,8 +8,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using Avalonia.Media.Imaging;
 
 
 namespace course_work.ViewModels.Pages;
@@ -52,11 +54,23 @@ public partial class PageViewModelBase:ViewModelBase
         }
     }
 
-    public string ChoseeImage()
+    public static async Task<Bitmap> ConvertImageToByteArray(string url)
     {
-        string choice="";
-        
-        return choice;
+        if (string.IsNullOrEmpty(url)) return null;
+
+        try
+        {
+            using var http = new HttpClient();
+            var bytes = await http.GetByteArrayAsync(url);
+            using var ms = new MemoryStream(bytes);
+            
+            return new Bitmap(ms);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Преобразовать фото");
+            return null;
+        }
     }
 
 

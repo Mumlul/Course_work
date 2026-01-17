@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
              mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+             
              x:Class="course_work.Views.Pages.CatalogPageView"
              Background="#3B3B3B"
              xmlns:models="using:course_work.Models"

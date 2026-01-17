@@ -67,6 +67,9 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Views/Pages/CoursePageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Views/Pages/CreateTestPageView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Views/Pages/LessonPageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
@@ -86,6 +89,9 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Views/Pages/SettingPageView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Views/Pages/TestPageView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Views/Pages/UserProfilePageView.axaml]

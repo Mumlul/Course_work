@@ -1,0 +1,52 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
+             mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
+             x:Class="course_work.Views.Pages.CreateTestPageView"
+             Background="#3B3B3B"
+             Width="1100" 
+             x:DataType="vm:CreateTestPageViewModel">
+    <Grid RowDefinitions="Auto,Auto,*">
+        
+        <StackPanel Orientation="Vertical">
+            <Label>Создание теста</Label>
+            <TextBlock Text="{Binding Course.Title,StringFormat='Назавние курса:{0}'}"/>
+        </StackPanel>
+       
+       <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="50" HorizontalAlignment="Center">
+           <TextBox Text="{Binding Test.Title}" Watermark="Название курса" Background="Transparent"/>
+           <NumericUpDown MinHeight="1" Width="200" Value="{Binding CountQuestions, Mode=TwoWay}"/>
+           <Button Content="Создать тест" Command="{Binding CreateTestCommand}" Classes="Basic"/>
+       </StackPanel>
+        
+        <Border Grid.Row="2" Margin="50">
+            <Grid Grid.RowDefinitions="Auto,*,Auto">
+                <StackPanel Spacing="20" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBox Text="{Binding QuestionText}" Watermark="Вопрос" Width="500"/>
+                    <Button Content="Добавить фото"/>
+                </StackPanel>
+                
+                <ListBox 
+                    Grid.Row="1" 
+                    ItemsSource="{Binding Options}"
+                    SelectedItem="{Binding SelectedOption}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBox Text="{Binding OptionText}"/>
+                                <TextBox Text="Тут правильно или нет будет реализование"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+               <StackPanel Grid.Row="2" Orientation="Horizontal" >
+                   <Button Content="←" Command="{Binding GoBackQuestionCommand}" HorizontalAlignment="Left"/>
+                   <Button Content="→" Command="{Binding GoNextQuestionCommand}" HorizontalAlignment="Right"/>
+               </StackPanel>
+            </Grid>
+        </Border>
+        
+    </Grid>
+</UserControl>
