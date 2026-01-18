@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using course_work.Data;
@@ -26,14 +27,21 @@ public class ModuleService:IModuleService
         throw new System.NotImplementedException();
     }
 
-    public Task<Module> AddModule(Module module)
+    public async Task AddModule(Module module)
     {
-        throw new System.NotImplementedException();
+        _context.Modules.Add(module);
+        await _context.SaveChangesAsync();
     }
 
-    public Task<Module> UpdateModule(Module module)
+    public async Task UpdateModule(Module module)
     {
-        throw new System.NotImplementedException();
+        var existing = await _context.Modules.FindAsync(module.Id);
+        if (existing == null) throw new Exception("Module not found");
+
+        existing.Title = module.Title;
+        existing.PreviewImage = module.PreviewImage;
+
+        await _context.SaveChangesAsync();
     }
 
     public Task DeleteModule(int id)

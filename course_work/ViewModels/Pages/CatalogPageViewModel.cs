@@ -80,6 +80,7 @@ public partial class CatalogPageViewModel:PageViewModelBase
     {
         Console.WriteLine("2");
         Title = "Главная";
+        Image = "../../Assets/icons/home-04.svg";
         _userService = userService;
         _courseService = courseService;
         _openCourse=openCourse;

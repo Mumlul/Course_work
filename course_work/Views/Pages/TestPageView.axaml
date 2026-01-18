@@ -6,50 +6,53 @@
              Width="1100"
              x:Class="course_work.Views.Pages.TestPageView"
              xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
-             x:DataType="vm:TestPageViewModel"
-             >
-    <Grid>
+             xmlns:class="clr-namespace:course_work.Models.Classes"
+             x:DataType="vm:TestPageViewModel">
+    <Grid ColumnDefinitions="300,*" RowDefinitions="Auto,*">
         
-        <Border 
-            BorderBrush="#19BD62" 
-            BorderThickness="1" 
-            CornerRadius="20"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
-            <StackPanel Spacing="100">
-                <TextBlock Text="{Binding CurrentTest.Title}"/>
-                <TextBlock Text="{Binding CurrentTest.Description}"/>
-                <Button Command="{Binding StartTestCommandCommand}"/>
-            </StackPanel>
-        </Border>
-        
-        <Border 
-            BorderBrush="#19BD62" 
-            BorderThickness="1" 
-            CornerRadius="20"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
-            
-            <Grid ColumnDefinitions="Auto,*,Auto">
-                <Button Content="←" Command="{Binding LastQuestionCommandCommand}"/>
+        <TextBlock Grid.ColumnSpan="1" Text="{Binding CurrentTest.Title}"/>
+        <ListBox 
+            Grid.Row="1" 
+            ItemsSource="{Binding CurrentTest.Questions}"
+            SelectedItem="{Binding SelectedQuestion}"
+            VerticalAlignment="Top"
+            >
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="5"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+           
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Foreground="Black" Text="{Binding OrderIndex}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
                 
-                <ItemsControl Grid.Column="1" ItemsSource="{Binding TestQuestions}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid RowDefinitions="Auto,Auto,*">
-                                <TextBox Text="{Binding QuestionText}"/>
-                                
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                
-                
-                <Button Grid.Column="2" Content="→" Command="{Binding NextQuestionCommandCommand}"/>
-            </Grid>
-            
-            
-        </Border>
-        
+        <ContentControl 
+            Grid.Column="1"
+            Grid.Row="1"
+            Content="{Binding SelectedQuestion}">
+            <ContentControl.ContentTemplate>
+                <DataTemplate x:DataType="class:TestQuestion">
+                    <Grid RowDefinitions="Auto,*,Auto">
+                        <TextBlock Foreground="Black" Text="{Binding QuestionText}"/>
+                        <ListBox Grid.Row="1"  
+                            ItemsSource="{Binding Options}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <RadioButton Content="{Binding OptionText}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <StackPanel Grid.Row="2" Orientation="Horizontal">
+                            <Button x:DataType="vm:TestPageViewModel" Content="Сохранить ответ" Command="{Binding NextQuestionCommand}"/>
+                            <Button x:DataType="vm:TestPageViewModel" Content="Прошлый вопрос" Command="{Binding LastQuestionCommand}"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ContentControl.ContentTemplate>
+        </ContentControl>
     </Grid>
 </UserControl>

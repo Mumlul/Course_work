@@ -8,8 +8,8 @@ public interface IModuleService
 {
     Task<ICollection<Module>> GetModules();
     Task<Module> GetModuleById(int id);
-    Task<Module> AddModule(Module module);
-    Task<Module> UpdateModule(Module module);
+    Task AddModule(Module module);
+    Task UpdateModule(Module module);
     Task DeleteModule(int id);
     Task<List<Lesson>> GetLessons(int moduleId);
 }

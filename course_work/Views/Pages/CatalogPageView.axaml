@@ -4,14 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
              mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
-             
              x:Class="course_work.Views.Pages.CatalogPageView"
-             Background="#3B3B3B"
              xmlns:models="using:course_work.Models"
              xmlns:classes="clr-namespace:course_work.Models.Classes"
+             xmlns:conv="clr-namespace:course_work.Convertors"
              x:DataType="vm:CatalogPageViewModel"
              >
-    <Grid>
+    <Grid Classes="Main">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -23,9 +22,6 @@
                          Width="1100"
                          Margin="20"
                          Watermark="Поиск"
-                         Background="#4D4D4D"
-                         BorderBrush="#19BD62"
-                         CornerRadius="10"
                          FontSize="16"
                          ItemsSource="{Binding SearchItems}"
                          SelectedItem="{Binding SearchItem}"
@@ -61,9 +57,19 @@
                         Background="Transparent"
                         ItemsSource="{Binding PreviewCourses}"
                         SelectedItem="{Binding SelectedCourse}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="3"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="classes:Course">
-                                <TextBlock Text="{Binding Title}"/>
+                                <Grid RowDefinitions="150,*">
+                                    <Image 
+                                        Stretch="UniformToFill"
+                                        Source="{Binding PreviewImage,Converter={StaticResource UrlToBitmapConverter}}"/>
+                                    <TextBlock Grid.Row="1" Text="{Binding Title}"/>
+                                </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -77,18 +83,58 @@
                     </Grid.RowDefinitions>
                     
                     <TextBlock Text="Популярные Авторы"/>
-                    <ListBox Grid.Row="1" 
+                    
+                    <ListBox Grid.Row="1"
+                             Background="Transparent"
+                             ItemsSource="{Binding PreviewAuthors}" 
+                             SelectedItem="{Binding SelectedAuthor}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="3"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="classes:User">
+                                <Border MaxHeight="250" MaxWidth="400"> 
+                                    <Grid RowDefinitions="Auto,Auto">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Name}"/>
+                                            <Border
+                                                Width="100"
+                                                Height="100"
+                                                CornerRadius="50"
+                                                >
+                                                <Image 
+                                                    Stretch="UniformToFill"
+                                                    Source="{Binding Profile.Avatar,Converter={StaticResource UrlToBitmapConverter}}"/>
+                                            </Border>
+                                        </StackPanel>
+                                        <TextBlock Grid.Row="1" Text="{Binding Name}"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <!--<ListBox Grid.Row="1" 
                              Background="Transparent"
                              ItemsSource="{Binding PreviewAuthors}" 
                              SelectedItem="{Binding SelectedAuthor}">
                         <ListBox.ItemTemplate>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="3"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
                             <DataTemplate DataType="classes:User">
-                                <TextBlock Text="{Binding Name}"/>
+                                <Border MaxHeight="250" MaxWidth="400"> 
+                                    <Grid >
+                                        <TextBlock Grid.Row="1" Text="{Binding Name}"/>
+                                    </Grid>
+                                </Border>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
-                    </ListBox>
+                    </ListBox>-->
                 </Grid>
-                
             </StackPanel>
         </ScrollViewer>
         
@@ -101,9 +147,6 @@
 
             <Border Width="1000"
                     Height="500"
-                    Background="#3B3B3B"
-                    CornerRadius="14"
-                    Padding="24"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
                 <Grid>

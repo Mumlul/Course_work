@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -12,33 +13,25 @@ public partial class TestPageViewModel:PageViewModelBase
 {
     private readonly ITestService _testService;
     [ObservableProperty] private Test _currentTest;
-
-    public ObservableCollection<TestQuestion> TestQuestions { get; } = new();
-    
-    public ObservableCollection<TestQuestionOption> Options { get; set; }
     [ObservableProperty] private string _imageSourse=@"https://6a3814f9-ce7403ca-f211-439b-8e9f-f85196600672.s3.twcstorage.ru/GOD.jpg";
     [ObservableProperty] private Bitmap _image;
-    [ObservableProperty] private TestQuestion _currentQuestion;
+    [ObservableProperty] private TestQuestion _selectedQuestion;
+
+    private int _courseId;
 
     public override async Task OnNavigatedTo()
     {
-        //тут сделать загрузку вопросов в TestQuestions
-
-        // В тест добавить изображение надо поле именно!!!!
-        Image = await ConvertImageToByteArray(ImageSourse);
+        CurrentTest=await _testService.GetTestByCourseIdAsync(_courseId);
     }
 
-    partial void OnCurrentQuestionChanged(TestQuestion value)
-    {
-        //тут прописывать что бы загружались варианты ответа для вопроса
-    }
+    
 
 
-    public TestPageViewModel(ITestService testService,Test test)
+    public TestPageViewModel(ITestService testService,int courseId)
     {
         Title = "Test Page";
         _testService = testService;
-        CurrentTest = test;
+        _courseId=courseId;
     }
 
     [RelayCommand]
@@ -54,13 +47,13 @@ public partial class TestPageViewModel:PageViewModelBase
     }
 
     [RelayCommand]
-    public async Task NextQuestionCommand()
+    public async Task NextQuestion()
     {
         
     }
     
     [RelayCommand]
-    public async Task LastQuestionCommand()
+    public async Task LastQuestion()
     {
         
     }

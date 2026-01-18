@@ -41,6 +41,7 @@
 
     <ItemGroup>
       <Folder Include="Files\" />
+      <Folder Include="Styles\Brushes\" />
       <Folder Include="ValidationRules\" />
     </ItemGroup>
 </Project>

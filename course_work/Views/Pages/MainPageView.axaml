@@ -6,65 +6,70 @@
              mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1200"
              x:Class="course_work.Views.Pages.MainPageView"
              x:DataType="pages:MainPageViewModel">
-    
-    <!--<Design.DataContext>
-        <vm:MainPageViewModel/>
-    </Design.DataContext>
-    -->
-    
     <SplitView IsPaneOpen="{Binding Isopensidebar}"
                OpenPaneLength="200"
                CompactPaneLength="50"
                DisplayMode="CompactInline"
-               Background="#5B5B5B"
                x:Name="SplitView">
         <SplitView.Pane>
-            <DockPanel   Background="#404040">
+            <Grid Classes="SideBar">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <!--header-->
+                <Button DockPanel.Dock="Left"  Width="20" Height="20" Padding="0" Command="{Binding OpenPaneCommand}" Classes="SidePanel" >
+                    <Image Source="{SvgImage ../../Assets/icons/home-04.svg}"/>
+                </Button>
                 
-                <Border Classes="Sidebar">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                   
-                        <!--header-->
-                        <Border Background="#404040">
-                            <Button DockPanel.Dock="Left"  Width="20" Height="20" Padding="0" Command="{Binding OpenPaneCommand}">
-                                <Image Source="{SvgImage ../../Assets/icons/arrow-left-square.svg}"/>
-                            </Button>
-                        </Border>
-                        
-                        <!--Body-->
-                        <Border Grid.Row="1" Background="#404040">
-                            <ListBox ItemsSource="{Binding Pages}"
-                                     SelectedItem="{Binding Currentpagemain}"
-                                     Classes="Pane"
-                                     >
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" >
-                                            <Svg Path="{Binding Image}" Height="20"/>
-                                            <TextBlock Text="{Binding Title}" IsVisible="{Binding TextVisible}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Border>
-                        
-                        <!--bottom-->
-                        <Border Grid.Row="2" Background="#404040">
-                            <Button Content="Log out" Classes="sidebar"/>
-                        </Border>
-                    </Grid>
-                </Border>
+                <!--Body-->
+                <ListBox Grid.Row="1" ItemsSource="{Binding Pages}"
+                         SelectedItem="{Binding Currentpagemain}"
+                         Classes="Pane">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="0">
+                                <Svg Path="{Binding Image}" Height="20"/>
+                                <TextBlock Text="{Binding Title}" IsVisible="{Binding TextVisible}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
                 
-            </DockPanel>
+                <Button Grid.Row="2" Command="{Binding OpenCommand}" Classes="SidePanel">
+                    <Border Width="50" Height="50" CornerRadius="25" ClipToBounds="True" Name="Test">
+                        <Image Source="{Binding User.Profile.Avatar, Converter={StaticResource UrlToBitmapConverter}}"
+                               Stretch="UniformToFill"/>
+                    </Border>
+                </Button>
+               
+                <Popup 
+                    PlacementMode="Top"
+                    Margin="10"
+                    Width="150"
+                    Height="250"
+                    IsOpen="{Binding Popup_visible}"
+                    PlacementTarget="{Binding #Test}" >
+                    <Border Classes="PopUpHint">
+                        <Grid RowDefinitions="Auto,*">
+                            <Border Width="50" Height="50" CornerRadius="25" ClipToBounds="True">
+                                <Image Source="{Binding User.Profile.Avatar, Converter={StaticResource UrlToBitmapConverter}}"
+                                       Stretch="UniformToFill"/>
+                            </Border>
+                        
+                            <StackPanel Grid.Row="1" Spacing="15">
+                                <Button Content="профиль" Command="{Binding NavigateProfileCommand}"/>
+                                <Button Content="Создать курс" Command="{Binding NavAddCurseCommand}" IsVisible="{Binding IsAuthor}"/>
+                                <Button Content="Выйти из аккаунта" Command="{Binding LogOutCommand}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Popup>
+            </Grid>
         </SplitView.Pane>
         <SplitView.Content>
             <ContentControl Content="{Binding Currentpagemain, Mode=OneWay}" />
         </SplitView.Content>
     </SplitView>
-    
 </UserControl>

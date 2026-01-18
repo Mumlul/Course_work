@@ -7,5 +7,9 @@
              x:Class="course_work.Views.Pages.SettingPageView"
              x:DataType="vm:SettingPageViewModel"
              >
-    
+        <StackPanel>
+            <Button Content="l" Command="{Binding ChLCommand}"/>
+            <Button Content="db" Command="{Binding ChDbCommand}"/>
+            <Button Content="dg" Command="{Binding ChDgCommand}"/>
+        </StackPanel>
 </UserControl>

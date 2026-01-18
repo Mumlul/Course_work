@@ -32,9 +32,9 @@ public partial class CourseListPageViewModel:PageViewModelBase
     public CourseListPageViewModel(ICourseService _cs,Action<Course> openCourse)
     {
         Title = "Course List";
+        Image = "../../Assets/icons/file-01.svg";
         _courseService = _cs;
         _openCourse = openCourse;
-        Console.WriteLine("good");
     }
     [RelayCommand] public void CloseDialog() => IsDialogOpen = false;
     [RelayCommand] public async Task ViewCurse()

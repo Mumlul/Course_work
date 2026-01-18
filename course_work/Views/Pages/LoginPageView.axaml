@@ -7,7 +7,8 @@
              x:Class="course_work.Views.Pages.LoginPageView"
              x:DataType="vm:LoginPageViewModel">
     <Grid >
-        <Border Classes="PlaceHolder">
+        <Border Classes="placeholder">
+            
             <Grid >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -17,23 +18,28 @@
                 </Grid.RowDefinitions>
                 
                 
-                <TextBlock Text="Авторизация" Classes="Header"/>
+                
+                <TextBlock Text="Авторизация" Classes="h1"/>
                 
                 <StackPanel Grid.Row="1" Spacing="15">
                     
                     <TextBox Watermark="Login"
-                             Classes="MyPasswordBox"
-                             Text="{Binding User.Login}"
+                             Text="{Binding StrLogin, Mode=TwoWay}"
                              
                     />
                     
                     <TextBox Watermark="Password"
-                             Classes="MyPasswordBox"
                              PasswordChar="*"
-                             Text="{Binding User.Password}"
+                             Text="{Binding Password, Mode=TwoWay}"
+                             Classes="revealPasswordButton"
                              />
+                    
+                    <TextBlock
+                        Text="{Binding AuthError}"
+                        Foreground="Red"
+                        IsVisible="{Binding AuthError, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                    
                     <Button
-                        Classes="Basic"
                         Content="Войти"  
                         Command="{Binding LoginCommand}"
                         />
@@ -42,7 +48,7 @@
                     
                 </StackPanel>
                 
-                <TextBlock Grid.Row="2" Text="Новый пользователь?" Classes="Header" />
+                <TextBlock Grid.Row="2" Text="Новый пользователь?" Classes="h1" />
                 
                 <StackPanel Grid.Row="3" Spacing="15">
                     <TextBlock Text="Для полноценного доступа Вам необходимо создать учетную запись" 

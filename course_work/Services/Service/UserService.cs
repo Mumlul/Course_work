@@ -20,66 +20,86 @@ public class UserService:IUserService
         _context = context;
     }
     
-    public async Task<ICollection<User>> GetAllUsers()
+   public async Task<ICollection<User>> GetAllUsers()
     {
-        return await _context.Users.ToListAsync();
+        return await _context.Users
+            .Include(u => u.Profile)
+            .ToListAsync();
     }
 
     public async Task<User> GetUserById(int id)
     {
-        return await  _context.Users.FindAsync(id); 
+        return await _context.Users
+            .Include(u => u.Profile)
+            .FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task<User> GetUserByUsername(string username)
     {
         return await _context.Users
+            .Include(u => u.Profile)
             .FirstOrDefaultAsync(u => u.Login == username);
     }
 
     public async Task<User> GetUserByEmail(string email)
     {
         return await _context.Users
+            .Include(u => u.Profile)
             .FirstOrDefaultAsync(u => u.Email == email);
     }
 
     public async Task DeleteUserById(User user)
     {
-       _context.Users.Remove(user);
-       await _context.SaveChangesAsync();
+        var profile = await _context.UserProfiles.FirstOrDefaultAsync(p => p.UserId == user.Id);
+        if (profile != null)
+        {
+            _context.UserProfiles.Remove(profile);
+        }
+
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
     }
-    
+
     public async Task<User> AddUser(User user)
     {
-        var c=_context.Users.Add(user);
+        var addedUser = _context.Users.Add(user);
         await _context.SaveChangesAsync();
-        
+
+        // Создаем профиль автоматически
         var profile = new UserProfile
         {
-            UserId = c.Entity.Id
+            UserId = addedUser.Entity.Id
         };
-        
+
         _context.UserProfiles.Add(profile);
         await _context.SaveChangesAsync();
-        
-        c.Entity.Profile = profile;
-        
-        return c.Entity;
+
+        addedUser.Entity.Profile = profile;
+        return addedUser.Entity;
     }
 
     public async Task UpdateUser(User user)
     {
         _context.Users.Update(user);
-        await  _context.SaveChangesAsync();
+
+        if (user.Profile != null)
+        {
+            _context.UserProfiles.Update(user.Profile);
+        }
+
+        await _context.SaveChangesAsync();
     }
 
-    public async Task<bool> CheckPassword(User user, string password)
+   
+
+    public async Task<bool> CheckPassword(string user, string password)
     {
-        
         var _user = await _context.Users
-            .FirstOrDefaultAsync(u => u.Login == user.Login);
-        
+            .FirstOrDefaultAsync(u => u.Login == user);
+
         if (_user == null) return false;
-        return user.Password == password;
+
+        return _user.Password == password;
     }
 
     public async Task<ObservableCollection<Course>> GetAllCourses(User user)
@@ -88,19 +108,29 @@ public class UserService:IUserService
             .Where(cs => cs.UserId == user.Id)
             .Select(cs => cs.Course)
             .ToListAsync();
-        
+
         return new ObservableCollection<Course>(courses);
     }
 
     public async Task<UserProfile> GetUserProfile(User user)
     {
-        var profile = await _context.UserProfiles
+        return await _context.UserProfiles
             .FirstOrDefaultAsync(p => p.UserId == user.Id);
-        return profile;
     }
 
     public Task<List<User>> GetAllAuthors()
     {
-        return _context.Users.Where(u => u.UserTypeId == 2).ToListAsync();
+        return _context.Users
+            .Include(u => u.Profile)
+            .Where(u => u.UserTypeId == 2)
+            .ToListAsync();
+    }
+
+    public async Task<List<Course>> GetAithorsCurse(int userId)
+    {
+        return await _context.CourseAuthors
+            .Where(ca => ca.UserId == userId)
+            .Select(ca => ca.Course)
+            .ToListAsync();
     }
 }

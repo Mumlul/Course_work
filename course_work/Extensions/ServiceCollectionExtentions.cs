@@ -32,6 +32,8 @@ public static class ServiceCollectionExtentions
         services.AddTransient<CoursePageViewModel>();
         services.AddTransient<CourseListPageViewModel>();
         services.AddTransient<AddCoursePageViewModel>();
+        services.AddTransient<CreateTestPageViewModel>();
+        services.AddTransient<TestPageViewModel>();
         
         //Register services
         services.AddSingleton<IUserService, UserService>();
@@ -40,5 +42,6 @@ public static class ServiceCollectionExtentions
         services.AddSingleton<IModuleService, ModuleService>();
         services.AddSingleton<ILessonService, LessonService>();
         services.AddSingleton<IUserProfile, UserProfile>();
+        services.AddSingleton<ITestService, TestService>();
     }
 }

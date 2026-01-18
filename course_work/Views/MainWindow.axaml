@@ -7,7 +7,6 @@
         x:Class="course_work.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Background="#3B3B3B"
         Title="course_work">
     
     <Design.DataContext>

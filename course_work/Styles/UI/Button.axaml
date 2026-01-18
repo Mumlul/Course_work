@@ -1,22 +1,38 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Design.PreviewWith>
-        <Border Padding="20">
-        </Border>
-    </Design.PreviewWith>
-
-    <Style Selector="Button.sidebar">
-        <Setter Property="Background" Value="Transparent"/>
+    
+    <Style Selector="Button">
+        <Setter Property="Background" Value="{DynamicResource PrimaryColor}"/>
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="FontSize" Value="14"/>
+        
+        <Style Selector="^:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource Hover}"/>
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
+        </Style>
+        
     </Style>
     
-    <Style Selector="Button.Basic">
-        <Setter Property="Background" Value="#19BD62"/>
-        <Setter Property="Foreground" Value="#FFFFFF"/>
+    <!--Тут поменять цвет (придумать)-->
+    <Style Selector="Button.cancel">
+        <Setter Property="Background" Value="{DynamicResource PrimaryColor}"/>
     </Style>
     
-    <Style Selector="Button.Cancel">
-        <Setter Property="Background" Value="#3C3C3C"/>
-        <Setter Property="Foreground" Value="#FFFFFF"/>
+    
+    <Style Selector="Button.AddModule">
+        <Setter Property="Background" Value="{DynamicResource Background}"/>
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryColor}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryColor}"/>
+        <Setter Property="BorderThickness" Value="2"/>
     </Style>
     
+    <Style Selector="Button.SidePanel">
+        <Setter Property="Background" Value="{DynamicResource Background}"/>
+        
+        <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="{DynamicResource Background}"/>
+        </Style>
+        
+    </Style>
 </Styles>

@@ -109,5 +109,9 @@ public class CourseService : ICourseService
         await _context.SaveChangesAsync();
     }
 
-   
+    public async Task<bool> IsAuthorOfCourse(int courseId, int authorId)
+    {
+        return await _context.CourseAuthors
+            .AnyAsync(ca => ca.CourseId == courseId && ca.UserId == authorId);
+    }
 }

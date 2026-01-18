@@ -16,6 +16,8 @@ public partial class CoursePageViewModel:PageViewModelBase
 {
     private ICourseService _courseService;
     private IModuleService _moduleService;
+    private ILessonService _lessonService;
+    
     private readonly Action<Lesson> _openLesson;
     public ObservableCollection<Module> Module { get; } = new();
     public ObservableCollection<Lesson> Lessons { get; } = new();
@@ -27,13 +29,17 @@ public partial class CoursePageViewModel:PageViewModelBase
     [ObservableProperty] private User _currentUser;
     
     [ObservableProperty] private Bitmap _image;
-    
-    
-    partial void OnSelectedModuleChanged(Module? value)
+    [ObservableProperty] private bool _isAuthor=false;
+    [ObservableProperty] private Bitmap _moduleImage;
+
+
+    async partial void OnSelectedModuleChanged(Module? value)
     {
         if (value is null)
             return;
         OpenDialog();
+        ModuleImage = await ConvertImageToByteArray(value.PreviewImage);
+        Console.WriteLine(value.PreviewImage);
     }
 
     partial void OnSelectedLessonChanged(Lesson? value)
@@ -64,12 +70,15 @@ public partial class CoursePageViewModel:PageViewModelBase
             Console.WriteLine($"Не удалось загрузить аватар: {ex.Message}");
             Image = null;
         }
-        
+
+        IsAuthor= await _courseService.IsAuthorOfCourse(Currentcourse.Id,CurrentUser.Id);
     }
 
 
-    public CoursePageViewModel(ICourseService courseService,
-    IModuleService moduleService, 
+    public CoursePageViewModel(
+    ICourseService courseService,
+    IModuleService moduleService,
+    ILessonService lessonService,
     Action<Lesson> openLesson,
     Course course,
     User user)
@@ -77,6 +86,7 @@ public partial class CoursePageViewModel:PageViewModelBase
         Title = "Course Page";
         _courseService = courseService;
         _moduleService= moduleService;
+        _lessonService= lessonService;
         Currentcourse = course;
         _openLesson=openLesson;
         CurrentUser = user;
@@ -106,4 +116,65 @@ public partial class CoursePageViewModel:PageViewModelBase
     {
         await _courseService.TrackCourse(Currentcourse, CurrentUser);
     }
+
+    [RelayCommand]
+    public async Task AddModule()
+    {
+        var module = new Module()
+        {
+            CourseId = Currentcourse.Id,
+            Title = $"Модуль {Module.Count+1}",
+            OrderIndex = Module.Count+1
+        };
+        
+        _moduleService.AddModule(module);
+        Module.Add(module);
+        SelectedModule = module;
+        IsDialogOpen = true;
+    }
+
+    [RelayCommand]
+    public async Task AddLesson()
+    {
+        var lesson = new Lesson()
+        {
+            ModuleId = SelectedModule.Id,
+            Title = $"Урок {Lessons.Count + 1}",
+            OrderIndex = Lessons.Count + 1,
+            Slug = $"Урок {Lessons.Count + 1}",
+            ContentJson = "{}",
+            LessonType = LessonType.Text,
+            CreatedAt = DateTime.Today,
+            UpdatedAt = DateTime.Today,
+        };
+
+        await _lessonService.CreateLesson(lesson);
+        Lessons.Add(lesson);
+        /*SelectedLesson = lesson;*/
+    }
+
+    [RelayCommand]
+    public async Task DeleteModule()
+    {
+        
+    }
+
+    [RelayCommand]
+    public void Close()
+    {
+        SelectedModule = null;
+        IsDialogOpen = false;
+    }
+
+    [RelayCommand]
+    public async Task ChangeImage()
+    {
+        var file = await ChooseFile();
+        if (file is null) return;
+        var url=await UploadImage(file);
+        ModuleImage = await ConvertImageToByteArray(url);
+        SelectedModule.PreviewImage = url;
+        _moduleService.UpdateModule(SelectedModule);
+    }
+    
 }

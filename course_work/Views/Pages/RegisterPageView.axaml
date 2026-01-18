@@ -7,7 +7,7 @@
              x:Class="course_work.Views.Pages.RegisterPageView"
              x:DataType="vm:RegisterPageViewModel">
     <Grid>
-        <Border Classes="PlaceHolder">
+        <Border Classes="placeholder">
             <Grid >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -18,33 +18,30 @@
                 </Grid.RowDefinitions>
                 
                 
-                <TextBlock Text="Новая учетная запись" Classes="header"/>
+                <TextBlock Text="Новая учетная запись" Classes="h1"/>
                 
                 <StackPanel Grid.Row="1" Spacing="15">
-                    <TextBox Classes="Border"
-                             Watermark="Login"
+                    <TextBox Watermark="Login"
                              Padding="5"
                              Text="{Binding User.Login}"
-                             />
+                    />
         
                     <TextBox Watermark="Password"
-                             Classes="Border"
                              PasswordChar="*"
+                             Classes="revealPasswordButton"
                              Text="{Binding User.Password}"
                              />
                     
                     <TextBox Watermark="Repeat Password"
-                             Classes="Border"
+                             Classes="revealPasswordButton"
                              PasswordChar="*"
                     />
                     
                     <TextBox Watermark="Email"
-                             Classes="Border"
                              Text="{Binding User.Email}"
                              />
                     
                     <TextBox Watermark="Name"
-                             Classes="Border"
                              Text="{Binding User.Name}"
                              />
                     <CheckBox Content="Хотите быть автором?" IsChecked="{Binding IsAuthot}"/>
@@ -56,17 +53,15 @@
             </Grid>        
         </Border>
 
+	    <!--Привести в нормпальный вид-->
+	    
 		<Grid Grid.RowSpan="3"
 			          IsVisible="{Binding IsOpen}"
 			          Background="#80000000"
 			          ZIndex="1">
 			<Border Width="500"
 					Height="200"
-					Background="#3B3B3B"
-					CornerRadius="14"
-					Padding="24"
-					HorizontalAlignment="Center"
-					VerticalAlignment="Center">
+					Classes="placeholder">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto"/>
@@ -82,8 +77,6 @@
 						<TextBox Text="{Binding SecretCode}" PasswordChar="#"/>
 						<Button Content="Проверить" Command="{Binding CheckPasswordCommand}"/>
 					</StackPanel>
-					
-					
 				</Grid>
 			</Border>
 		</Grid>

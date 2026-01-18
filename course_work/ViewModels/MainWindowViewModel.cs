@@ -17,6 +17,8 @@ public partial class MainWindowViewModel : ViewModelBase
     
     private ViewModelBase _currentViewModel;
     private readonly IServiceProvider _provider;
+
+    [ObservableProperty] private User _user;
     
     public ViewModelBase CurrentViewModel
     {
@@ -32,16 +34,33 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public void NavigateToLogin()
     {
-        CurrentViewModel = ActivatorUtilities.CreateInstance<LoginPageViewModel>(_provider,new Action(NavigateToMain),new Action(NavigateToRegister));
+        CurrentViewModel = ActivatorUtilities.CreateInstance<LoginPageViewModel>(_provider,OnSuccses,new Action(NavigateToRegister));
     }
 
     public void NavigateToRegister()
     {
-        CurrentViewModel = _provider.GetRequiredService<RegisterPageViewModel>();
+        CurrentViewModel = ActivatorUtilities.CreateInstance<RegisterPageViewModel>(_provider,new Action(NavigateToLogin));
     }
 
     public void NavigateToMain()
     {
-        CurrentViewModel = ActivatorUtilities.CreateInstance<MainPageViewModel>(_provider);
+        CurrentViewModel = ActivatorUtilities.CreateInstance<MainPageViewModel>(
+            _provider,
+            _provider.GetRequiredService<IUserService>(),
+            User,
+            new Action(NavigateToLogin)
+        );
     }
+
+    public void OnSuccses(User user)
+    {
+        User = user;
+        NavigateToMain();
+    }
+
+    public void LogOut()
+    {
+        CurrentViewModel = ActivatorUtilities.CreateInstance<LoginPageViewModel>(_provider,OnSuccses,new Action(NavigateToRegister));
+    }
+    
 }

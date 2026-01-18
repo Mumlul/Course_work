@@ -21,6 +21,11 @@ public partial class MainPageViewModel:PageViewModelBase
     private readonly IUserService _userService;
     private readonly ICourseService _courseService;
     [ObservableProperty] private PageViewModelBase _currentpagemain;
+    [ObservableProperty] private bool _popup_visible = false;
+    [ObservableProperty] private bool _isAuthor = false;
+    
+    private Action _navigatelogin;
+    
     partial void OnCurrentpagemainChanged(PageViewModelBase value)
     {
         if (value != null)
@@ -29,26 +34,33 @@ public partial class MainPageViewModel:PageViewModelBase
     [ObservableProperty] private bool _isopensidebar = true;
     [ObservableProperty] private User _user;
     public ObservableCollection<PageViewModelBase> Pages { get; }
-    public MainPageViewModel(IServiceProvider provider,IUserService userService)
+    public MainPageViewModel(IServiceProvider provider,IUserService userService,User currentUser,Action navigatelogin)
     {
         _provider = provider;
         _userService = userService;
-        User = _userService.CurrentUser;
+        User =currentUser;
         _courseService = provider.GetRequiredService<ICourseService>();
 
+        _navigatelogin = navigatelogin;
+        
         Title = "Главная";
 
         Pages = new ObservableCollection<PageViewModelBase>
         {
-            new UserProfilePageViewModel(_userService,provider.GetRequiredService<IUserProfile>(), course => OpenCurse(course),null),
+            new UserProfilePageViewModel(_userService,provider.GetRequiredService<IUserProfile>(), course => OpenCurse(course),User),
             new CatalogPageViewModel(_userService,_courseService,course => OpenCurse(course),user => OpenProfile(user)),
             new SettingPageViewModel(),
             new CourseListPageViewModel(_courseService,course => OpenCurse(course)),
-            new AddCoursePageViewModel(_courseService,User,course => OpenCurse(course)),
+            /*new AddCoursePageViewModel(_courseService,User,course => OpenCurse(course)),*/
+            new TestPageViewModel(_provider.GetRequiredService<ITestService>(),1),
+            new CreateTestPageViewModel(_provider.GetRequiredService<ITestService>())
             /*new LessonPageViewModel()*/
+            
         };
         
         Currentpagemain = Pages[0];
+
+        if (User.UserTypeId == 2) IsAuthor = true;
     }
     
     [RelayCommand]
@@ -60,6 +72,44 @@ public partial class MainPageViewModel:PageViewModelBase
             page.TextVisible = !page.TextVisible;
         }
     }
+    
+    [RelayCommand]
+    public void Open() => Popup_visible = !Popup_visible;
+    
+    
+    [RelayCommand]
+    public void NavigateProfile()
+    {
+        OpenProfile(User);
+    }
+    
+    [RelayCommand]
+    public void LogOut()
+    {
+        _userService.CurrentUser = null;
+        _navigatelogin?.Invoke();
+    }
+
+    [RelayCommand]
+    public void NavAddCurse() => CreateCurse();
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     public void OpenCurse(Course course)
     {
         Currentpagemain = null;
@@ -68,6 +118,7 @@ public partial class MainPageViewModel:PageViewModelBase
             _provider,
             _provider.GetRequiredService<ICourseService>(),
             _provider.GetRequiredService<IModuleService>(),
+            _provider.GetRequiredService<ILessonService>(),
             (Lesson lesson) => OpenLesson(lesson),
             course,
             User
@@ -107,6 +158,20 @@ public partial class MainPageViewModel:PageViewModelBase
         
         Currentpagemain = lessonVm;
     }
-    
 
+    public void CreateCurse()
+    {
+        Currentpagemain = null;
+
+        var createvm = ActivatorUtilities.CreateInstance<AddCoursePageViewModel>(
+            _provider,
+            _provider.GetRequiredService<ICourseService>(),
+            User,
+            (Course course) => OpenCurse(course)
+        );
+        
+        Currentpagemain = createvm;
+
+    }
+    
 }

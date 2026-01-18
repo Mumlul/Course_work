@@ -17,17 +17,21 @@ public partial class RegisterPageViewModel:PageViewModelBase
     [ObservableProperty] private User _user = new User();
     private string _secretcodeSend;
     [ObservableProperty] private bool _isAuthot = false;
+    
+    
+    private Action _goToLoginPage;
 
     partial void OnIsAuthotChanged(bool value)
     {
         Console.WriteLine(value);
     }
 
-    public RegisterPageViewModel(IUserService userService)
+    public RegisterPageViewModel(IUserService userService,Action goToLoginPage)
     {
         _userService=userService;
         
         Title = "Register Page";
+        _goToLoginPage = goToLoginPage;
     }
     
     [RelayCommand] private void CloseDialog()=> IsOpen = false;
@@ -38,7 +42,7 @@ public partial class RegisterPageViewModel:PageViewModelBase
     }
     [RelayCommand] private void GoToLoginPage()
     {
-        /*_mainWindowVm.GotoLoginPage();*/
+       _goToLoginPage?.Invoke();
     }
     
     [RelayCommand] private void CheckPassword()

@@ -1,17 +1,18 @@
 ﻿<Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Design.PreviewWith>
-    </Design.PreviewWith>
-
-    <Style Selector="TextBlock.Header">
-        <Setter Property="FontSize" Value="24"/>
+    <Style Selector="TextBlock">
+      <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
+      <Setter Property="FontSize" Value="14"/>
+    </Style>
+    
+    <Style Selector="TextBlock.h1">
         <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="Foreground" Value="#FFFFFF"/>
+        <Setter Property="FontSize" Value="24"/>
     </Style>
     
-    <Style Selector="TextBlock.Hint">
-        <Setter Property="Foreground" Value="#BDBDBD"/>
+    <Style Selector="TextBlock.second">
+        <Setter Property="Foreground" Value="{DynamicResource SecondText}"/>
+        <Setter Property="FontSize" Value="10"/>
     </Style>
-    
     
 </Styles>

@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush  x:Key="Background" >#020617</SolidColorBrush>
+    <SolidColorBrush  x:Key="Card" >#020617</SolidColorBrush>
+    <SolidColorBrush  x:Key="PrimaryColor" >#3B82F6</SolidColorBrush>
+    <SolidColorBrush  x:Key="Accent" >#19BD62</SolidColorBrush>
+    
+    <SolidColorBrush  x:Key="PrimaryText" >#E5E7EB</SolidColorBrush>
+    <SolidColorBrush  x:Key="SecondText" >#94A3B8</SolidColorBrush>
+    <SolidColorBrush  x:Key="Watermark" >#64748B</SolidColorBrush>
+    
+    <SolidColorBrush  x:Key="Border" >#1E293B</SolidColorBrush>
+    <SolidColorBrush  x:Key="Hover" >#60A5FA</SolidColorBrush>
+    <SolidColorBrush  x:Key="Disabled" >#334155</SolidColorBrush>
+</ResourceDictionary>

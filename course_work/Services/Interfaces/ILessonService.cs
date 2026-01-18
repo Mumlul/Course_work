@@ -8,7 +8,7 @@ public interface ILessonService
 {
     Task<ICollection<Lesson>> GetLessons();
     Task<Lesson> GetLesson(int id);
-    Task<Lesson> CreateLesson(Lesson lesson);
+    Task CreateLesson(Lesson lesson);
     Task<Lesson> UpdateLesson(Lesson lesson);
     Task DeleteLesson(int id);
 }

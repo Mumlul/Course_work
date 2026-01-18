@@ -2,23 +2,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="course_work.App"
              xmlns:local="using:course_work"
+             xmlns:convertors="clr-namespace:course_work.Convertors"
              RequestedThemeVariant="Light">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
         <local:ViewLocator/>
-        
-        
-        
     </Application.DataTemplates>
-  
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <convertors:UrlToBitmap x:Key="UrlToBitmapConverter"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude  Source="Styles/Colors/LightTheme.axaml"/>
+                <ResourceInclude  Source="Styles/Colors/DarkBlueTheme.axaml"/>
+                <ResourceInclude  Source="Styles/Colors/DarkGraphiteTheme.axaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources> 
+             
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="../Styles/UI/Window.axaml"/>
+        <StyleInclude Source="Styles/UI/UserControl.axaml"/>
         <StyleInclude Source="../Styles/UI/Button.axaml"/>
         <StyleInclude Source="../Styles/UI/Border.axaml"/>
         <StyleInclude Source="../Styles/UI/Text.axaml"/>
         <StyleInclude Source="../Styles/UI/TextBox.axaml"/>
         <StyleInclude Source="../Styles/UI/ListBox.axaml"/>
+        <StyleInclude Source="../Styles/UI/Grid.axaml"/>
     </Application.Styles>
 </Application>

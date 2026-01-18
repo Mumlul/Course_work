@@ -34,19 +34,40 @@ build_property.EnableCodeStyleSeverity =
 [C:/Users/mumlul/RiderProjects/course_work/course_work/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/Colors/DarkBlueTheme.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/Colors/DarkGraphiteTheme.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/Colors/LightTheme.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/Border.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/Button.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/DockPanel.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/Grid.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/ListBox.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/PopUp.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/Text.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/TextBox.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/UserControl.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/Window.axaml]

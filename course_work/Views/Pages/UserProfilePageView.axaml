@@ -6,86 +6,70 @@
              xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
              xmlns:conv="clr-namespace:course_work.Convertors"
              x:DataType="vm:UserProfilePageViewModel"
+             HorizontalAlignment="Center"
              x:Class="course_work.Views.Pages.UserProfilePageView">
-    <UserControl.Resources>
-        <conv:UrlToBitmap x:Key="UrlToBitmapConverter"/>
-    </UserControl.Resources>
     
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="7*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="7*"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        
-        <Grid Grid.Row="1" Grid.Column="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="3*"/>
-            </Grid.ColumnDefinitions>
-            
+    <Grid ColumnDefinitions="Auto,*" Classes="Main">
+        <Border VerticalAlignment="Top">
             <StackPanel Spacing="10">
-                <Image Source="{Binding Avatar}"/>
-                <TextBlock Text="{Binding User.Name}"/>
-                <Button Content="Изменить профиль" Command="{Binding ChangeAvatarCommand}"/>
+                <Border Width="300"
+                        Height="300"
+                        CornerRadius="150"
+                        ClipToBounds="True">
+                    <Image Source="{Binding Avatar}"
+                           Stretch="UniformToFill"/>
+                </Border>
+            
+                <TextBlock Classes="h1" Text="{Binding User.Name}"/>
+                <TextBlock Text="Автор" IsVisible="{Binding IsAuthor}"/>
+                <Button Content="Изменить профиль" 
+                        Command="{Binding ChangeAvatarCommand}" 
+                        IsVisible="{Binding IsUser}"/>
             </StackPanel>
-            
-            
-            <ScrollViewer Grid.Column="1">
-                <StackPanel>
-                    <ListBox ItemsSource="{Binding Courses}"
-							 Background="Transparent"
-                             SelectedItem="{Binding SelectedCourse}">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="3" Rows="2"/>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-            
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                    <StackPanel Margin="10">
-                                        <!--Изображение курса тут будет-->
-                                        <Border Height="300" Margin="2" CornerRadius="4" 
-                                                Background="Red"/>
-                                        <TextBlock Text="{Binding Title}" 
-                                                   FontSize="18" 
-                                                   FontWeight="Bold"
-                                                   Margin="0 0 0 10"/>
-                                        <TextBlock Text="{Binding Description}" 
-                                                   TextWrapping="Wrap"/>
-                                    </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                    
-                    <!--Краткая статистика-->
-                    <TextBlock Text="{Binding Profile.Description}"/>
-                    
-                    <Border IsEnabled="{Binding IsAuthor}">
-                        <ListBox ItemsSource="{Binding AllCursesAuthor}" 
-                                 SelectedItem="{Binding SelectedCourse}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Title}"/>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </Border>
-                    
-                    
-                    
-                    
-                </StackPanel>
-            </ScrollViewer>
-            
-        </Grid>
+        </Border>
         
+            
+            
+        <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Disabled" ClipToBounds="True">
+            <Grid RowDefinitions="Auto,Auto,*">
+                <ListBox Grid.Row="0" ItemsSource="{Binding AllCursesAuthor}"
+						 Background="Transparent"
+                         SelectedItem="{Binding SelectedCourse}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" ItemWidth="300" ItemHeight="350" Margin="10"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Classes="PreviewCard">
+                                <Grid Margin="10" RowDefinitions="*,Auto" >
+                                    <Image Source="{Binding PreviewImage,Converter={StaticResource UrlToBitmapConverter}}" 
+                                           Stretch="UniformToFill"/>
+                                    <TextBlock Grid.Row="1" Text="{Binding Title}" 
+                                               FontSize="18" 
+                                               FontWeight="Bold"
+                                               Margin="0 0 0 10"/>
+                                </Grid>
+                            </Border>
+                            
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                
+                <!--Краткая статистика-->
+                <TextBlock Grid.Row="1" Text="{Binding Profile.Description}" ClipToBounds="True"/>
+                
+                <ListBox Grid.Row="2" ItemsSource="{Binding AllCursesAuthor}" 
+                         SelectedItem="{Binding SelectedCourse}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Title}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </UserControl>

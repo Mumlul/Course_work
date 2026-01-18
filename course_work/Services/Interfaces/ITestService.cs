@@ -1,13 +1,12 @@
 ﻿using System.Threading.Tasks;
 using course_work.Models.Classes;
-using Test = course_work.Migrations.Test;
 using User = course_work.Migrations.User;
 
 namespace course_work.Services;
 
 public interface ITestService
 {
-    Task<Test?> GetTestByCourseIdAsync(int courseId);
+    Task<Test> GetTestByCourseIdAsync(int courseId);
     Task<Test?> GetTestByIdAsync(int testId);
     Task<bool> CourseHasTestAsync(int courseId);
     Task<Test> CreateTestAsync(Test test);

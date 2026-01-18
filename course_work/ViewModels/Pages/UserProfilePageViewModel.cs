@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Reactive;
 using System.Threading.Tasks;
@@ -31,6 +32,8 @@ public partial class UserProfilePageViewModel : PageViewModelBase
     [ObservableProperty] private bool _isAuthor=false;
     public ObservableCollection<Course> Courses { get; } = new();
     public ObservableCollection<Course> AllCursesAuthor { get; } = new();
+    
+    [ObservableProperty] private bool isUser=false;
 
     public async override Task OnNavigatedTo()
     {
@@ -38,29 +41,37 @@ public partial class UserProfilePageViewModel : PageViewModelBase
         Courses.Clear();
         foreach (var course in courses)
             Courses.Add(course);
+        if (User.Id != _userService.CurrentUser.Id) isUser = false;
+        else  isUser = true;
+        
+        
+        if (User.UserTypeId == 2)
+        {
+            IsAuthor = true;
+            AllCursesAuthor.Clear();
+            var aithorsc = await _userService.GetAithorsCurse(User.Id);
+            foreach (var curse in aithorsc)
+                AllCursesAuthor.Add(curse);
+        }
+        else
+        {
+            AllCursesAuthor.Clear();
+            foreach (var c in Courses.Take(6))
+                AllCursesAuthor.Add(c);
+        }
     }
     //Поработать над загрузками потому что если выбирать из другого метода у примеру просмотр страницы то будет трудно + фото не меняется + кнпока изменения тоже не приятно стоит
     public UserProfilePageViewModel(IUserService userService,IUserProfile userProfile, Action<Course> openCourse,User currentUser)
     {
         _userService = userService;
         _userProfile = userProfile;
-        User = _userService.CurrentUser;
-        if (currentUser != null) User = currentUser;
-        Profile = _userService.Profile;
+        User = currentUser;
+        Profile = User.Profile;
         _openCourse = openCourse;
         Title = "UserProfile";
-        Image = "../../Assets/icons/arrow-left-square.svg";
-        /*_ = LoadCoursesAsync();*/
+        Image = "../../Assets/icons/user-profile-03.svg";
         _ = LoadAvatarAsync();
     }
-
-    /*public async Task LoadCoursesAsync()
-    {
-        var courses = await _userService.GetAllCourses(User);
-        Courses.Clear();
-        foreach (var course in courses)
-            Courses.Add(course);
-    }*/
     
     [RelayCommand]
     private async Task ChangeAvatar()
