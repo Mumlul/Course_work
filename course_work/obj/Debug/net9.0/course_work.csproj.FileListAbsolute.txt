@@ -377,3 +377,14 @@ C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\refint\co
 C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\course_work.pdb
 C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\course_work.genruntimeconfig.cache
 C:\Users\mumlul\RiderProjects\course_work\course_work\obj\Debug\net9.0\ref\course_work.dll
+C:\Users\mumlul\RiderProjects\course_work\course_work\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\mumlul\RiderProjects\course_work\course_work\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\mumlul\RiderProjects\course_work\course_work\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\mumlul\RiderProjects\course_work\course_work\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\mumlul\RiderProjects\course_work\course_work\bin\Debug\net9.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\mumlul\RiderProjects\course_work\course_work\bin\Debug\net9.0\Avalonia.ReactiveUI.dll
+C:\Users\mumlul\RiderProjects\course_work\course_work\bin\Debug\net9.0\DocumentFormat.OpenXml.dll
+C:\Users\mumlul\RiderProjects\course_work\course_work\bin\Debug\net9.0\DocumentFormat.OpenXml.Framework.dll
+C:\Users\mumlul\RiderProjects\course_work\course_work\bin\Debug\net9.0\HtmlAgilityPack.dll
+C:\Users\mumlul\RiderProjects\course_work\course_work\bin\Debug\net9.0\AvRichTextBox.dll
+C:\Users\mumlul\RiderProjects\course_work\course_work\bin\Debug\net9.0\System.IO.Packaging.dll

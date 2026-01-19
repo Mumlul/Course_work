@@ -22,6 +22,7 @@
     </Application.Resources> 
              
     <Application.Styles>
+        <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
         <FluentTheme />
         <StyleInclude Source="../Styles/UI/Window.axaml"/>
         <StyleInclude Source="Styles/UI/UserControl.axaml"/>

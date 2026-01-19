@@ -64,7 +64,7 @@ public partial class RegisterPageViewModel:PageViewModelBase
             }
         };
 
-        _userService.AddUser(_newUser);
+        _userService.AddUser(_newUser,_newUser.Password);
         /*_mainWindowVm.GotoLoginPage();*/
     }
 }

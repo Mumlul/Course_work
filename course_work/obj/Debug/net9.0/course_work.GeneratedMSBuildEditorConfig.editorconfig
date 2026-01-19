@@ -34,6 +34,9 @@ build_property.EnableCodeStyleSeverity =
 [C:/Users/mumlul/RiderProjects/course_work/course_work/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Models/NumericSpinner/NumericSpinner.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/Colors/DarkBlueTheme.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
@@ -49,6 +52,9 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/Button.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/ColorPicker.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/DockPanel.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
@@ -59,6 +65,9 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/PopUp.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/RichTB.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/Text.axaml]

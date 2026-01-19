@@ -5,24 +5,93 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
              x:DataType="vm:LessonPageViewModel"
-             x:Class="course_work.Views.Pages.LessonPageView">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="3*"/>
-        </Grid.RowDefinitions>
-            
+             x:Class="course_work.Views.Pages.LessonPageView"
+             xmlns:avrtb="using:AvRichTextBox"
+             xmlns:cc="using:CustomControls"
+             xmlns:tpl="clr-namespace:course_work.Template"
+             xmlns:models="clr-namespace:course_work.Models">
+    <!--<UserControl.Resources>
+        <tpl:BlockTemplateSelector x:Key="BlockTemplateSelector"/>
+    </UserControl.Resources>-->
+    
+    
+    <Grid RowDefinitions="200,*">
         <!--Image-->
-        <Image Source="../../Assets/test/back.jpg" Stretch="UniformToFill"/>
+        <Grid>
+            <Image Source="{Binding Image}" Stretch="UniformToFill"/>
+            <StackPanel Classes="ImageActions"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="10"
+                        Spacing="6"
+                        IsVisible="{Binding IsAuthor}"
+            >
+                <Button Content="+" Command="{Binding ChangeImageCommand}"/>
+                <!--<Button Content="-"/>-->
+            </StackPanel>
+        </Grid>
         
-        <!--Header-->
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center">
+        <Grid Grid.Row="1" Classes="Main" RowDefinitions="Auto,Auto,*">
+            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock Text="{Binding CurrentLesson.Title}" FontSize="40"  FontWeight="Bold" HorizontalAlignment="Center"/> 
+            <Button Content="Закрыть" Command="{Binding SaveAllBlocksToWordCommand}" HorizontalAlignment="Right"/>
+            <Button  Content="Add Lesson" Command="{Binding AddTextBlockCommand}" HorizontalAlignment="Right"/>
+            <Button  Content="Add Image" Command="{Binding AddImageBlockCommand}" HorizontalAlignment="Right"/>
         </StackPanel>
         
-        <!--Main-->
-        <TextBox Grid.Row="2" Text="{Binding CurrentLesson.ContentJson}"/>
+        <!--Это поле с редактированием-->
+        <!--Автор-->
+        <Border Grid.Row="1"  Padding="16" IsVisible="{Binding IsAuthor}">
+            <StackPanel Orientation="Horizontal">
+                <DockPanel DockPanel.Dock="Top" Margin="4">
+                    <ColorPicker ColorChanged="FontCP_ColorChanged" DockPanel.Dock="Right"/>
+                    <TextBlock Text="Цвет текста:" HorizontalAlignment="Right" Margin="3,0" VerticalAlignment="Center"/>
+                </DockPanel>
+
+                <DockPanel Margin="2">
+                    <ColorPicker ColorChanged="HighlightCP_ColorChanged" DockPanel.Dock="Right"/>
+                    <TextBlock Text="Выделение текста:" VerticalAlignment="Center" Margin="3,0"/>
+                </DockPanel>
+
+                <DockPanel Margin="2">
+                    <TextBlock Text="Размер шрифта:" VerticalAlignment="Center" Margin="3,0"/>
+                    <cc:NumericSpinner x:Name="FontSizeNS" MinValue="5" MaxValue="72" Value="14" Width="50" Height="25" UserValueChanged="FontSizeNS_UserValueChanged"/>
+                </DockPanel>
+
+                <DockPanel Margin="2">
+                    <TextBlock Text="Выравнивание:" VerticalAlignment="Center" Margin="3,0"/>
+                    <ComboBox x:Name="JustificationCB" Width="100" DropDownClosed="JustificationComboBox_DropDownClosed">
+                        <ComboBoxItem Content="Left"/>
+                        <ComboBoxItem Content="Center"/>
+                        <ComboBoxItem Content="Right"/>
+                        <ComboBoxItem Content="Justified"/>
+                    </ComboBox>
+                </DockPanel>
+            </StackPanel>
+        </Border>
         
+        <!--Автор-->
+        <ScrollViewer Grid.Row="2" IsVisible="{Binding IsAuthor}">
+            <ItemsControl x:Name="BlocksItemsControl" ItemsSource="{Binding Blocks}">
+                <ItemsControl.DataTemplates>
+                    <DataTemplate DataType="models:TextBlockModel">
+                        <avrtb:RichTextBox
+                            Loaded="RichTextBox_Loaded"
+                            GotFocus="RichTextBox_GotFocus"/>
+                    </DataTemplate>
+                    
+                    <DataTemplate DataType="models:ImageBlockModel">
+                        <Image  Source="{Binding ImagePath,Converter={StaticResource UrlToBitmapConverter}}" Stretch="UniformToFill"/>
+                    </DataTemplate>
+                </ItemsControl.DataTemplates>
+            </ItemsControl>
+        </ScrollViewer>
+        
+        <!--Пользователь-->
+        
+        
+        
+        </Grid>
     </Grid>
 </UserControl>

@@ -14,12 +14,14 @@ public interface IUserService
     Task<User> GetUserByUsername(string username);
     Task<User> GetUserByEmail(string email);
     Task DeleteUserById(User user);
-    Task<User> AddUser(User user);
+    Task<User> AddUser(User user,string plainPassword);
     Task UpdateUser(User user);
     Task<bool> CheckPassword(string login, string password);
     Task<ObservableCollection<Course>> GetAllCourses(User user);
     Task<UserProfile> GetUserProfile(User user);
     Task<List<User>> GetAllAuthors();
     Task<List<Course>> GetAithorsCurse(int userId);
-    
+
+    Task MigratePlainPasswordsToHashed();
+
 }

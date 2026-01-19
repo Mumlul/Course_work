@@ -17,11 +17,13 @@
           "Avalonia.Svg.Skia": "11.3.0",
           "Avalonia.Themes.Fluent": "11.3.9",
           "CommunityToolkit.Mvvm": "8.2.1",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "9.0.10",
           "Microsoft.EntityFrameworkCore": "9.0.10",
           "Microsoft.EntityFrameworkCore.Design": "9.0.10",
           "MySqlConnector": "2.5.0",
           "Pomelo.EntityFrameworkCore.MySql": "9.0.0",
-          "ReactiveUI.Fody": "19.5.41"
+          "ReactiveUI.Fody": "19.5.41",
+          "Simplecto.Avalonia.RichTextBox": "1.3.9"
         },
         "runtime": {
           "course_work.dll": {}
@@ -190,6 +192,19 @@
           }
         }
       },
+      "Avalonia.ReactiveUI/11.2.8": {
+        "dependencies": {
+          "Avalonia": "11.3.9",
+          "ReactiveUI": "20.1.1",
+          "System.Reactive": "6.0.1"
+        },
+        "runtime": {
+          "lib/net8.0/Avalonia.ReactiveUI.dll": {
+            "assemblyVersion": "11.2.8.0",
+            "fileVersion": "11.2.8.0"
+          }
+        }
+      },
       "Avalonia.Remote.Protocol/11.3.9": {
         "runtime": {
           "lib/net8.0/Avalonia.Remote.Protocol.dll": {
@@ -305,14 +320,36 @@
           }
         }
       },
-      "DynamicData/8.3.27": {
+      "DocumentFormat.OpenXml/3.2.0": {
         "dependencies": {
-          "System.Reactive": "6.0.0"
+          "DocumentFormat.OpenXml.Framework": "3.2.0"
+        },
+        "runtime": {
+          "lib/net8.0/DocumentFormat.OpenXml.dll": {
+            "assemblyVersion": "3.2.0.0",
+            "fileVersion": "3.2.0.0"
+          }
+        }
+      },
+      "DocumentFormat.OpenXml.Framework/3.2.0": {
+        "dependencies": {
+          "System.IO.Packaging": "8.0.1"
+        },
+        "runtime": {
+          "lib/net8.0/DocumentFormat.OpenXml.Framework.dll": {
+            "assemblyVersion": "3.2.0.0",
+            "fileVersion": "3.2.0.0"
+          }
+        }
+      },
+      "DynamicData/8.4.1": {
+        "dependencies": {
+          "System.Reactive": "6.0.1"
         },
         "runtime": {
           "lib/net8.0/DynamicData.dll": {
-            "assemblyVersion": "8.3.0.0",
-            "fileVersion": "8.3.27.26536"
+            "assemblyVersion": "8.4.0.0",
+            "fileVersion": "8.4.1.20756"
           }
         }
       },
@@ -423,6 +460,14 @@
           }
         }
       },
+      "HtmlAgilityPack/1.12.0": {
+        "runtime": {
+          "lib/net8.0/HtmlAgilityPack.dll": {
+            "assemblyVersion": "1.12.0.0",
+            "fileVersion": "1.12.0.0"
+          }
+        }
+      },
       "Humanizer.Core/2.14.1": {
         "runtime": {
           "lib/net6.0/Humanizer.dll": {
@@ -436,6 +481,37 @@
           "lib/net5.0/MicroCom.Runtime.dll": {
             "assemblyVersion": "0.11.0.0",
             "fileVersion": "0.11.0.0"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Cryptography.Internal/9.0.10": {
+        "runtime": {
+          "lib/net9.0/Microsoft.AspNetCore.Cryptography.Internal.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.1025.47517"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Cryptography.KeyDerivation/9.0.10": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Cryptography.Internal": "9.0.10"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.1025.47517"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Identity.EntityFrameworkCore/9.0.10": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Relational": "9.0.10",
+          "Microsoft.Extensions.Identity.Stores": "9.0.10"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll": {
+            "assemblyVersion": "9.0.10.0",
+            "fileVersion": "9.0.1025.47517"
           }
         }
       },
@@ -843,6 +919,32 @@
           }
         }
       },
+      "Microsoft.Extensions.Identity.Core/9.0.10": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Cryptography.KeyDerivation": "9.0.10",
+          "Microsoft.Extensions.Logging": "9.0.10",
+          "Microsoft.Extensions.Options": "9.0.10"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.Extensions.Identity.Core.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.1025.47517"
+          }
+        }
+      },
+      "Microsoft.Extensions.Identity.Stores/9.0.10": {
+        "dependencies": {
+          "Microsoft.Extensions.Caching.Abstractions": "9.0.10",
+          "Microsoft.Extensions.Identity.Core": "9.0.10",
+          "Microsoft.Extensions.Logging": "9.0.10"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.Extensions.Identity.Stores.dll": {
+            "assemblyVersion": "9.0.0.0",
+            "fileVersion": "9.0.1025.47517"
+          }
+        }
+      },
       "Microsoft.Extensions.Logging/9.0.10": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "9.0.10",
@@ -922,21 +1024,21 @@
           }
         }
       },
-      "ReactiveUI/19.5.41": {
+      "ReactiveUI/20.1.1": {
         "dependencies": {
-          "DynamicData": "8.3.27",
-          "Splat": "14.8.12"
+          "DynamicData": "8.4.1",
+          "Splat": "15.1.1"
         },
         "runtime": {
           "lib/net8.0/ReactiveUI.dll": {
-            "assemblyVersion": "19.5.0.0",
-            "fileVersion": "19.5.41.25387"
+            "assemblyVersion": "20.1.0.0",
+            "fileVersion": "20.1.1.46356"
           }
         }
       },
       "ReactiveUI.Fody/19.5.41": {
         "dependencies": {
-          "ReactiveUI": "19.5.41"
+          "ReactiveUI": "20.1.1"
         },
         "runtime": {
           "lib/net8.0/ReactiveUI.Fody.Helpers.dll": {
@@ -950,6 +1052,24 @@
           "lib/net8.0/ShimSkiaSharp.dll": {
             "assemblyVersion": "3.0.2.0",
             "fileVersion": "3.0.2.0"
+          }
+        }
+      },
+      "Simplecto.Avalonia.RichTextBox/1.3.9": {
+        "dependencies": {
+          "Avalonia": "11.3.9",
+          "Avalonia.Controls.ItemsRepeater": "11.1.5",
+          "Avalonia.Desktop": "11.3.9",
+          "Avalonia.ReactiveUI": "11.2.8",
+          "Avalonia.Skia": "11.3.9",
+          "Avalonia.Themes.Fluent": "11.3.9",
+          "DocumentFormat.OpenXml": "3.2.0",
+          "HtmlAgilityPack": "1.12.0"
+        },
+        "runtime": {
+          "lib/net8.0/AvRichTextBox.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
           }
         }
       },
@@ -1032,11 +1152,11 @@
           }
         }
       },
-      "Splat/14.8.12": {
+      "Splat/15.1.1": {
         "runtime": {
           "lib/net8.0/Splat.dll": {
-            "assemblyVersion": "14.8.0.0",
-            "fileVersion": "14.8.12.56860"
+            "assemblyVersion": "15.1.0.0",
+            "fileVersion": "15.1.1.17670"
           }
         }
       },
@@ -1145,11 +1265,19 @@
           }
         }
       },
-      "System.Reactive/6.0.0": {
+      "System.IO.Packaging/8.0.1": {
+        "runtime": {
+          "lib/net8.0/System.IO.Packaging.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1024.46610"
+          }
+        }
+      },
+      "System.Reactive/6.0.1": {
         "runtime": {
           "lib/net6.0/System.Reactive.dll": {
             "assemblyVersion": "6.0.0.0",
-            "fileVersion": "6.0.0.1"
+            "fileVersion": "6.0.1.7420"
           }
         }
       },
@@ -1232,6 +1360,13 @@
       "path": "avalonia.native/11.3.9",
       "hashPath": "avalonia.native.11.3.9.nupkg.sha512"
     },
+    "Avalonia.ReactiveUI/11.2.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WPLP4w9Dc94oWHMCnbwQPGz0FuIKzP3a337Z+e2K6qXtqqWBYFOPQ0eXUNgkgUk2xK8uT6WN6K1RIjgl1lqn8w==",
+      "path": "avalonia.reactiveui/11.2.8",
+      "hashPath": "avalonia.reactiveui.11.2.8.nupkg.sha512"
+    },
     "Avalonia.Remote.Protocol/11.3.9": {
       "type": "package",
       "serviceable": true,
@@ -1302,12 +1437,26 @@
       "path": "communitytoolkit.mvvm/8.2.1",
       "hashPath": "communitytoolkit.mvvm.8.2.1.nupkg.sha512"
     },
-    "DynamicData/8.3.27": {
+    "DocumentFormat.OpenXml/3.2.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-m5PGnTbFCE04xrH3peeNtiHrXJM5Vxk6Sy9bwXm8ahZ+/ZavqYb8XstBD1GFqcU7g6f8YD3zPcI7XkkW3Y1Ang==",
-      "path": "dynamicdata/8.3.27",
-      "hashPath": "dynamicdata.8.3.27.nupkg.sha512"
+      "sha512": "sha512-eDBT9G0sAWUvjgE8l8E5bGCFXgxCZXIecQ8dqUnj2PyxyMR5eBmLahqRRw3Q7uSKM3cKbysaL2mEY0JJbEEOEA==",
+      "path": "documentformat.openxml/3.2.0",
+      "hashPath": "documentformat.openxml.3.2.0.nupkg.sha512"
+    },
+    "DocumentFormat.OpenXml.Framework/3.2.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-e1neOKqRnSHUom4JQEorAoZ67aiJOp6+Xzsu0fc6IYfFcgQn6roo+w6i2w//N2u/5ilEfvLr35bNO9zaIN7r7g==",
+      "path": "documentformat.openxml.framework/3.2.0",
+      "hashPath": "documentformat.openxml.framework.3.2.0.nupkg.sha512"
+    },
+    "DynamicData/8.4.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Mn1+fU/jqxgONEJq8KLQPGWEi7g/hUVTbjZyn4QM0sWWDAVOHPO9WjXWORSykwdfg/6S3GM15qsfz+2EvO+QAQ==",
+      "path": "dynamicdata/8.4.1",
+      "hashPath": "dynamicdata.8.4.1.nupkg.sha512"
     },
     "ExCSS/4.3.0": {
       "type": "package",
@@ -1344,6 +1493,13 @@
       "path": "harfbuzzsharp.nativeassets.win32/8.3.1.1",
       "hashPath": "harfbuzzsharp.nativeassets.win32.8.3.1.1.nupkg.sha512"
     },
+    "HtmlAgilityPack/1.12.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-VHtVZmfoYhQyA/POvZRLuTpCz1zhzIDrdYRJIRV73e9wKAzjW71biYNOHOWx8MxEX3TE4TWVfx1QDRoZcj2AWw==",
+      "path": "htmlagilitypack/1.12.0",
+      "hashPath": "htmlagilitypack.1.12.0.nupkg.sha512"
+    },
     "Humanizer.Core/2.14.1": {
       "type": "package",
       "serviceable": true,
@@ -1357,6 +1513,27 @@
       "sha512": "sha512-MEnrZ3UIiH40hjzMDsxrTyi8dtqB5ziv3iBeeU4bXsL/7NLSal9F1lZKpK+tfBRnUoDSdtcW3KufE4yhATOMCA==",
       "path": "microcom.runtime/0.11.0",
       "hashPath": "microcom.runtime.0.11.0.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Cryptography.Internal/9.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Z/q6pA2ss/k2SlAUWocZoHvswrXzORcpcbhNyAz4uKUFnOW3Z2fR+ks5a6W1cxLXG4/qDuvqlBLzFrPjC8CJVQ==",
+      "path": "microsoft.aspnetcore.cryptography.internal/9.0.10",
+      "hashPath": "microsoft.aspnetcore.cryptography.internal.9.0.10.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Cryptography.KeyDerivation/9.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RdG6CIyQaR7hTq+na1zqDYJWxCVxHOxn898Vr6pwk9fI+qzeJPUw9txdRkrAjpbkeT9MV+RJzKpzSnVIQLjm7Q==",
+      "path": "microsoft.aspnetcore.cryptography.keyderivation/9.0.10",
+      "hashPath": "microsoft.aspnetcore.cryptography.keyderivation.9.0.10.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Identity.EntityFrameworkCore/9.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wOKhWdTk+dDLCS/qSOvolBjD0BbfW77VbhOK2N8PUsvI1qCYI2GZGehDOsGCfn/g9pmALqegkmpaKWOCpvQGAg==",
+      "path": "microsoft.aspnetcore.identity.entityframeworkcore/9.0.10",
+      "hashPath": "microsoft.aspnetcore.identity.entityframeworkcore.9.0.10.nupkg.sha512"
     },
     "Microsoft.Bcl.AsyncInterfaces/7.0.0": {
       "type": "package",
@@ -1477,6 +1654,20 @@
       "path": "microsoft.extensions.dependencymodel/9.0.10",
       "hashPath": "microsoft.extensions.dependencymodel.9.0.10.nupkg.sha512"
     },
+    "Microsoft.Extensions.Identity.Core/9.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-g3Is2iIQuHyc5IwX8r8vZ3RLkITAHtTNRM/5560hMp5spLTDe2cvwdaDiKbCKSUV5Xr2dEO8VcH+AwN+tMbHgQ==",
+      "path": "microsoft.extensions.identity.core/9.0.10",
+      "hashPath": "microsoft.extensions.identity.core.9.0.10.nupkg.sha512"
+    },
+    "Microsoft.Extensions.Identity.Stores/9.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Xoa7KnceMKKLLwWCH6EhbpCbockAKb+qlxoo+aVO4TKlIz/BEPBnik1m2u8mkqGTY0I5p0HqPPfQ6H/oZohT6A==",
+      "path": "microsoft.extensions.identity.stores/9.0.10",
+      "hashPath": "microsoft.extensions.identity.stores.9.0.10.nupkg.sha512"
+    },
     "Microsoft.Extensions.Logging/9.0.10": {
       "type": "package",
       "serviceable": true,
@@ -1526,12 +1717,12 @@
       "path": "pomelo.entityframeworkcore.mysql/9.0.0",
       "hashPath": "pomelo.entityframeworkcore.mysql.9.0.0.nupkg.sha512"
     },
-    "ReactiveUI/19.5.41": {
+    "ReactiveUI/20.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-qusIoJHhzNFm/Ei52wwesy15le/NAMWm40UOz2boaWcBntqOJJPR6YucDUibHNo5v9opNP7ZCAMa+w3rzX6AIw==",
-      "path": "reactiveui/19.5.41",
-      "hashPath": "reactiveui.19.5.41.nupkg.sha512"
+      "sha512": "sha512-9hNPknWjijnaSWs6auypoXqUptPZcRpUypF+cf1zD50fgW+SEoQda502N3fVZ2eWPcaiUad+z6GaLwOWmUVHNw==",
+      "path": "reactiveui/20.1.1",
+      "hashPath": "reactiveui.20.1.1.nupkg.sha512"
     },
     "ReactiveUI.Fody/19.5.41": {
       "type": "package",
@@ -1546,6 +1737,13 @@
       "sha512": "sha512-VRLaZRQ7llIgQXf6H6Bjpt47RG/9UQvWZdJz97ReFlb4PHwjoId6HkoO84ETyqS/8J2GNT2fDnzmdVBMr5YXOg==",
       "path": "shimskiasharp/3.0.2",
       "hashPath": "shimskiasharp.3.0.2.nupkg.sha512"
+    },
+    "Simplecto.Avalonia.RichTextBox/1.3.9": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-U7PFSR9WDSa+THCEm3ZLzZb3UId1Ue5BlHeu1lT1LZTXKdeRpYB+/AeNdFReLxhg3WWtIcvHPwkKrd58dHBX9g==",
+      "path": "simplecto.avalonia.richtextbox/1.3.9",
+      "hashPath": "simplecto.avalonia.richtextbox.1.3.9.nupkg.sha512"
     },
     "SkiaSharp/3.116.1": {
       "type": "package",
@@ -1582,12 +1780,12 @@
       "path": "skiasharp.nativeassets.win32/3.116.1",
       "hashPath": "skiasharp.nativeassets.win32.3.116.1.nupkg.sha512"
     },
-    "Splat/14.8.12": {
+    "Splat/15.1.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-7dTp+hgC2CS4DqjHtgkeS7hsECbpD09ukGwxL63HVM/aih9zseIaIjWhS6sQWlWw5GDvli8bVMHeZ1dekgmuvQ==",
-      "path": "splat/14.8.12",
-      "hashPath": "splat.14.8.12.nupkg.sha512"
+      "sha512": "sha512-RHDTdF90FwVbRia2cmuIzkiVoETqnXSB2dDBBi/I35HWXqv4OKGqoMcfcd6obMvO2OmmY5PjU1M62K8LkJafAA==",
+      "path": "splat/15.1.1",
+      "hashPath": "splat.15.1.1.nupkg.sha512"
     },
     "Svg.Custom/3.0.2": {
       "type": "package",
@@ -1659,12 +1857,19 @@
       "path": "system.composition.typedparts/7.0.0",
       "hashPath": "system.composition.typedparts.7.0.0.nupkg.sha512"
     },
-    "System.Reactive/6.0.0": {
+    "System.IO.Packaging/8.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-31kfaW4ZupZzPsI5PVe77VhnvFF55qgma7KZr/E0iFTs6fmdhhG8j0mgEx620iLTey1EynOkEfnyTjtNEpJzGw==",
-      "path": "system.reactive/6.0.0",
-      "hashPath": "system.reactive.6.0.0.nupkg.sha512"
+      "sha512": "sha512-KYkIOAvPexQOLDxPO2g0BVoWInnQhPpkFzRqvNrNrMhVT6kqhVr0zEb6KCHlptLFukxnZrjuMVAnxK7pOGUYrw==",
+      "path": "system.io.packaging/8.0.1",
+      "hashPath": "system.io.packaging.8.0.1.nupkg.sha512"
+    },
+    "System.Reactive/6.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rHaWtKDwCi9qJ3ObKo8LHPMuuwv33YbmQi7TcUK1C264V3MFnOr5Im7QgCTdLniztP3GJyeiSg5x8NqYJFqRmg==",
+      "path": "system.reactive/6.0.1",
+      "hashPath": "system.reactive.6.0.1.nupkg.sha512"
     },
     "Tmds.DBus.Protocol/0.21.2": {
       "type": "package",

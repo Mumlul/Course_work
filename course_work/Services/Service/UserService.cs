@@ -6,14 +6,18 @@ using System.Threading.Tasks;
 using course_work.Data;
 using course_work.Models.Classes;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace course_work.Services;
+
 
 public class UserService:IUserService
 {
     private readonly ApplicationDbContext _context;
     public User CurrentUser { get; set; } = new User();
     public UserProfile Profile { get; set; } = new UserProfile();
+    
+    private readonly PasswordHasher<User> _passwordHasher = new PasswordHasher<User>();
 
     public UserService(ApplicationDbContext context)
     {
@@ -60,20 +64,17 @@ public class UserService:IUserService
         await _context.SaveChangesAsync();
     }
 
-    public async Task<User> AddUser(User user)
+    public async Task<User> AddUser(User user, string plainPassword)
     {
+        user.Password = _passwordHasher.HashPassword(user, plainPassword);
         var addedUser = _context.Users.Add(user);
         await _context.SaveChangesAsync();
-
-        // Создаем профиль автоматически
         var profile = new UserProfile
         {
             UserId = addedUser.Entity.Id
         };
-
         _context.UserProfiles.Add(profile);
         await _context.SaveChangesAsync();
-
         addedUser.Entity.Profile = profile;
         return addedUser.Entity;
     }
@@ -92,14 +93,13 @@ public class UserService:IUserService
 
    
 
-    public async Task<bool> CheckPassword(string user, string password)
+    public async Task<bool> CheckPassword(string login, string password)
     {
-        var _user = await _context.Users
-            .FirstOrDefaultAsync(u => u.Login == user);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Login == login);
+        if (user == null) return false;
 
-        if (_user == null) return false;
-
-        return _user.Password == password;
+        var result = _passwordHasher.VerifyHashedPassword(user, user.Password, password);
+        return result == PasswordVerificationResult.Success;
     }
 
     public async Task<ObservableCollection<Course>> GetAllCourses(User user)
@@ -132,5 +132,23 @@ public class UserService:IUserService
             .Where(ca => ca.UserId == userId)
             .Select(ca => ca.Course)
             .ToListAsync();
+    }
+    
+    
+    public async Task MigratePlainPasswordsToHashed()
+    {
+        var users = await _context.Users.ToListAsync();
+        var passwordHasher = new PasswordHasher<User>();
+
+        foreach (var user in users)
+        {
+            if (!string.IsNullOrWhiteSpace(user.Password) && !user.Password.StartsWith("$"))
+            {
+                user.Password = passwordHasher.HashPassword(user, user.Password);
+            }
+        }
+
+        _context.Users.UpdateRange(users);
+        await _context.SaveChangesAsync();
     }
 }

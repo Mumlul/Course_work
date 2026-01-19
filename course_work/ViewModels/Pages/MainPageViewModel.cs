@@ -150,7 +150,9 @@ public partial class MainPageViewModel:PageViewModelBase
         var lessonVm = ActivatorUtilities.CreateInstance<LessonPageViewModel>(
             _provider,
             _provider.GetRequiredService<ILessonService>(),
-            lesson
+            lesson,
+            (Course course) => OpenCurse(course),
+            User.Id
         );
         
         if(lessonVm == null)
