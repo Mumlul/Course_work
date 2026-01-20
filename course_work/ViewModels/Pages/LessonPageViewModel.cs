@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia;
@@ -24,6 +25,7 @@ public partial class LessonPageViewModel:PageViewModelBase
     
     //ОБЯЗАТЕЛЬНО ПОМЕНЯТЬ СДЕЛАТЬ НОРМАЛЬНУЮ ЗАГРУЗКУ
     [ObservableProperty] private bool _isAuthor=true;
+    [ObservableProperty] private bool _isReader=true;
     [ObservableProperty] private Bitmap _image;
     [ObservableProperty] private TextBlockModel? _selectedTextBlock;
     private int _userId;
@@ -32,54 +34,65 @@ public partial class LessonPageViewModel:PageViewModelBase
     {
         Image = await ConvertImageToByteArray(CurrentLesson.PreviewImage);
         IsAuthor=await _lessonService.GetAuthor(CurrentLesson.Id, _userId);
-        if (CurrentLesson.ContentJson != null)
+        IsReader = !IsAuthor;
+        if (CurrentLesson.ContentUrl != null)
         {
+
+            var path = await DownloadWordToTempAsync(CurrentLesson.ContentUrl);
+            
             var rtb = new AvRichTextBox.RichTextBox();
-            rtb.LoadWordDoc(CurrentLesson.ContentJson);
+            rtb.LoadWordDoc(path);
+            Console.WriteLine(path);
 
             var blocks = new ObservableCollection<UIBlocks>();
-            FlowDocument? currentDoc = null;
+            FlowDocument? currentDoc = new FlowDocument();
 
             foreach (var block in rtb.FlowDocument.Blocks)
             {
                 if (block is AvRichTextBox.Paragraph par)
                 {
-                    var imageRun = par.Inlines.OfType<AvRichTextBox.EditableRun>()
-                        .FirstOrDefault(r => Uri.IsWellFormedUriString(r.Text, UriKind.Absolute));
-
-                    if (imageRun != null)
+                    foreach (var run in par.Inlines.OfType<AvRichTextBox.EditableRun>())
                     {
-                        if (currentDoc != null)
+                        var lines = run.Text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+                        foreach (var line in lines)
                         {
-                            blocks.Add(new UIBlocks
+                            if (Uri.IsWellFormedUriString(line, UriKind.Absolute))
                             {
-                                RText = new TextBlockModel { FlowDocument = currentDoc }
-                            });
-                            currentDoc = null;
+                                if (currentDoc.Blocks.Count > 0)
+                                {
+                                    blocks.Add(new UIBlocks
+                                    {
+                                        RText = new TextBlockModel { FlowDocument = currentDoc }
+                                    });
+                                    currentDoc = new FlowDocument();
+                                }
+                                blocks.Add(new UIBlocks
+                                {
+                                    Image = new ImageBlockModel { ImagePath = line }
+                                });
+                            }
+                            else
+                            {
+                                var newPar = new AvRichTextBox.Paragraph();
+                                newPar.Inlines.Add(new AvRichTextBox.EditableRun { Text = line });
+                                currentDoc.Blocks.Add(newPar);
+                            }
                         }
-                        blocks.Add(new UIBlocks
-                        {
-                            Image = new ImageBlockModel { ImagePath = imageRun.Text }
-                        });
-                    }
-                    else
-                    {
-                        if (currentDoc == null)
-                            currentDoc = new FlowDocument();
-
-                        currentDoc.Blocks.Add(par);
                     }
                 }
             }
-
-            if (currentDoc != null)
+            if (currentDoc.Blocks.Count > 0)
             {
                 blocks.Add(new UIBlocks
                 {
                     RText = new TextBlockModel { FlowDocument = currentDoc }
                 });
             }
-            Blocks = blocks;
+
+            Blocks.Clear();
+            foreach (var b in blocks)
+                Blocks.Add(b);
+            File.Delete(path);
         }
     }
 
@@ -138,17 +151,6 @@ public partial class LessonPageViewModel:PageViewModelBase
 
         Blocks.Add(block);
     }
-
-    /*[RelayCommand]
-    public void AddImageBlock(string path)
-    {
-        var model = new ImageBlockModel
-        {
-            Order = Blocks.Count,
-            ImagePath = path
-        };
-        Blocks.Add(new ImageBlockViewModel(model));
-    }*/
     
     public void ApplyFontColor(Color color)
     {
@@ -202,7 +204,7 @@ public partial class LessonPageViewModel:PageViewModelBase
     [RelayCommand]
     public async Task SaveAllBlocksToWordAsync()
     {
-        var mergedDocument = new AvRichTextBox.FlowDocument();
+        /*var mergedDocument = new AvRichTextBox.FlowDocument();
 
         foreach (var block in Blocks)
         {
@@ -251,7 +253,51 @@ public partial class LessonPageViewModel:PageViewModelBase
                 };
                 tempRtb.SaveWordDoc(path);
             }
+        }*/
+        if (_isAuthor)
+        {
+            var mergedDocument = new FlowDocument();
+            foreach (var block in Blocks)
+            {
+                if (block.RText?.FlowDocument != null)
+                {
+                    foreach (var b in block.RText.FlowDocument.Blocks)
+                    {
+                        mergedDocument.Blocks.Add(b);
+                    }
+                }
+                if (block.Image != null)
+                {
+                    var par = new Paragraph();
+                    par.Inlines.Add(new EditableRun
+                    {
+                        Text = block.Image.ImagePath
+                    });
+                    mergedDocument.Blocks.Add(par);
+                }
+            }
+            var fileName = await _lessonService.GetLessonFileName(CurrentLesson.Id);
+            var tempPath = Path.Combine(Path.GetTempPath(), fileName);
+            try
+            {
+                var tempRtb = new RichTextBox
+                {
+                    FlowDocument = mergedDocument
+                };
+                tempRtb.SaveWordDoc(tempPath);
+                var url = await UploadWordToTempAsync(tempPath);
+                CurrentLesson.ContentUrl = url;
+                await _lessonService.UpdateLesson(CurrentLesson);
+            }
+            finally
+            {
+                if (File.Exists(tempPath))
+                    File.Delete(tempPath);
+            }
         }
+        
+        var course = await _lessonService.GetCourse(CurrentLesson.Id);
+        _backToCourse?.Invoke(course);
     }
     
     [RelayCommand]

@@ -79,19 +79,14 @@
             <Border Width="1000"
                     Height="700"
                     CornerRadius="14"
-                    
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
                 
-                <Grid RowDefinitions="Auto,150,Auto,*">
+                <Grid RowDefinitions="Auto,200,Auto,*">
                     <Button Content="Закрыть" Command="{Binding CloseCommand}" DockPanel.Dock="Right" HorizontalAlignment="Right"/>
-                    
-                    
                     <Grid Grid.Row="1">
-                        <Image Source="{Binding ModuleImage, Converter={StaticResource UrlToBitmapConverter}}"
-                               Stretch="UniformToFill"
-                               HorizontalAlignment="Stretch"
-                               VerticalAlignment="Stretch"/>
+                        <Image Source="{Binding ModuleImage}"
+                               Stretch="UniformToFill"/>
 
                         <StackPanel Classes="ImageActions"
                                     Orientation="Horizontal"
@@ -119,7 +114,7 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <Button Grid.Row="1" Content="Добавить урок" Command="{Binding AddLessonCommand}"/>
+                        <Button Grid.Row="1" Content="Добавить урок" Command="{Binding AddLessonCommand}" IsVisible="{Binding IsAuthor}"/>
                     </Grid>
                 </Grid>
             </Border>

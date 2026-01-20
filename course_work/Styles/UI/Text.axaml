@@ -12,7 +12,7 @@
     
     <Style Selector="TextBlock.second">
         <Setter Property="Foreground" Value="{DynamicResource SecondText}"/>
-        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="FontSize" Value="12"/>
     </Style>
     
 </Styles>

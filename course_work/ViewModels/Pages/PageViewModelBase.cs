@@ -22,7 +22,7 @@ public partial class PageViewModelBase:ViewModelBase
     public string? Image { get; set; }
     
     [ObservableProperty]
-    public bool _textVisible  = true;
+    public bool _textVisible  = false;
     public virtual Task OnNavigatedTo() => Task.CompletedTask;
 
     public static async Task SendMessageAsync(
@@ -104,34 +104,15 @@ public partial class PageViewModelBase:ViewModelBase
         return code.ToString();
     }
     
-    //Вот так ии выдало но что то сильно 
-    /*public static string GenerateSecretCode_()
-    {
-        return RandomNumberGenerator
-            .GetInt32(100000, 1_000_000)
-            .ToString();
-    }*/
-
-
-
-
-    //how use 
-    /*SendMessageAsync(
-            fromEmail: "ploskih44@gmail.com",
-            password: "qhyz ocrc yvfi lxbr",
-            toEmail: "azarenko2000lipa@gmail.com",
-            subject: "Тестовое сообщение",
-            body: "Привет! Это тестовое письмо."
-        );*/
-
+   
     //Добавить проверке есть ли такой файл уже 
     public static  async Task<string> UploadImage(string name)
     {
          var config = new AmazonS3Config
-        {
+         {
             ServiceURL = "https://s3.twcstorage.ru",
             ForcePathStyle = true
-        };
+         };
 
         using var client = new AmazonS3Client("2H4NLFXQSWUC8A31U1PB", "EYBr2GBUGTtSdS7fTM8XgBXwSEUDROFMK1wpCwcF", config);
 
@@ -144,6 +125,38 @@ public partial class PageViewModelBase:ViewModelBase
         };
         var response = await client.PutObjectAsync(putRequest);
         return $"https://6a3814f9-ce7403ca-f211-439b-8e9f-f85196600672.s3.twcstorage.ru/{Path.GetFileName(name)}";
+    }
+    
+    
+    //Скачивание и создание word
+    public static async Task<string> DownloadWordToTempAsync(string url)
+    {
+        using var http = new HttpClient();
+        var bytes = await http.GetByteArrayAsync(url);
+        var tempFile = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".docx");
+        await File.WriteAllBytesAsync(tempFile, bytes);
+        return tempFile;
+    }
+    
+    //ZAGRUZKA WORD
+    public static async Task<string> UploadWordToTempAsync(string path)
+    {
+        var config = new AmazonS3Config
+        {
+            ServiceURL = "https://s3.twcstorage.ru",
+            ForcePathStyle = true
+        };
+
+        using var client = new AmazonS3Client("2H4NLFXQSWUC8A31U1PB", "EYBr2GBUGTtSdS7fTM8XgBXwSEUDROFMK1wpCwcF", config);
+
+        var putRequest = new PutObjectRequest
+        {
+            BucketName = "6a3814f9-ce7403ca-f211-439b-8e9f-f85196600672",
+            Key = $"{Path.GetFileName(path)}",
+            FilePath = $"{path}"
+        };
+        var response = await client.PutObjectAsync(putRequest);
+        return $"https://6a3814f9-ce7403ca-f211-439b-8e9f-f85196600672.s3.twcstorage.ru/{Path.GetFileName(path)}";
     }
     
 }

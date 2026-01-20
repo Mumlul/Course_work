@@ -13,4 +13,5 @@ public interface ILessonService
     Task DeleteLesson(int id);
     Task<Course> GetCourse(int id);
     Task<bool> GetAuthor(int id, int userId);
+    Task<string> GetLessonFileName(int lessonId);
 }

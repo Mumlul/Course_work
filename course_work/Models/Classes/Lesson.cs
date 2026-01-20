@@ -33,8 +33,8 @@ public class Lesson
     [Column("order_index")]
     public int OrderIndex { get; set; } = 0;
 
-    [Column("content_json", TypeName = "json")]
-    public string ContentJson { get; set; } = string.Empty;
+    [Column("content_url")]
+    public string ContentUrl { get; set; } = string.Empty;
 
     [Column("lesson_type")]
     public LessonType LessonType { get; set; } = LessonType.Text;

@@ -31,7 +31,7 @@ public partial class MainPageViewModel:PageViewModelBase
         if (value != null)
             _ = value.OnNavigatedTo();
     }
-    [ObservableProperty] private bool _isopensidebar = true;
+    [ObservableProperty] private bool _isopensidebar = false;
     [ObservableProperty] private User _user;
     public ObservableCollection<PageViewModelBase> Pages { get; }
     public MainPageViewModel(IServiceProvider provider,IUserService userService,User currentUser,Action navigatelogin)
@@ -47,15 +47,13 @@ public partial class MainPageViewModel:PageViewModelBase
 
         Pages = new ObservableCollection<PageViewModelBase>
         {
-            new UserProfilePageViewModel(_userService,provider.GetRequiredService<IUserProfile>(), course => OpenCurse(course),User),
             new CatalogPageViewModel(_userService,_courseService,course => OpenCurse(course),user => OpenProfile(user)),
-            new SettingPageViewModel(),
+            new UserProfilePageViewModel(_userService,provider.GetRequiredService<IUserProfile>(), course => OpenCurse(course),User),
+            new SettingPageViewModel(_userService),
             new CourseListPageViewModel(_courseService,course => OpenCurse(course)),
             /*new AddCoursePageViewModel(_courseService,User,course => OpenCurse(course)),*/
             new TestPageViewModel(_provider.GetRequiredService<ITestService>(),1),
             new CreateTestPageViewModel(_provider.GetRequiredService<ITestService>())
-            /*new LessonPageViewModel()*/
-            
         };
         
         Currentpagemain = Pages[0];

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using course_work.Data;
@@ -66,5 +67,28 @@ public class LessonService:ILessonService
                 (courseId, ca) => ca.UserId
             )
             .AnyAsync(uId => uId == userId);
+    }
+
+    public async Task<string> GetLessonFileName(int lessonId)
+    {
+        var lesson = await _context.Lessons
+            .Include(l => l.Module)
+            .ThenInclude(m => m.Course)
+            .FirstOrDefaultAsync(l => l.Id == lessonId);
+
+        if (lesson == null)
+            throw new Exception($"Lesson with id {lessonId} not found");
+
+        if (lesson.Module == null)
+            throw new Exception("Module not found");
+
+        if (lesson.Module.Course == null)
+            throw new Exception("Course not found");
+
+        var safeTitle = string.Concat(
+            lesson.Title.Where(c => !Path.GetInvalidFileNameChars().Contains(c))
+        );
+
+        return $"Урок {lessonId}_Course{lesson.Module.Course.Id}_Module{lesson.Module.Id}.docx";
     }
 }

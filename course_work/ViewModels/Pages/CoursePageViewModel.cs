@@ -37,9 +37,9 @@ public partial class CoursePageViewModel:PageViewModelBase
     {
         if (value is null)
             return;
-        OpenDialog();
         ModuleImage = await ConvertImageToByteArray(value.PreviewImage);
         Console.WriteLine(value.PreviewImage);
+        OpenDialog();
     }
 
     partial void OnSelectedLessonChanged(Lesson? value)
@@ -142,7 +142,7 @@ public partial class CoursePageViewModel:PageViewModelBase
             Title = $"Урок {Lessons.Count + 1}",
             OrderIndex = Lessons.Count + 1,
             Slug = $"Урок {Lessons.Count + 1}",
-            ContentJson = "{}",
+            ContentUrl = "",
             LessonType = LessonType.Text,
             CreatedAt = DateTime.Today,
             UpdatedAt = DateTime.Today,

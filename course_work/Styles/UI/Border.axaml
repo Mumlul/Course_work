@@ -29,4 +29,24 @@
         <Setter Property="BorderBrush" Value="{DynamicResource PrimaryColor}"/>
     </Style>
     
+    <Style Selector="Border.Profile"> 
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+    </Style>
+    
+    <Style Selector="Border.BigImage">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Width" Value="300"/>
+        <Setter Property="Height" Value="300"/>
+        <Setter Property="CornerRadius" Value="150"/>
+        <Setter Property="ClipToBounds" Value="True"/>
+    </Style>
+    
+    <Style Selector="Border.SmallCard">
+        <Setter Property="Padding" Value="12"/>
+        <Setter Property="MaxWidth" Value="400"/>
+        <Setter Property="MaxHeight" Value="250"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="BorderThickness" Value="2"/>
+    </Style>
 </Styles>

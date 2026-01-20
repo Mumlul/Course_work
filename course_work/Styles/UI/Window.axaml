@@ -4,5 +4,8 @@
         <Setter Property="WindowState" Value="Maximized"/>
         <Setter Property="Background" Value="{DynamicResource Background}"/>
         <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
+        
+        <Setter Property="MinWidth" Value="1300"/>
+        <Setter Property="MinHeight" Value="700"/>
     </Style>
 </Styles>

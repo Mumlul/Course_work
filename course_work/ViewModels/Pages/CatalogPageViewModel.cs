@@ -148,6 +148,8 @@ public partial class CatalogPageViewModel:PageViewModelBase
 
     partial void OnSelectedCourseChanged(Course? value)
     {
-        if (value != null) IsDialogOpened = true;
+        if(value!=null) _openCourse?.Invoke(value);
+        SelectedCourse = null;
+        //if (value != null) IsDialogOpened = true;
     }
 }

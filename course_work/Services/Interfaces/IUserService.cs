@@ -21,7 +21,4 @@ public interface IUserService
     Task<UserProfile> GetUserProfile(User user);
     Task<List<User>> GetAllAuthors();
     Task<List<Course>> GetAithorsCurse(int userId);
-
-    Task MigratePlainPasswordsToHashed();
-
 }

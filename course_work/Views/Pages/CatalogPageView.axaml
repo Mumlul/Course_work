@@ -52,8 +52,9 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     
-                    <TextBlock Text="Популярные курсы"/>
+                    <TextBlock Text="Популярные курсы" Classes="h1"/>
                     <ListBox 
+                        Grid.Row="1"
                         Background="Transparent"
                         ItemsSource="{Binding PreviewCourses}"
                         SelectedItem="{Binding SelectedCourse}">
@@ -64,12 +65,20 @@
                         </ListBox.ItemsPanel>
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="classes:Course">
-                                <Grid RowDefinitions="150,*">
-                                    <Image 
-                                        Stretch="UniformToFill"
-                                        Source="{Binding PreviewImage,Converter={StaticResource UrlToBitmapConverter}}"/>
-                                    <TextBlock Grid.Row="1" Text="{Binding Title}"/>
-                                </Grid>
+                                <Border Classes="SmallCard" ClipToBounds="True">
+                                    <Grid RowDefinitions="150,*">
+                                        <Grid>
+                                            <Border   CornerRadius="24" ClipToBounds="True">
+                                                <Image Source="{Binding PreviewImage, Converter={StaticResource UrlToBitmapConverter}}"
+                                                       Stretch="UniformToFill"/>
+                                            </Border>
+                                           
+                                        </Grid>
+                                        <StackPanel Grid.Row="1" Spacing="4">
+                                            <TextBlock Text="{Binding Title}" Classes="h1" TextWrapping="Wrap" MaxLines="2"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
@@ -82,12 +91,9 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     
-                    <TextBlock Text="Популярные Авторы"/>
+                    <TextBlock Text="Популярные Авторы" Classes="h1"/>
                     
-                    <ListBox Grid.Row="1"
-                             Background="Transparent"
-                             ItemsSource="{Binding PreviewAuthors}" 
-                             SelectedItem="{Binding SelectedAuthor}">
+                    <ListBox Grid.Row="1" Background="Transparent" ItemsSource="{Binding PreviewAuthors}" SelectedItem="{Binding SelectedAuthor}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <UniformGrid Columns="3"/>
@@ -95,51 +101,25 @@
                         </ListBox.ItemsPanel>
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="classes:User">
-                                <Border MaxHeight="250" MaxWidth="400"> 
-                                    <Grid RowDefinitions="Auto,Auto">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="{Binding Name}"/>
-                                            <Border
-                                                Width="100"
-                                                Height="100"
-                                                CornerRadius="50"
-                                                >
-                                                <Image 
-                                                    Stretch="UniformToFill"
-                                                    Source="{Binding Profile.Avatar,Converter={StaticResource UrlToBitmapConverter}}"/>
-                                            </Border>
-                                        </StackPanel>
-                                        <TextBlock Grid.Row="1" Text="{Binding Name}"/>
+                                <Border Classes="SmallCard">
+                                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" ColumnSpacing="12">
+                                        <Border Width="64" Height="64" CornerRadius="32" ClipToBounds="True" Grid.RowSpan="2">
+                                            <Image Source="{Binding Profile.Avatar, Converter={StaticResource UrlToBitmapConverter}}"
+                                                   Stretch="UniformToFill"/>
+                                        </Border>
+                                        <TextBlock Grid.Column="1" Text="{Binding Name}" Classes="h1" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Profile.Description}" Classes="second" TextWrapping="Wrap" MaxLines="2"/>
                                     </Grid>
                                 </Border>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                    <!--<ListBox Grid.Row="1" 
-                             Background="Transparent"
-                             ItemsSource="{Binding PreviewAuthors}" 
-                             SelectedItem="{Binding SelectedAuthor}">
-                        <ListBox.ItemTemplate>
-                            <ListBox.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Columns="3"/>
-                                </ItemsPanelTemplate>
-                            </ListBox.ItemsPanel>
-                            <DataTemplate DataType="classes:User">
-                                <Border MaxHeight="250" MaxWidth="400"> 
-                                    <Grid >
-                                        <TextBlock Grid.Row="1" Text="{Binding Name}"/>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>-->
                 </Grid>
             </StackPanel>
         </ScrollViewer>
         
         
-        <Grid Grid.RowSpan="3" 
+        <!--<Grid Grid.RowSpan="3" 
               IsVisible="{Binding IsDialogOpened}"
               Background="#80000000"
               ZIndex="1">
@@ -170,7 +150,7 @@
                    
                 </Grid>
             </Border>
-        </Grid>
+        </Grid>-->
         
         
     </Grid>

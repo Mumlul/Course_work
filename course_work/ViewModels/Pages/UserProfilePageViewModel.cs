@@ -41,9 +41,10 @@ public partial class UserProfilePageViewModel : PageViewModelBase
         Courses.Clear();
         foreach (var course in courses)
             Courses.Add(course);
-        if (User.Id != _userService.CurrentUser.Id) isUser = false;
-        else  isUser = true;
+        Console.WriteLine($"USER ser:{_userService.CurrentUser.Id}\n USER :{User.Id}");
         
+        
+        Console.WriteLine($"BOOL:{IsUser}");
         
         if (User.UserTypeId == 2)
         {
@@ -71,6 +72,8 @@ public partial class UserProfilePageViewModel : PageViewModelBase
         Title = "UserProfile";
         Image = "../../Assets/icons/user-profile-03.svg";
         _ = LoadAvatarAsync();
+        if (User.Id != _userService.CurrentUser.Id) isUser = false;
+        else  isUser = true;
     }
     
     [RelayCommand]

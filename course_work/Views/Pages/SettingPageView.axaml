@@ -7,9 +7,40 @@
              x:Class="course_work.Views.Pages.SettingPageView"
              x:DataType="vm:SettingPageViewModel"
              >
-        <StackPanel>
-            <Button Content="l" Command="{Binding ChLCommand}"/>
-            <Button Content="db" Command="{Binding ChDbCommand}"/>
-            <Button Content="dg" Command="{Binding ChDgCommand}"/>
-        </StackPanel>
+    <Grid RowDefinitions="Auto,Auto"  RowSpacing="60" Classes="Main">
+
+        <Border Grid.Row="0" CornerRadius="10" Padding="20" >
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="10">
+                <TextBlock Text="Выберите тему:" VerticalAlignment="Center" FontWeight="Bold"/>
+                <Button Content="Светлая" Command="{Binding ChLCommand}"/>
+                <Button Content="Тёмно синяя" Command="{Binding ChDbCommand}"/>
+                <Button Content="Тёмный графит" Command="{Binding ChDgCommand}"/>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" CornerRadius="10" Padding="20">
+            <StackPanel Spacing="15">
+
+                <TextBlock Text="Изменить данные пользователя" FontSize="18" FontWeight="Bold"/>
+
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Имя:" Width="100" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding User.Name, Mode=TwoWay}" Width="200"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Логин:" Width="100" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding User.Login, Mode=TwoWay}" Width="200"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock Text="Пароль:" Width="100" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding User.Password, Mode=TwoWay}" Width="200"/>
+                </StackPanel>
+
+                <Button Content="Сохранить" Command="{Binding SaveUserDataCommand}" Width="150" HorizontalAlignment="Left"/>
+            </StackPanel>
+        </Border>
+
+    </Grid>
 </UserControl>
