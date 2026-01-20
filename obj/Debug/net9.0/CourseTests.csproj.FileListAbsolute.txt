@@ -202,3 +202,4 @@ C:\Users\mumlul\RiderProjects\CourseTests\CourseTests\obj\Debug\net9.0\refint\Co
 C:\Users\mumlul\RiderProjects\CourseTests\CourseTests\obj\Debug\net9.0\CourseTests.pdb
 C:\Users\mumlul\RiderProjects\CourseTests\CourseTests\obj\Debug\net9.0\CourseTests.genruntimeconfig.cache
 C:\Users\mumlul\RiderProjects\CourseTests\CourseTests\obj\Debug\net9.0\ref\CourseTests.dll
+C:\Users\mumlul\RiderProjects\CourseTests\CourseTests\obj\Debug\net9.0\CourseTests.sourcelink.json

@@ -148,13 +148,13 @@ public class TestUserService
 
         var user = await service.AddUser(new User { Login = "upuser", Email = "up@example.com", UserTypeId = 1 }, "pass");
         user.Email = "new@example.com";
-        user.Profile.Description = "New Description";
+        user.Profile!.Description = "New Description";
 
         await service.UpdateUser(user);
 
         var dbUser = await context.Users.Include(u => u.Profile).FirstOrDefaultAsync(u => u.Id == user.Id);
-        dbUser.Email.Should().Be("new@example.com");
-        dbUser.Profile.Description.Should().Be("New Description");
+        dbUser!.Email.Should().Be("new@example.com");
+        dbUser.Profile!.Description.Should().Be("New Description");
     }
 
     //Тест проверяет получение всех курсов пользователя

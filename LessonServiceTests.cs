@@ -50,7 +50,8 @@ public class LessonServiceTests
         await service.UpdateLesson(lesson);
 
         var dbLesson = await context.Lessons.FirstOrDefaultAsync();
-        dbLesson.Title.Should().Be("UpdatedLesson");
+        
+        dbLesson!.Title.Should().Be("UpdatedLesson");
     }
 
     //Тест проверяет получение курса урока

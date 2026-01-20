@@ -52,7 +52,7 @@ public class ModuleServiceTests
             await service.UpdateModule(module);
 
             var dbModule = await context.Modules.FirstOrDefaultAsync(m => m.Id == module.Id);
-            dbModule.Title.Should().Be("UpdatedModule");
+            dbModule!.Title.Should().Be("UpdatedModule");
             dbModule.PreviewImage.Should().Be("new.png");
         }
 
