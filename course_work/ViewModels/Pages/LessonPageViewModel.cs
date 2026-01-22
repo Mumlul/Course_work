@@ -28,6 +28,7 @@ public partial class LessonPageViewModel:PageViewModelBase
     [ObservableProperty] private bool _isReader=true;
     [ObservableProperty] private Bitmap _image;
     [ObservableProperty] private TextBlockModel? _selectedTextBlock;
+    [ObservableProperty] private bool _isCompleted;
     private int _userId;
 
     public async override Task OnNavigatedTo()
@@ -94,6 +95,8 @@ public partial class LessonPageViewModel:PageViewModelBase
                 Blocks.Add(b);
             File.Delete(path);
         }
+        
+        IsCompleted=await _lessonService.IsCompleteLesson(CurrentLesson.Id, _userId);
     }
 
 
@@ -204,56 +207,6 @@ public partial class LessonPageViewModel:PageViewModelBase
     [RelayCommand]
     public async Task SaveAllBlocksToWordAsync()
     {
-        /*var mergedDocument = new AvRichTextBox.FlowDocument();
-
-        foreach (var block in Blocks)
-        {
-            if (block.RText != null)
-            {
-                var doc = block.RText.FlowDocument ?? new AvRichTextBox.FlowDocument();
-
-                foreach (var b in doc.Blocks)
-                {
-                    mergedDocument.Blocks.Add(b);
-                }
-            }
-            if (block.Image != null)
-            {
-                var par = new AvRichTextBox.Paragraph();
-                var run = new AvRichTextBox.EditableRun
-                {
-                    Text = block.Image.ImagePath
-                };
-                par.Inlines.Add(run);
-                mergedDocument.Blocks.Add(par);
-            }
-        }
-        var saveOptions = new Avalonia.Platform.Storage.FilePickerSaveOptions
-        {
-            Title = "Save Lesson",
-            DefaultExtension = "docx",
-            FileTypeChoices = new[]
-            {
-                new Avalonia.Platform.Storage.FilePickerFileType("Word Document") { Patterns = new[] { "*.docx" } }
-            }
-        };
-
-        if (Application.Current.ApplicationLifetime
-            is Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime desktop)
-        {
-            var topLevel = desktop.MainWindow;
-            var file = await topLevel.StorageProvider.SaveFilePickerAsync(saveOptions);
-            var path = file?.TryGetLocalPath();
-
-            if (!string.IsNullOrEmpty(path))
-            {
-                var tempRtb = new AvRichTextBox.RichTextBox
-                {
-                    FlowDocument = mergedDocument
-                };
-                tempRtb.SaveWordDoc(path);
-            }
-        }*/
         if (_isAuthor)
         {
             var mergedDocument = new FlowDocument();
@@ -308,6 +261,12 @@ public partial class LessonPageViewModel:PageViewModelBase
         CurrentLesson.PreviewImage =await UploadImage(file);
         Image = await ConvertImageToByteArray(CurrentLesson.PreviewImage);
         _lessonService.UpdateLesson(CurrentLesson);
+    }
+    
+    [RelayCommand]
+    public async Task CompleteLesson()
+    {
+        _lessonService.CompleteLesson(lessonId: CurrentLesson.Id, userId: _userId);
     }
     
     

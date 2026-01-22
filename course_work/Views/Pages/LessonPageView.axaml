@@ -106,6 +106,14 @@
                         Command="{Binding AddImageBlockCommand}"
                         HorizontalAlignment="Right"/>
             </Grid>
+            <Grid Grid.Row="2" IsVisible="{Binding !IsAuthor}">
+                <ToggleButton IsChecked="{Binding IsCompleted}" Command="{Binding CompleteLessonCommand}">
+                    <Panel>
+                        <TextBlock Text="Пройден" Classes="Passed"/>
+                        <TextBlock Text="Завершить урок" Classes="NotPassed"/>
+                    </Panel>
+                </ToggleButton>
+            </Grid>
         
         </Grid>
     </Grid>

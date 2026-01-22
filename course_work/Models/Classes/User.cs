@@ -38,4 +38,5 @@ public class User
     public ICollection<TestResult> TestResults { get; set; } = new List<TestResult>();
     public ICollection<CourseReview> Reviews { get; set; } = new List<CourseReview>();
     public virtual UserProfile? Profile { get; set; }
+    public ICollection<LessonProgress>  LessonProgresses { get; set; } = new List<LessonProgress>();
 }

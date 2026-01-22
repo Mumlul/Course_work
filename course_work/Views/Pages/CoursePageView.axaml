@@ -27,42 +27,63 @@
        
         <Grid RowDefinitions="Auto,*" Grid.Row="1" Classes="Main">
             <!--Header-->
-            <StackPanel Grid.Row="0" HorizontalAlignment="Center">
-                <StackPanel>
-                    <TextBlock Text="{Binding Currentcourse.Title}" FontSize="40"  FontWeight="Bold" HorizontalAlignment="Center"/> 
-                    <Button Content="Отслеживать" Command="{Binding TrackCourseCommand}"/>
+            <Grid Grid.Row="0"
+                  ColumnDefinitions="*,Auto"
+                  Width="1100"
+                  HorizontalAlignment="Center"
+                  Margin="0,20">
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="{Binding Currentcourse.Title}"
+                               FontSize="40"
+                               FontWeight="Bold"/>
+
+                    <TextBlock Text="{Binding Currentcourse.Description}"
+                               FontSize="24"
+                               TextWrapping="Wrap"/>
                 </StackPanel>
-                <TextBlock Text="{Binding Currentcourse.Description}" FontSize="24"/>
-            </StackPanel>
+
+                <ToggleButton Grid.Column="1"
+                              IsChecked="{Binding IsTracked}"
+                              IsVisible="{Binding IsAuthor,Converter={StaticResource ToggleButtonAuthor}}"
+                              VerticalAlignment="Top"
+                              Margin="20,6,0,0">
+                    <Panel>
+                        <TextBlock Classes="track-off" Text="Отслеживать"/>
+                        <TextBlock Classes="track-on" Text="Отслеживается"/>
+                    </Panel>
+                </ToggleButton>
+
+            </Grid>
         
             <!--Main-->
-            <Grid Grid.Row="1" RowDefinitions="Auto,Auto">
-                <ListBox 
-                    ItemsSource="{Binding Module}" 
-                    Width="1100" 
-                    Background="Transparent"
-                    SelectedValueBinding=""
-                    SelectedItem="{Binding SelectedModule}">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="2"/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border Grid.Row="2" CornerRadius="10"  Width="400" Height="300" ClipToBounds="True">  
-                                <Grid RowDefinitions="2*,*">
-                                    <Image 
-                                        Source="{Binding PreviewImage,Converter={StaticResource UrlToBitmapConverter}}" 
-                                        Stretch="UniformToFill"/>
-                                    <TextBlock Grid.Row="1" Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                <Button Grid.Row="1" Content="+" 
-                        Classes="AddModule" 
+            <Grid Grid.Row="1" RowDefinitions="*,Auto">
+                    <ListBox 
+                        ItemsSource="{Binding Module}" 
+                        Width="1100" 
+                        Background="Transparent"
+                        SelectedValueBinding=""
+                        SelectedItem="{Binding SelectedModule}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="2"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Grid.Row="2" CornerRadius="10"  Width="400" Height="300" ClipToBounds="True">  
+                                    <Grid RowDefinitions="2*,*">
+                                        <Image 
+                                            Source="{Binding PreviewImage,Converter={StaticResource UrlToBitmapConverter}}" 
+                                            Stretch="UniformToFill"/>
+                                        <TextBlock Grid.Row="1" Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                <Button Grid.Row="1" Content="Добавить модуль" 
+                        Classes="AddВutton" 
                         IsVisible="{Binding IsAuthor}" 
                         Command="{Binding AddModuleCommand}"/>
             </Grid>
@@ -101,20 +122,37 @@
                         </StackPanel>
                     </Grid>
 
+                    <!--Title-->
+                    <TextBox 
+                        Padding="20" 
+                        Grid.Row="2" 
+                        Text="{Binding SelectedModule.Title}" 
+                        DockPanel.Dock="Top" 
+                        Classes="ChangeText"/>
                     
-                    <TextBox Padding="20" Grid.Row="2" Text="{Binding SelectedModule.Title}" DockPanel.Dock="Top" Classes="ChangeText"/>
                     
+                    <!--Lesson List-->
                     <Grid Grid.Row="3" RowDefinitions="*,Auto" >
-                        <ListBox  ItemsSource="{Binding  Lessons}"
-                                 SelectedItem="{Binding SelectedLesson}"
-                                 Padding="20">
+                        <ListBox  
+                             Classes="ModulePreview"
+                             ItemsSource="{Binding  Lessons}"
+                             SelectedItem="{Binding SelectedLesson}"
+                             Padding="20">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBox Text="{Binding Title}"/>
+                                    <StackPanel>
+                                        <TextBlock Classes="h1" Text="{Binding Lesson.Title}"/>
+                                        <TextBlock Classes="second" Text="{Binding CompletedText}" IsVisible="{Binding IsVisible}"/> 
+                                    </StackPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        <Button Grid.Row="1" Content="Добавить урок" Command="{Binding AddLessonCommand}" IsVisible="{Binding IsAuthor}"/>
+                        
+                        <Button Classes="AddВutton" 
+                                Grid.Row="1" 
+                                Content="Добавить урок" 
+                                Command="{Binding AddLessonCommand}" 
+                                IsVisible="{Binding IsAuthor}"/>
                     </Grid>
                 </Grid>
             </Border>

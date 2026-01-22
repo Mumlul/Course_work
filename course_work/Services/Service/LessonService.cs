@@ -91,4 +91,35 @@ public class LessonService:ILessonService
 
         return $"Урок {lessonId}_Course{lesson.Module.Course.Id}_Module{lesson.Module.Id}.docx";
     }
+
+    public async Task CompleteLesson(int lessonId,int userId)
+    {
+        var progress = await _context.LessonProgresses
+            .FirstOrDefaultAsync(lp => lp.LessonId == lessonId && lp.UserId == userId);
+        if (progress == null)
+        {
+            await _context.LessonProgresses.AddAsync(new LessonProgress
+            {
+                LessonId = lessonId,
+                UserId = userId,
+                Completed = true,
+                CompletedAt = DateTime.Now
+            });
+        }
+        else
+        {
+            progress.Completed = true;
+            progress.CompletedAt = DateTime.Now;
+            _context.LessonProgresses.Update(progress);
+        }
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<bool> IsCompleteLesson(int lessonId, int userId)
+    {
+        var progress = await _context.LessonProgresses
+            .FirstOrDefaultAsync(lp => lp.LessonId == lessonId && lp.UserId == userId);
+        return progress != null && progress.Completed;
+    }
+    
 }

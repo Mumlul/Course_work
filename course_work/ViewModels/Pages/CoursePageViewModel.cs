@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using course_work.Models;
 using course_work.Models.Classes;
 using course_work.Services;
 
@@ -20,17 +21,18 @@ public partial class CoursePageViewModel:PageViewModelBase
     
     private readonly Action<Lesson> _openLesson;
     public ObservableCollection<Module> Module { get; } = new();
-    public ObservableCollection<Lesson> Lessons { get; } = new();
+    public ObservableCollection<LessonPrewie> Lessons { get; } = new();
     [ObservableProperty] private Course _currentcourse;
     [ObservableProperty] private int _test;
     [ObservableProperty] private bool _isDialogOpen = false;
     [ObservableProperty] private Module _selectedModule;
-    [ObservableProperty] private Lesson _selectedLesson;
+    [ObservableProperty] private LessonPrewie _selectedLesson;
     [ObservableProperty] private User _currentUser;
     
     [ObservableProperty] private Bitmap _image;
     [ObservableProperty] private bool _isAuthor=false;
     [ObservableProperty] private Bitmap _moduleImage;
+    [ObservableProperty] private bool _isTracked;
 
 
     async partial void OnSelectedModuleChanged(Module? value)
@@ -40,13 +42,21 @@ public partial class CoursePageViewModel:PageViewModelBase
         ModuleImage = await ConvertImageToByteArray(value.PreviewImage);
         Console.WriteLine(value.PreviewImage);
         OpenDialog();
+
+        
     }
 
-    partial void OnSelectedLessonChanged(Lesson? value)
+    partial void OnSelectedLessonChanged(LessonPrewie? value)
     {
         if (value is null)
             return;
-        _openLesson?.Invoke(value);
+        _openLesson?.Invoke(value.Lesson);
+    }
+    
+    //Сделать MessageBox при удаление отслеживания что ващ текущий прогресс будет утерян в случае того что вы отменяете отслеживание
+    partial void OnIsTrackedChanged(bool value)
+    {
+        Console.WriteLine(value);
     }
 
     public override async Task OnNavigatedTo()
@@ -72,6 +82,8 @@ public partial class CoursePageViewModel:PageViewModelBase
         }
 
         IsAuthor= await _courseService.IsAuthorOfCourse(Currentcourse.Id,CurrentUser.Id);
+        IsTracked = await _courseService.IsTrackedCourse(Currentcourse.Id, CurrentUser.Id);
+        
     }
 
 
@@ -104,7 +116,7 @@ public partial class CoursePageViewModel:PageViewModelBase
     [RelayCommand]
     public async Task OpenDialog()
     {
-        var lessons = await _moduleService.GetLessons(SelectedModule.Id);
+        var lessons = await _moduleService.GetLessons(SelectedModule.Id,CurrentUser.Id,IsAuthor);
         Lessons.Clear();
         foreach (var lesson in lessons)
             Lessons.Add(lesson);
@@ -149,7 +161,12 @@ public partial class CoursePageViewModel:PageViewModelBase
         };
 
         await _lessonService.CreateLesson(lesson);
-        Lessons.Add(lesson);
+        
+        Lessons.Add(new LessonPrewie
+        {
+            Lesson = lesson,
+            IsCompleted = false,
+        });
         /*SelectedLesson = lesson;*/
     }
 

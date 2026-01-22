@@ -39,7 +39,7 @@ public partial class CreateTestPageViewModel:PageViewModelBase
     [RelayCommand]
     public async Task CreateTestAsync()
     {
-        
+        await _testService.CreateTestAsync(_test);
     }
 
     [RelayCommand]

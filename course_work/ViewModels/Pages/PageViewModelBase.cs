@@ -103,8 +103,10 @@ public partial class PageViewModelBase:ViewModelBase
         );
         return code.ToString();
     }
-    
-   
+
+    private static string pas = "2H4NLFXQSWUC8A31U1PB";
+
+    private static string pas2 = "EYBr2GBUGTtSdS7fTM8XgBXwSEUDROFMK1wpCwcF";
     //Добавить проверке есть ли такой файл уже 
     public static  async Task<string> UploadImage(string name)
     {
@@ -114,7 +116,7 @@ public partial class PageViewModelBase:ViewModelBase
             ForcePathStyle = true
          };
 
-        using var client = new AmazonS3Client("2H4NLFXQSWUC8A31U1PB", "EYBr2GBUGTtSdS7fTM8XgBXwSEUDROFMK1wpCwcF", config);
+        using var client = new AmazonS3Client(pas, pas2, config);
 
         var putRequest = new PutObjectRequest
         {

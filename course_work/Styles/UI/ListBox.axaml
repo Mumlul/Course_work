@@ -5,4 +5,8 @@
                 <Setter Property="Background" Value="{DynamicResource Background}"/>
         </Style>
         
+        <Style Selector="ListBox.ModulePreview">
+                <Setter Property="Background" Value="{DynamicResource Card}"/>
+        </Style>
+        
 </Styles>

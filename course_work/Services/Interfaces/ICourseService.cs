@@ -16,6 +16,6 @@ public interface ICourseService
     Task DeleteCourse(int id);
     Task<List<Course>> SearchCoursesByTitle(string query, int maxResults = 10);
     Task TrackCourse(Course course,User user);
-    
     Task<bool> IsAuthorOfCourse(int courseId, int authorId);
+    Task<bool> IsTrackedCourse(int courseId, int userId);
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using course_work.Data;
+using course_work.Models;
 using course_work.Models.Classes;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,10 +50,28 @@ public class ModuleService:IModuleService
         throw new System.NotImplementedException();
     }
 
-    public Task<List<Lesson>> GetLessons(int moduleId)
+    public async Task<List<LessonPrewie>> GetLessons(int moduleId,int userId,bool author)
     {
-        return _context.Lessons
+        var lessons = await _context.Lessons
             .Where(l => l.ModuleId == moduleId)
-            .ToListAsync();;
+            .ToListAsync();
+
+        var completedLessonIds = await _context.LessonProgresses
+            .Where(lp => lp.UserId == userId)
+            .Select(lp => lp.LessonId)
+            .ToListAsync();
+
+        List<LessonPrewie> Lessons = new List<LessonPrewie>();
+        foreach (var lesson in lessons)
+        {
+            Lessons.Add(new LessonPrewie
+            {
+                Lesson = lesson,
+                IsCompleted = completedLessonIds.Contains(lesson.Id),
+                IsVisible =  !author
+            });
+        }
+
+        return Lessons;
     }
 }

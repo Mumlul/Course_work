@@ -23,10 +23,7 @@ public partial class TestPageViewModel:PageViewModelBase
     {
         CurrentTest=await _testService.GetTestByCourseIdAsync(_courseId);
     }
-
     
-
-
     public TestPageViewModel(ITestService testService,int courseId)
     {
         Title = "Test Page";
@@ -57,7 +54,5 @@ public partial class TestPageViewModel:PageViewModelBase
     {
         
     }
-    
-    
     
 }

@@ -19,6 +19,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<TestResult> TestResults { get; set; } = null!;
     public DbSet<CourseReview> CourseReviews { get; set; } = null!;
     public DbSet<UserProfile> UserProfiles { get; set; } = null!;
+    public DbSet<LessonProgress> LessonProgresses { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -47,6 +48,19 @@ public class ApplicationDbContext : DbContext
             .WithOne(p => p.User)
             .HasForeignKey<UserProfile>(p => p.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        modelBuilder.Entity<LessonProgress>()
+            .HasKey(lp => lp.Id);
+
+        modelBuilder.Entity<LessonProgress>()
+            .HasOne(lp => lp.User)
+            .WithMany(u => u.LessonProgresses)
+            .HasForeignKey(lp => lp.UserId);
+
+        modelBuilder.Entity<LessonProgress>()
+            .HasOne(lp => lp.Lesson)
+            .WithMany(l => l.LessonProgresses)
+            .HasForeignKey(lp => lp.LessonId);
         
     }
 }

@@ -114,4 +114,9 @@ public class CourseService : ICourseService
         return await _context.CourseAuthors
             .AnyAsync(ca => ca.CourseId == courseId && ca.UserId == authorId);
     }
+
+    public async Task<bool> IsTrackedCourse(int courseId, int userId)
+    {
+        return await _context.CourseStudents.AnyAsync(cs => cs.CourseId == courseId && cs.UserId == userId);
+    }
 }

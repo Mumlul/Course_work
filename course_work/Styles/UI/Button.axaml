@@ -3,13 +3,13 @@
     
     <Style Selector="Button">
         <Setter Property="Background" Value="{DynamicResource PrimaryColor}"/>
-        <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="#F9FAFB"/>
         <Setter Property="FontSize" Value="14"/>
         
         <Style Selector="^:pointerover /template/ ContentPresenter">
             <Setter Property="Background" Value="{DynamicResource Hover}"/>
-            <Setter Property="Foreground" Value="{DynamicResource PrimaryText}"/>
+            <Setter Property="Foreground" Value="#F9FAFB"/>
         </Style>
         
     </Style>
@@ -20,11 +20,12 @@
     </Style>
     
     
-    <Style Selector="Button.AddModule">
+    <Style Selector="Button.AddВutton">
         <Setter Property="Background" Value="{DynamicResource Background}"/>
         <Setter Property="Foreground" Value="{DynamicResource PrimaryColor}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource PrimaryColor}"/>
         <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
     </Style>
     
     <Style Selector="Button.SidePanel">
@@ -33,6 +34,44 @@
         <Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
             <Setter Property="Background" Value="{DynamicResource Background}"/>
         </Style>
-        
     </Style>
+    
+    
+    <!--Отслеживанеи курсов-->
+    <Style Selector="ToggleButton TextBlock.track-off">
+        <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    
+    <Style Selector="ToggleButton:checked TextBlock.track-off">
+        <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    
+    <Style Selector="ToggleButton TextBlock.track-on">
+        <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    
+    <Style Selector="ToggleButton:checked TextBlock.track-on">
+        <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    
+    <!--Прохождение урока-->
+    <Style Selector="ToggleButton TextBlock.Passed">
+        <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    
+    <Style Selector="ToggleButton:checked TextBlock.Passed">
+        <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    
+    <Style Selector="ToggleButton TextBlock.NotPassed">
+        <Setter Property="IsVisible" Value="True"/>
+    </Style>
+    
+    <Style Selector="ToggleButton:checked TextBlock.NotPassed">
+        <Setter Property="IsVisible" Value="False"/>
+    </Style>
+    
+   
+    
+    
 </Styles>

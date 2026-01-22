@@ -13,6 +13,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <convertors:UrlToBitmap x:Key="UrlToBitmapConverter"/>
+            <convertors:ToggleButtonAuthor x:Key="ToggleButtonAuthor"/>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceInclude  Source="Styles/Colors/LightTheme.axaml"/>
                 <ResourceInclude  Source="Styles/Colors/DarkBlueTheme.axaml"/>
