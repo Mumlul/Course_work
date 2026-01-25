@@ -151,4 +151,23 @@ public class UserService:IUserService
         _context.Users.UpdateRange(users);
         await _context.SaveChangesAsync();
     }
+    
+    public async Task<int> GetCourseProgressPercent(int userId, int courseId)
+    {
+        var progress = await _context.CourseStudents
+            .Where(cs => cs.UserId == userId && cs.CourseId == courseId)
+            .Select(cs => cs.ProgressPercent)
+            .FirstOrDefaultAsync();
+
+        return progress;
+    }
+
+    public async Task<List<UserComplaint>> GetAllComplaints()
+    {
+        return await _context.UserComplaints
+            .Include(c => c.FromUser)   
+            .Include(c => c.ToUser) 
+            .OrderByDescending(c => c.CreatedAt) 
+            .ToListAsync();
+    }
 }

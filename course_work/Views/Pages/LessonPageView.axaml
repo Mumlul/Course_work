@@ -46,7 +46,7 @@
                     HorizontalAlignment="Right"/>
         </Grid>
         
-        <Grid Grid.Row="2" Classes="Main" RowDefinitions="Auto,Auto,Auto">
+        <Grid Grid.Row="2" Classes="Main" RowDefinitions="Auto,*,Auto">
             <!--Это поле с редактированием-->
             <!--Автор-->
             <Border Grid.Row="0"  Padding="16" IsVisible="{Binding IsAuthor}">

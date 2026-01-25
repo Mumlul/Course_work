@@ -24,4 +24,8 @@ public class TestQuestionOption
 
     [Column("order_index")]
     public int OrderIndex { get; set; } = 0;
+    
+    [Column("is_selected")]
+    public bool IsSelected { get; set; } = false;
+    
 }

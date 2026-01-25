@@ -21,10 +21,27 @@ public class TestService:ITestService
     
     public async Task<Test?> GetTestByCourseIdAsync(int courseId)
     {
-        return await _context.Tests
+        var test = await _context.Tests
             .Include(t => t.Questions)
             .ThenInclude(q => q.Options)
-            .FirstOrDefaultAsync(t => t.CourseId == courseId && t.IsActive);
+            .FirstOrDefaultAsync(t => t.CourseId == courseId);
+
+        if (test != null)
+            return test;
+
+        test = new Test
+        {
+            CourseId = courseId,
+            Title = "Новый тест",
+            Description = "",
+            CreatedAt = DateTime.UtcNow,
+            Questions = new List<TestQuestion>()
+        };
+
+        _context.Tests.Add(test);
+        await _context.SaveChangesAsync();
+
+        return test;
     }
 
     public async Task<Test?> GetTestByIdAsync(int testId)
@@ -78,8 +95,8 @@ public class TestService:ITestService
 
     public async Task UpdateQuestionAsync(TestQuestion question)
     {
-        _context.TestQuestions.Update(question);
-        await _context.SaveChangesAsync();
+       _context.TestQuestions.Update(question);
+       await _context.SaveChangesAsync();
     }
 
     public async Task DeleteQuestionAsync(int questionId)
@@ -91,12 +108,10 @@ public class TestService:ITestService
         await _context.SaveChangesAsync();
     }
 
-    public async Task<TestQuestionOption> AddOptionAsync(int questionId, TestQuestionOption option)
+    public async Task AddOptionAsync(TestQuestionOption option)
     {
-        option.QuestionId = questionId;
         _context.TestQuestionOptions.Add(option);
         await _context.SaveChangesAsync();
-        return option;
     }
 
     public async Task UpdateOptionAsync(TestQuestionOption option)
@@ -124,11 +139,8 @@ public class TestService:ITestService
         {
             TestId = testId,
             UserId = userId,
-            AttemptNumber = attempt,
-            StartedAt = DateTime.UtcNow,
             Passed = false,
             Score = 0,
-            AnswersJson = JsonSerializer.Serialize(new Dictionary<int, object>())
         };
 
         _context.TestResults.Add(result);
@@ -158,8 +170,8 @@ public class TestService:ITestService
             .ThenInclude(t => t.Questions)
             .ThenInclude(q => q.Options)
             .FirstAsync(r => r.Id == testResultId);
-
-        var answers = JsonSerializer.Deserialize<Dictionary<int, JsonElement>>(result.AnswersJson!);
+        
+        /*
         decimal totalPoints = 0;
         decimal earnedPoints = 0;
 
@@ -167,8 +179,6 @@ public class TestService:ITestService
         {
             totalPoints += q.Points;
 
-            if (!answers!.ContainsKey(q.Id))
-                continue;
 
             if (q.QuestionType == QuestionType.TextAnswer)
             {
@@ -177,7 +187,6 @@ public class TestService:ITestService
             else
             {
                 var correctIds = q.Options.Where(o => o.IsCorrect).Select(o => o.Id).ToList();
-                var userAnswer = answers[q.Id];
 
                 if (q.QuestionType == QuestionType.SingleChoice &&
                     correctIds.Contains(userAnswer.GetInt32()))
@@ -193,16 +202,18 @@ public class TestService:ITestService
         result.TimeSpentSeconds =
             (int)(result.CompletedAt.Value - result.StartedAt).TotalSeconds;
 
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();*/
         return result;
     }
 
     public async Task<TestResult?> GetLastResultAsync(int testId, int userId)
     {
-        return await _context.TestResults
+        /*return await _context.TestResults
             .Where(r => r.TestId == testId && r.UserId == userId)
             .OrderByDescending(r => r.AttemptNumber)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync();*/
+
+        return null;
     }
 
     public async Task<TestResult> GetUserResultsAsync(int testId, int userId)
@@ -211,5 +222,14 @@ public class TestService:ITestService
             .Where(r => r.TestId == testId && r.UserId == userId)
             .OrderByDescending(r => r.Score)
             .FirstAsync();
+    }
+
+    public async Task<List<TestQuestionOption>> GetQuestionOptionsAsync(int questionId)
+    {
+        var options = await _context.TestQuestionOptions
+            .Where(o => o.QuestionId == questionId)
+            .ToListAsync();
+
+        return options ?? new List<TestQuestionOption>();
     }
 }

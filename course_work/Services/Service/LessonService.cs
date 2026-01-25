@@ -122,4 +122,44 @@ public class LessonService:ILessonService
         return progress != null && progress.Completed;
     }
     
+    public async Task UpdateCourseProgress(int courseId, int userId)
+    {
+        var courseStudent = await _context.CourseStudents
+            .FirstOrDefaultAsync(cs => cs.CourseId == courseId && cs.UserId == userId);
+        if (courseStudent == null)
+            return;
+        var totalLessonsCount = await _context.Lessons
+            .Where(l => l.Module.CourseId == courseId)
+            .CountAsync();
+        if (totalLessonsCount == 0)
+        {
+            courseStudent.ProgressPercent = 0;
+            courseStudent.Completed = false;
+            await _context.SaveChangesAsync();
+            return;
+        }
+        var completedLessonsCount = await _context.LessonProgresses
+            .Where(lp =>
+                lp.UserId == userId &&
+                lp.Completed &&
+                lp.Lesson.Module.CourseId == courseId)
+            .CountAsync();
+        var progressPercent = (int)Math.Round(
+            (double)completedLessonsCount / totalLessonsCount * 100
+        );
+        courseStudent.ProgressPercent = progressPercent;
+        courseStudent.Completed = progressPercent >= 100;
+        await _context.SaveChangesAsync();
+    }
+    
+    public async Task<int> GetCurseId(int lessonId)
+    {
+        var courseId = await _context.Lessons
+            .Where(l => l.Id == lessonId)
+            .Select(l => l.Module.CourseId)
+            .FirstOrDefaultAsync();
+
+        return courseId;
+    }
+    
 }

@@ -5,6 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1200"
              xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
              xmlns:conv="clr-namespace:course_work.Convertors"
+             xmlns:service="clr-namespace:course_work.Services.Service"
              x:DataType="vm:UserProfilePageViewModel"
              HorizontalAlignment="Center"
              x:Class="course_work.Views.Pages.UserProfilePageView">
@@ -46,8 +47,10 @@
                             <Border Classes="PreviewCard" CornerRadius="14" ClipToBounds="True" Margin="10">
                                 <Grid RowDefinitions="180,*">
                                     <Grid>
-                                        <Image Source="{Binding PreviewImage, Converter={StaticResource UrlToBitmapConverter}}"
-                                               Stretch="UniformToFill"/>
+                                        <!--<Image Source="{Binding PreviewImage, Converter={StaticResource UrlToBitmapConverter}}"
+                                               Stretch="UniformToFill"/>-->
+                                        <Image
+                                            service:ImageExtensions.SourceUrl="{Binding PreviewImage}" Stretch="UniformToFill" />
                                     </Grid>
                                     <StackPanel Grid.Row="1">
                                         <TextBlock Text="{Binding Title}"

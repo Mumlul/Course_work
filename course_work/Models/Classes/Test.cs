@@ -25,16 +25,7 @@ public class Test
     public string? Description { get; set; }
 
     [Column("passing_score")]
-    public byte PassingScore { get; set; } = 70;
-
-    [Column("time_limit_minutes")]
-    public int? TimeLimitMinutes { get; set; }
-
-    [Column("attempts_allowed")]
-    public int AttemptsAllowed { get; set; } = 1;
-
-    [Column("is_active")]
-    public bool IsActive { get; set; } = true;
+    public int PassingScore { get; set; } = 0;
 
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }

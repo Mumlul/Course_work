@@ -5,47 +5,94 @@
              xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
              mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
              x:Class="course_work.Views.Pages.CreateTestPageView"
+             xmlns:class="clr-namespace:course_work.Models.Classes"
              Width="1100" 
              x:DataType="vm:CreateTestPageViewModel">
-    <Grid RowDefinitions="Auto,Auto,*">
-        
-        <StackPanel Orientation="Vertical">
-            <Label>Создание теста</Label>
-            <TextBlock Text="{Binding Course.Title,StringFormat='Назавние курса:{0}'}"/>
-        </StackPanel>
-       
-       <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="50" HorizontalAlignment="Center">
-           <TextBox Text="{Binding Test.Title}" Watermark="Название теста"/>
-           <NumericUpDown MinHeight="1" Width="200" Value="{Binding CountQuestions, Mode=TwoWay}"/>
-           <Button Content="Создать тест" Command="{Binding CreateTestCommand}" Classes="Basic"/>
-       </StackPanel>
-        
-        <Border Grid.Row="2" Margin="50">
-            <Grid Grid.RowDefinitions="Auto,*,Auto">
-                <StackPanel Spacing="20" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBox Text="{Binding QuestionText}" Watermark="Вопрос" Width="500"/>
-                    <Button Content="Добавить фото"/>
+    
+   <ScrollViewer>
+        <Grid ColumnDefinitions="280,*" RowDefinitions="Auto,*" Margin="20">
+
+            <!-- Заголовок теста -->
+            <Border Grid.ColumnSpan="2"
+                    Padding="20"
+                    CornerRadius="12"
+                    Margin="0,0,0,20">
+                <StackPanel Spacing="12">
+                    <TextBox Text="{Binding Test.Title}"
+                             FontSize="26"
+                             FontWeight="Bold"
+                             Watermark="Название теста"/>
+                    <TextBox Text="{Binding Test.Description}"
+                             AcceptsReturn="True"
+                             Height="80"
+                             Watermark="Описание теста"/>
                 </StackPanel>
-                
-                <ListBox 
-                    Grid.Row="1" 
-                    ItemsSource="{Binding Options}"
-                    SelectedItem="{Binding SelectedOption}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBox Text="{Binding OptionText}"/>
-                                <TextBox Text="Тут правильно или нет будет реализование"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-               <StackPanel Grid.Row="2" Orientation="Horizontal" >
-                   <Button Content="←" Command="{Binding GoBackQuestionCommand}" HorizontalAlignment="Left"/>
-                   <Button Content="→" Command="{Binding GoNextQuestionCommand}" HorizontalAlignment="Right"/>
-               </StackPanel>
-            </Grid>
-        </Border>
-        
-    </Grid>
+            </Border>
+
+            <!-- Левая панель: список вопросов -->
+            <Border Grid.Row="1"
+                    Padding="12"
+                    CornerRadius="12">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Вопросы"
+                               FontWeight="Bold"/>
+                    <ListBox ItemsSource="{Binding Questions}"
+                             SelectedItem="{Binding SelectedQuestion}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="5"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="class:TestQuestion">
+                                <Border Padding="10"
+                                        CornerRadius="8">
+                                    <TextBlock Text="{Binding OrderIndex}"
+                                               HorizontalAlignment="Center"/>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Button Content="+ Добавить вопрос" Command="{Binding CreateQuestionCommand}"/>
+                    <TextBlock Text="Проходной балл"/>
+                    <NumericUpDown Minimum="0" Maximum="{Binding Questions.Count}" Value="{Binding Test.PassingScore}"/>
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1"
+                    Grid.Row="1"
+                    Padding="20"
+                    Margin="20,0,0,0">
+                <StackPanel Spacing="16">
+                    <TextBox Text="{Binding SelectedQuestion.QuestionText}"
+                             FontSize="20"
+                             Watermark="Текст вопроса"/>
+                    <ListBox ItemsSource="{Binding QuestionOptions}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="class:TestQuestionOption">
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <CheckBox IsChecked="{Binding IsCorrect}"/>
+                                    <TextBox Text="{Binding OptionText}"
+                                             Width="400"
+                                             Watermark="Вариант ответа"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <Button Content="+ Добавить вариант" Command="{Binding AddOptionCommand}"/>
+                    <Separator/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10">
+                        <Button Content="Удалить вопрос"
+                                Command="{Binding DeleteQuestionCommand}"
+                                CommandParameter="{Binding SelectedQuestion}"/>
+                        <Button Content="Сохранить вопрос" Command="{Binding UpdateQuestionCommand}"/>
+                    </StackPanel>
+
+                </StackPanel>
+            </Border>
+
+        </Grid>
+    </ScrollViewer>
 </UserControl>

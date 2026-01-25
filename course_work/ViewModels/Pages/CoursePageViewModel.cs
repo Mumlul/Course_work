@@ -20,6 +20,8 @@ public partial class CoursePageViewModel:PageViewModelBase
     private ILessonService _lessonService;
     
     private readonly Action<Lesson> _openLesson;
+    private readonly Action<int,bool> _openTest;
+     
     public ObservableCollection<Module> Module { get; } = new();
     public ObservableCollection<LessonPrewie> Lessons { get; } = new();
     [ObservableProperty] private Course _currentcourse;
@@ -33,6 +35,19 @@ public partial class CoursePageViewModel:PageViewModelBase
     [ObservableProperty] private bool _isAuthor=false;
     [ObservableProperty] private Bitmap _moduleImage;
     [ObservableProperty] private bool _isTracked;
+    [ObservableProperty] private int _completePercent;
+    [ObservableProperty] private bool _isComplete;
+    
+    
+    [ObservableProperty] private string _reviewMessage;
+    [ObservableProperty] private int _reviewRating;
+    [ObservableProperty] private bool _reviewWindow = false;
+    
+    [ObservableProperty] private string _claimMessage;
+    [ObservableProperty] private bool _claimWindow = false;
+
+    public ObservableCollection<CourseReview> LastReview { get; set; } = new();
+    [ObservableProperty] private double _rating;
 
 
     async partial void OnSelectedModuleChanged(Module? value)
@@ -83,7 +98,24 @@ public partial class CoursePageViewModel:PageViewModelBase
 
         IsAuthor= await _courseService.IsAuthorOfCourse(Currentcourse.Id,CurrentUser.Id);
         IsTracked = await _courseService.IsTrackedCourse(Currentcourse.Id, CurrentUser.Id);
-        
+
+        if (IsTracked)
+        {
+            CompletePercent = await _courseService.GetCourseProgressPercent(CurrentUser.Id, Currentcourse.Id);
+            IsComplete = await _courseService.IsComplete(CurrentUser.Id, Currentcourse.Id);
+        }
+
+        LastReview.Clear();
+        var reviews = await _courseService.LastReview(Currentcourse.Id);
+        foreach (var review in reviews)
+            LastReview.Add(review);
+
+        Rating = await _courseService.GetAverageRating(Currentcourse.Id);
+    }
+
+    public override async Task OnNavigatedFrom()
+    {
+        await _courseService.UpdateCourse(Currentcourse);
     }
 
 
@@ -92,6 +124,7 @@ public partial class CoursePageViewModel:PageViewModelBase
     IModuleService moduleService,
     ILessonService lessonService,
     Action<Lesson> openLesson,
+    Action<int,bool> openTest,
     Course course,
     User user)
     {
@@ -102,6 +135,7 @@ public partial class CoursePageViewModel:PageViewModelBase
         Currentcourse = course;
         _openLesson=openLesson;
         CurrentUser = user;
+        _openTest = openTest;
     }
     
     [RelayCommand]
@@ -193,5 +227,105 @@ public partial class CoursePageViewModel:PageViewModelBase
         SelectedModule.PreviewImage = url;
         _moduleService.UpdateModule(SelectedModule);
     }
+
+    [RelayCommand]
+    public async Task NavigateToCreateTest()
+    {
+        _openTest?.Invoke(Currentcourse.Id,true);
+    }
+
+
+    [RelayCommand]
+    public async Task ChangeCommand()
+    {
+        if (IsTracked == true)
+            _courseService.EndTrackCourse(CurrentUser.Id, Currentcourse.Id);
+        else
+            _courseService.StartTrackCourse(CurrentUser.Id, Currentcourse.Id);
+        
+    }
+
+    [RelayCommand]
+    public async Task NavigateToCompleteTets()
+    {
+        _openTest?.Invoke(Currentcourse.Id,false);
+    }
+
+    [RelayCommand]
+    public async Task AddReview()
+    {
+        if (ReviewRating < 1 || ReviewRating > 5)
+            return;
+
+        if (string.IsNullOrWhiteSpace(ReviewMessage))
+            return;
+
+        var review = new CourseReview
+        {
+            CourseId = Currentcourse.Id,
+            UserId = CurrentUser.Id,
+            Rating = (byte)ReviewRating,
+            ReviewText = ReviewMessage,
+            IsApproved = true,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        try
+        {
+            await _courseService.AddReview(review);
+
+            ReviewMessage = string.Empty;
+            ReviewRating = 0;
+            ReviewWindow = false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
+    [RelayCommand]
+    public async Task AddClaim()
+    {
+        if (string.IsNullOrWhiteSpace(ClaimMessage))
+            return;
+
+        var claim = new CourseComplaint
+        {
+            CourseId = Currentcourse.Id,
+            UserId = CurrentUser.Id,
+            ComplaintText = ClaimMessage,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        try
+        {
+            await _courseService.AddClaim(claim);
+
+            ClaimMessage = string.Empty;
+            ClaimWindow = false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
     
+
+    [RelayCommand]
+    public void OpenReview() => ReviewWindow = true;
+    
+    [RelayCommand]
+    public void CloseReview()=> ReviewWindow = false;
+    
+    [RelayCommand] 
+    public void OpenClaim()=> ClaimWindow = true;
+    
+    [RelayCommand]
+    public void CloseClaim()=> ClaimWindow = false;
+    
+    
+
+
 }

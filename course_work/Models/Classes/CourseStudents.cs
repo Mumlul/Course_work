@@ -23,7 +23,7 @@ public class CourseStudents
     public User User { get; set; } = null!;
 
     [Column("progress_percent")]
-    public byte ProgressPercent { get; set; } = 0;
+    public int ProgressPercent { get; set; } = 0;
 
     [Column("completed")]
     public bool Completed { get; set; } = false;

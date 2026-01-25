@@ -36,4 +36,5 @@ public class Course
     public ICollection<CourseStudents> Students { get; set; } = new List<CourseStudents>();
     public ICollection<Test> Tests { get; set; } = new List<Test>();
     public ICollection<CourseReview> Reviews { get; set; } = new List<CourseReview>();
+    public ICollection<CourseComplaint> Complaints { get; set; } = new List<CourseComplaint>();
 }

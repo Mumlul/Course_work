@@ -24,6 +24,7 @@ public partial class PageViewModelBase:ViewModelBase
     [ObservableProperty]
     public bool _textVisible  = false;
     public virtual Task OnNavigatedTo() => Task.CompletedTask;
+    public virtual Task OnNavigatedFrom() => Task.CompletedTask;
 
     public static async Task SendMessageAsync(
         string fromEmail,

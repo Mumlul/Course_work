@@ -18,6 +18,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
+                
                 <!--header-->
                 <Button DockPanel.Dock="Left"  Width="20" Height="20" Padding="0" Command="{Binding OpenPaneCommand}" Classes="SidePanel" >
                     <Image Source="{SvgImage ../../Assets/icons/home-04.svg}"/>
@@ -37,35 +38,33 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
                 
-                <Button Grid.Row="2" Command="{Binding OpenCommand}" Classes="SidePanel">
-                    <Border Width="50" Height="50" CornerRadius="25" ClipToBounds="True" Name="Test">
+                <Button Grid.Row="2" Classes="SidePanel">
+                    <Border Width="50" Height="50" CornerRadius="25" ClipToBounds="True">
                         <Image Source="{Binding User.Profile.Avatar, Converter={StaticResource UrlToBitmapConverter}}"
                                Stretch="UniformToFill"/>
                     </Border>
-                </Button>
-               
-                <Popup 
-                    PlacementMode="Top"
-                    Margin="10"
-                    Width="150"
-                    Height="250"
-                    IsOpen="{Binding Popup_visible}"
-                    PlacementTarget="{Binding #Test}" >
-                    <Border Classes="PopUpHint">
-                        <Grid RowDefinitions="Auto,*">
-                            <Border Width="50" Height="50" CornerRadius="25" ClipToBounds="True">
-                                <Image Source="{Binding User.Profile.Avatar, Converter={StaticResource UrlToBitmapConverter}}"
-                                       Stretch="UniformToFill"/>
+                    <Button.Flyout>
+                        <Flyout Placement="Top" >
+                            <Border Classes="PopUpHint" Padding="10">
+                                <Grid RowDefinitions="Auto,*">
+                                    <Border Width="50" Height="50" CornerRadius="25" ClipToBounds="True">
+                                        <Image Source="{Binding User.Profile.Avatar, Converter={StaticResource UrlToBitmapConverter}}"
+                                               Stretch="UniformToFill"/>
+                                    </Border>
+                    
+                                    <StackPanel Grid.Row="1" Spacing="15">
+                                        <Button Content="Профиль" 
+                                                Command="{Binding NavigateProfileCommand}"/>
+                                        <Button Content="Создать курс" Command="{Binding NavAddCurseCommand}" 
+                                                IsVisible="{Binding IsAuthor}"/>
+                                        <Button Content="Выйти из аккаунта" Command="{Binding LogOutCommand}"/>
+                                    </StackPanel>
+                                    
+                                </Grid>
                             </Border>
-                        
-                            <StackPanel Grid.Row="1" Spacing="15">
-                                <Button Content="профиль" Command="{Binding NavigateProfileCommand}"/>
-                                <Button Content="Создать курс" Command="{Binding NavAddCurseCommand}" IsVisible="{Binding IsAuthor}"/>
-                                <Button Content="Выйти из аккаунта" Command="{Binding LogOutCommand}"/>
-                            </StackPanel>
-                        </Grid>
-                    </Border>
-                </Popup>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
             </Grid>
         </SplitView.Pane>
         <SplitView.Content>

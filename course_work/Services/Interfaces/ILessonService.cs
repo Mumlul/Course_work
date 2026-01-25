@@ -16,4 +16,6 @@ public interface ILessonService
     Task<string> GetLessonFileName(int lessonId);
     Task CompleteLesson(int lessonId,int userId);
     Task<bool> IsCompleteLesson(int lessonId, int userId);
+    Task UpdateCourseProgress(int courseId, int userId);
+    Task<int> GetCurseId(int lessonId);
 }

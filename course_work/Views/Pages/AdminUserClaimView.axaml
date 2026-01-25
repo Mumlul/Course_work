@@ -1,0 +1,96 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="course_work.Views.Pages.AdminUserClaimView"
+             x:DataType="vm:AdminUserClaimViewModel"
+             >
+     <Grid ColumnDefinitions="2*,3*">
+        <ListBox ItemsSource="{Binding Complaints}"
+                 SelectedItem="{Binding SelectedComplaint}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border>
+                        <StackPanel>
+                            <TextBlock Text="Кто подал:" Classes="h1"/>
+                            <TextBlock Text="{Binding FromUser.Name}" Classes="h1"/>
+                            <TextBlock Text="На кого:" Classes="h1"/>
+                            <TextBlock Text="{Binding ToUser.Name}"/>
+                            <TextBlock Text="Текст жалобы:" Classes="h1"/>
+                            <TextBlock Text="{Binding ComplaintText}" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding CreatedAt, StringFormat='Дата: {0:dd.MM.yyyy HH:mm}'}" FontStyle="Italic" FontSize="12" HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+        <Border Grid.Column="1"
+            IsVisible="{Binding OpenWindow}"
+            Padding="20"
+            BorderThickness="1">
+
+            <ScrollViewer>
+                <StackPanel Spacing="10">
+
+                    <TextBlock Text="Обработка жалобы"
+                               FontSize="20"
+                               FontWeight="Bold"/>
+
+                    <TextBlock Text="{Binding SelectedComplaint.FromUser.Name}"
+                               FontSize="16"
+                               FontWeight="Bold"/>
+
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Button Content="Профиль пользователя (ябеды)"
+                                Command="{Binding OpenUserFromCommand}"/>
+                        <Button Content="Виновного"
+                                Command="{Binding OpenUserToCommand}"/>
+                    </StackPanel>
+
+                    <Separator/>
+
+                    <TextBlock Text="Текст жалобы:" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding SelectedComplaint.ComplaintText}"
+                               TextWrapping="Wrap"/>
+
+                    <Separator/>
+
+                    <TextBlock Text="Сообщение ябеде:" FontWeight="Bold"/>
+                    <TextBox Text="{Binding UserMessage}"
+                             AcceptsReturn="True"
+                             Height="80"/>
+
+                    <Button Content="Отправить ябеде"
+                            Command="{Binding SendMessageToUserCommand}"/>
+
+                    <Separator/>
+
+                    <TextBlock Text="Сообщение автору курса:" FontWeight="Bold"/>
+                    <TextBox Text="{Binding CriminalMessage}"
+                             AcceptsReturn="True"
+                             Height="80"/>
+
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <TextBlock Text="Дней на исправление:" VerticalAlignment="Center"/>
+                        <NumericUpDown Value="{Binding FixDays}"
+                                       Minimum="1"
+                                       Maximum="365"
+                                       Width="100"/>
+                    </StackPanel>
+
+                    <Button Content="Отправить автору курса"
+                            Command="{Binding SendMessageToCriminalCommand}"/>
+
+                    <Button Content="Закрыть"
+                            HorizontalAlignment="Right"
+                            Command="{Binding CloseWindowCommand}"/>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+        
+    </Grid>
+</UserControl>

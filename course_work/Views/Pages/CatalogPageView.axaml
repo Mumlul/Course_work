@@ -8,6 +8,7 @@
              xmlns:models="using:course_work.Models"
              xmlns:classes="clr-namespace:course_work.Models.Classes"
              xmlns:conv="clr-namespace:course_work.Convertors"
+             xmlns:local="clr-namespace:course_work.Services.Service"
              x:DataType="vm:CatalogPageViewModel"
              >
     <Grid Classes="Main">
@@ -69,8 +70,10 @@
                                     <Grid RowDefinitions="150,*">
                                         <Grid>
                                             <Border   CornerRadius="24" ClipToBounds="True">
-                                                <Image Source="{Binding PreviewImage, Converter={StaticResource UrlToBitmapConverter}}"
-                                                       Stretch="UniformToFill"/>
+                                                <!--<Image Source="{Binding PreviewImage, Converter={StaticResource UrlToBitmapConverter}}"
+                                                       Stretch="UniformToFill"/>-->
+                                                <Image
+                                                    local:ImageExtensions.SourceUrl="{Binding PreviewImage}" Stretch="UniformToFill" />
                                             </Border>
                                            
                                         </Grid>
@@ -104,8 +107,10 @@
                                 <Border Classes="SmallCard">
                                     <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" ColumnSpacing="12">
                                         <Border Width="64" Height="64" CornerRadius="32" ClipToBounds="True" Grid.RowSpan="2">
-                                            <Image Source="{Binding Profile.Avatar, Converter={StaticResource UrlToBitmapConverter}}"
-                                                   Stretch="UniformToFill"/>
+                                            <!--<Image Source="{Binding Profile.Avatar, Converter={StaticResource UrlToBitmapConverter}}"
+                                                   Stretch="UniformToFill"/>-->
+                                            <Image
+                                                local:ImageExtensions.SourceUrl="{Binding Profile.Avatar}" Stretch="UniformToFill" />
                                         </Border>
                                         <TextBlock Grid.Column="1" Text="{Binding Name}" Classes="h1" VerticalAlignment="Center"/>
                                         <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Profile.Description}" Classes="second" TextWrapping="Wrap" MaxLines="2"/>

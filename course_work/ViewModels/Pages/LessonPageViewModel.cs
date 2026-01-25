@@ -266,7 +266,8 @@ public partial class LessonPageViewModel:PageViewModelBase
     [RelayCommand]
     public async Task CompleteLesson()
     {
-        _lessonService.CompleteLesson(lessonId: CurrentLesson.Id, userId: _userId);
+        await _lessonService.CompleteLesson(lessonId: CurrentLesson.Id, userId: _userId);
+        await _lessonService.UpdateCourseProgress(await _lessonService.GetCurseId(CurrentLesson.Id), _userId);
     }
     
     

@@ -21,4 +21,6 @@ public interface IUserService
     Task<UserProfile> GetUserProfile(User user);
     Task<List<User>> GetAllAuthors();
     Task<List<Course>> GetAithorsCurse(int userId);
+    Task<int> GetCourseProgressPercent(int userId, int courseId);
+    Task<List<UserComplaint>> GetAllComplaints();
 }

@@ -22,7 +22,9 @@ namespace course_work;
 
 public partial class App : Application
 {
-    private readonly SettingsService _settingsService = new SettingsService();
+    public static IServiceProvider Services { get; private set; } = null!;
+
+    private readonly SettingsService _settingsService = new();
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -37,6 +39,7 @@ public partial class App : Application
         services.AddCommonService();
 
         var provider = services.BuildServiceProvider();
+        App.Services = provider;
         var vm = provider.GetRequiredService<MainWindowViewModel>();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)

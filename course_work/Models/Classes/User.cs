@@ -39,4 +39,9 @@ public class User
     public ICollection<CourseReview> Reviews { get; set; } = new List<CourseReview>();
     public virtual UserProfile? Profile { get; set; }
     public ICollection<LessonProgress>  LessonProgresses { get; set; } = new List<LessonProgress>();
+    
+    public ICollection<UserComplaint> ComplaintsSent { get; set; } = new List<UserComplaint>();
+    public ICollection<UserComplaint> ComplaintsReceived { get; set; } = new List<UserComplaint>();
+    public ICollection<CourseReview> CourseReviews { get; set; } = new List<CourseReview>();
+    public ICollection<CourseComplaint> CourseComplaints { get; set; } = new List<CourseComplaint>();
 }

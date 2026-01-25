@@ -9,6 +9,7 @@ using course_work.Models;
 using course_work.Models.Classes;
 using course_work.Services;
 using course_work.Services.Interfaces;
+using course_work.Views.Pages;
 using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -26,10 +27,15 @@ public partial class MainPageViewModel:PageViewModelBase
     
     private Action _navigatelogin;
     
-    partial void OnCurrentpagemainChanged(PageViewModelBase value)
+    partial void OnCurrentpagemainChanged(
+        PageViewModelBase oldValue,
+        PageViewModelBase newValue)
     {
-        if (value != null)
-            _ = value.OnNavigatedTo();
+        if (oldValue != null)
+            _ = oldValue.OnNavigatedFrom();
+
+        if (newValue != null)
+            _ = newValue.OnNavigatedTo();
     }
     [ObservableProperty] private bool _isopensidebar = false;
     [ObservableProperty] private User _user;
@@ -45,19 +51,33 @@ public partial class MainPageViewModel:PageViewModelBase
         
         Title = "Главная";
 
-        Pages = new ObservableCollection<PageViewModelBase>
+
+        if (User.UserTypeId != 3)
         {
-            new CatalogPageViewModel(_userService,_courseService,course => OpenCurse(course),user => OpenProfile(user)),
-            new UserProfilePageViewModel(_userService,provider.GetRequiredService<IUserProfile>(), course => OpenCurse(course),User),
-            new SettingPageViewModel(_userService),
-            new CourseListPageViewModel(_courseService,course => OpenCurse(course)),
-            /*new AddCoursePageViewModel(_courseService,User,course => OpenCurse(course)),*/
-            new TestPageViewModel(_provider.GetRequiredService<ITestService>(),1),
-            new CreateTestPageViewModel(_provider.GetRequiredService<ITestService>())
-        };
+            Pages = new ObservableCollection<PageViewModelBase>
+            {
+                new CatalogPageViewModel(_userService,_courseService,course => OpenCurse(course),user => OpenProfile(user)),
+                new UserProfilePageViewModel(_userService,provider.GetRequiredService<IUserProfile>(), course => OpenCurse(course),User),
+                new SettingPageViewModel(_userService),
+                new CourseListPageViewModel(_courseService,course => OpenCurse(course)),
+                /*new AddCoursePageViewModel(_courseService,User,course => OpenCurse(course)),*/
+                /*new TestPageViewModel(_provider.GetRequiredService<ITestService>(),1),*/
+                /*new CreateTestPageViewModel(_provider.GetRequiredService<ITestService>())*/
+            };
+        }
+        else
+        {
+            Pages = new ObservableCollection<PageViewModelBase>
+            {
+                new AdminCourseClaimViewModel(_courseService,
+                    course => OpenCurse(course),
+                    user => OpenProfile(user)),
+                new AdminUserClaimViewModel(_userService,user => OpenProfile(user)),
+                new SettingPageViewModel(_userService),
+            };
+        }
         
         Currentpagemain = Pages[0];
-
         if (User.UserTypeId == 2) IsAuthor = true;
     }
     
@@ -118,6 +138,7 @@ public partial class MainPageViewModel:PageViewModelBase
             _provider.GetRequiredService<IModuleService>(),
             _provider.GetRequiredService<ILessonService>(),
             (Lesson lesson) => OpenLesson(lesson),
+            (int courseId,bool v) => OpenTest(courseId,v),
             course,
             User
         );
@@ -171,7 +192,35 @@ public partial class MainPageViewModel:PageViewModelBase
         );
         
         Currentpagemain = createvm;
+    }
 
+    
+    //Если будет писарь курса то переходим на редактирвоание курса если же обычный обыватьель то путь головой деумает
+    public void OpenTest(int courseId,bool av)
+    {
+        Currentpagemain = null;
+        if (av == true)
+        {
+            var testvm = ActivatorUtilities.CreateInstance<CreateTestPageViewModel>(
+                _provider,
+                _provider.GetRequiredService<ITestService>(),
+                courseId,
+                (Course course) => OpenCurse(course)
+            );
+        
+            Currentpagemain = testvm;
+        }
+        else
+        {
+            var test=ActivatorUtilities.CreateInstance<TestPageViewModel>(
+                _provider,
+                _provider.GetRequiredService<ITestService>(),
+                courseId,
+                User
+            );
+            
+            Currentpagemain = test;
+        }
     }
     
 }

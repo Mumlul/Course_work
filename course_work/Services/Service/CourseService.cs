@@ -49,21 +49,14 @@ public class CourseService : ICourseService
         return course;
     }
 
-    public Task<Course> UpdateCourse(Course course)
+    public async Task UpdateCourse(Course course)
     {
-        throw new System.NotImplementedException();
+        _context.Courses.Update(course);
+        await _context.SaveChangesAsync();
     }
 
     public Task<List<Module>> GetAllModules(int courseId)
     {
-        /*var course = await _context.Courses
-            .Include(c => c.Modules)
-            .FirstOrDefaultAsync(c => c.Id == courseId);
-
-        Console.WriteLine("Bigbob:"+ course.Modules.Count);
-        
-        var modules = course?.Modules;*/
-        
         return _context.Modules
             .Where(m => m.CourseId == courseId)
             .ToListAsync();;
@@ -118,5 +111,114 @@ public class CourseService : ICourseService
     public async Task<bool> IsTrackedCourse(int courseId, int userId)
     {
         return await _context.CourseStudents.AnyAsync(cs => cs.CourseId == courseId && cs.UserId == userId);
+    }
+    
+    public async Task<int> GetCourseProgressPercent(int userId, int courseId)
+    {
+        var progress = await _context.CourseStudents
+            .Where(cs => cs.UserId == userId && cs.CourseId == courseId)
+            .Select(cs => cs.ProgressPercent)
+            .FirstOrDefaultAsync();
+
+        return progress;
+    }
+
+    public async Task StartTrackCourse(int userId, int courseId)
+    {
+        var tc = new CourseStudents()
+        {
+            CourseId = courseId,
+            UserId = userId,
+            ProgressPercent = 0,
+            StartedAt = DateTime.UtcNow,
+            Completed = false
+        };
+        _context.CourseStudents.Add(tc);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task EndTrackCourse(int userId, int courseId)
+    {
+        var tc= _context.CourseStudents.FirstOrDefault(cs => cs.CourseId == courseId && cs.UserId == userId);
+        
+        _context.CourseStudents.Remove(tc);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<bool> IsComplete(int userId, int courseId)
+    {
+        var progress = await _context.CourseStudents
+            .Where(cs => cs.UserId == userId && cs.CourseId == courseId)
+            .Select(cs => cs.ProgressPercent)
+            .FirstOrDefaultAsync();
+        
+        return progress>0?true:false;
+    }
+
+    public async Task AddReview(CourseReview review)
+    {
+        var exists = await _context.CourseReviews
+            .AnyAsync(r =>
+                r.CourseId == review.CourseId &&
+                r.UserId == review.UserId);
+
+        if (exists)
+            throw new InvalidOperationException("Пользователь уже оставил отзыв на этот курс");
+
+        review.CreatedAt = DateTime.UtcNow;
+
+        _context.CourseReviews.Add(review);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task AddClaim(CourseComplaint complaint)
+    {
+        var exists = await _context.CourseComplaints
+            .AnyAsync(c =>
+                c.CourseId == complaint.CourseId &&
+                c.UserId == complaint.UserId);
+
+        if (exists)
+            throw new InvalidOperationException("Жалоба на этот курс уже отправлена");
+
+        complaint.CreatedAt = DateTime.UtcNow;
+
+        _context.CourseComplaints.Add(complaint);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<CourseReview>> LastReview(int courseId)
+    {
+        return await _context.CourseReviews
+            .AsNoTracking()
+            .Where(r => r.CourseId == courseId)
+            .OrderByDescending(r => r.CreatedAt)
+            .Include(r => r.User)
+            .ThenInclude(u => u.Profile)
+            .Take(3)
+            .ToListAsync();
+    }
+
+    public async Task<double> GetAverageRating(int courseId)
+    {
+        var ratings = await _context.CourseReviews
+            .AsNoTracking()
+            .Where(r => r.CourseId == courseId)
+            .Select(r => r.Rating)
+            .ToListAsync();
+
+        if (ratings.Count == 0)
+            return 0;
+
+        return Math.Round(ratings.Average(r => r), 1);
+    }
+
+    public async Task<List<CourseComplaint>> GetAllComplaints()
+    {
+        return await _context.CourseComplaints
+            .Include(c => c.User)   
+            .Include(c => c.Course) 
+            .OrderByDescending(c => c.CreatedAt) 
+            .ToListAsync();
     }
 }

@@ -86,6 +86,53 @@ namespace course_work.Migrations
                     b.ToTable("Course_authors");
                 });
 
+            modelBuilder.Entity("course_work.Models.Classes.CourseComplaint", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ComplaintText")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("complaint_text");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int")
+                        .HasColumnName("course_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at");
+
+                    b.Property<int?>("FixDays")
+                        .HasColumnType("int")
+                        .HasColumnName("fix_days");
+
+                    b.Property<bool>("InProgress")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("in_progress");
+
+                    b.Property<bool>("IsResolved")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_resolved");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Course_complaints");
+                });
+
             modelBuilder.Entity("course_work.Models.Classes.CourseReview", b =>
                 {
                     b.Property<int>("Id")
@@ -123,11 +170,16 @@ namespace course_work.Migrations
                         .HasColumnType("int")
                         .HasColumnName("user_id");
 
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Course_reviews");
                 });
@@ -152,8 +204,8 @@ namespace course_work.Migrations
                         .HasColumnType("int")
                         .HasColumnName("course_id");
 
-                    b.Property<byte>("ProgressPercent")
-                        .HasColumnType("tinyint unsigned")
+                    b.Property<int>("ProgressPercent")
+                        .HasColumnType("int")
                         .HasColumnName("progress_percent");
 
                     b.Property<DateTime>("StartedAt")
@@ -296,10 +348,6 @@ namespace course_work.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AttemptsAllowed")
-                        .HasColumnType("int")
-                        .HasColumnName("attempts_allowed");
-
                     b.Property<int>("CourseId")
                         .HasColumnType("int")
                         .HasColumnName("course_id");
@@ -312,17 +360,9 @@ namespace course_work.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("description");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_active");
-
-                    b.Property<byte>("PassingScore")
-                        .HasColumnType("tinyint unsigned")
-                        .HasColumnName("passing_score");
-
-                    b.Property<int?>("TimeLimitMinutes")
+                    b.Property<int>("PassingScore")
                         .HasColumnType("int")
-                        .HasColumnName("time_limit_minutes");
+                        .HasColumnName("passing_score");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -394,6 +434,10 @@ namespace course_work.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("is_correct");
 
+                    b.Property<bool>("IsSelected")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_selected");
+
                     b.Property<string>("OptionText")
                         .IsRequired()
                         .HasColumnType("longtext")
@@ -423,14 +467,6 @@ namespace course_work.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AnswersJson")
-                        .HasColumnType("json")
-                        .HasColumnName("answers_json");
-
-                    b.Property<int>("AttemptNumber")
-                        .HasColumnType("int")
-                        .HasColumnName("attempt_number");
-
                     b.Property<DateTime?>("CompletedAt")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("completed_at");
@@ -439,21 +475,13 @@ namespace course_work.Migrations
                         .HasColumnType("tinyint(1)")
                         .HasColumnName("passed");
 
-                    b.Property<decimal>("Score")
-                        .HasColumnType("decimal(65,30)")
+                    b.Property<double>("Score")
+                        .HasColumnType("double")
                         .HasColumnName("score");
-
-                    b.Property<DateTime>("StartedAt")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("started_at");
 
                     b.Property<int>("TestId")
                         .HasColumnType("int")
                         .HasColumnName("test_id");
-
-                    b.Property<int?>("TimeSpentSeconds")
-                        .HasColumnType("int")
-                        .HasColumnName("time_spent_seconds");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int")
@@ -510,6 +538,54 @@ namespace course_work.Migrations
                     b.HasIndex("UserTypeId");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("course_work.Models.Classes.UserComplaint", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ComplaintText")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("complaint_text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("created_at");
+
+                    b.Property<int?>("FixDays")
+                        .HasColumnType("int")
+                        .HasColumnName("fix_days");
+
+                    b.Property<int>("FromUserId")
+                        .HasColumnType("int")
+                        .HasColumnName("from_user_id");
+
+                    b.Property<bool>("InProgress")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("in_progress");
+
+                    b.Property<bool>("IsResolved")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_resolved");
+
+                    b.Property<int>("ToUserId")
+                        .HasColumnType("int")
+                        .HasColumnName("to_user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ToUserId");
+
+                    b.HasIndex("FromUserId", "ToUserId")
+                        .IsUnique();
+
+                    b.ToTable("User_complaints");
                 });
 
             modelBuilder.Entity("course_work.Models.Classes.UserProfile", b =>
@@ -590,6 +666,25 @@ namespace course_work.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("course_work.Models.Classes.CourseComplaint", b =>
+                {
+                    b.HasOne("course_work.Models.Classes.Course", "Course")
+                        .WithMany("Complaints")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("course_work.Models.Classes.User", "User")
+                        .WithMany("CourseComplaints")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("course_work.Models.Classes.CourseReview", b =>
                 {
                     b.HasOne("course_work.Models.Classes.Course", "Course")
@@ -599,10 +694,14 @@ namespace course_work.Migrations
                         .IsRequired();
 
                     b.HasOne("course_work.Models.Classes.User", "User")
-                        .WithMany("Reviews")
+                        .WithMany("CourseReviews")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("course_work.Models.Classes.User", null)
+                        .WithMany("Reviews")
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("Course");
 
@@ -732,6 +831,25 @@ namespace course_work.Migrations
                     b.Navigation("UserType");
                 });
 
+            modelBuilder.Entity("course_work.Models.Classes.UserComplaint", b =>
+                {
+                    b.HasOne("course_work.Models.Classes.User", "FromUser")
+                        .WithMany("ComplaintsSent")
+                        .HasForeignKey("FromUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("course_work.Models.Classes.User", "ToUser")
+                        .WithMany("ComplaintsReceived")
+                        .HasForeignKey("ToUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("FromUser");
+
+                    b.Navigation("ToUser");
+                });
+
             modelBuilder.Entity("course_work.Models.Classes.UserProfile", b =>
                 {
                     b.HasOne("course_work.Models.Classes.User", "User")
@@ -746,6 +864,8 @@ namespace course_work.Migrations
             modelBuilder.Entity("course_work.Models.Classes.Course", b =>
                 {
                     b.Navigation("Authors");
+
+                    b.Navigation("Complaints");
 
                     b.Navigation("Modules");
 
@@ -778,6 +898,14 @@ namespace course_work.Migrations
 
             modelBuilder.Entity("course_work.Models.Classes.User", b =>
                 {
+                    b.Navigation("ComplaintsReceived");
+
+                    b.Navigation("ComplaintsSent");
+
+                    b.Navigation("CourseComplaints");
+
+                    b.Navigation("CourseReviews");
+
                     b.Navigation("CoursesAuthored");
 
                     b.Navigation("CoursesEnrolled");

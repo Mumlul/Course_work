@@ -71,7 +71,20 @@
         <Setter Property="IsVisible" Value="False"/>
     </Style>
     
-   
+    <!--Боковая панель-->
+    <Style Selector="ToggleButton Image.Close">
+        <Setter Property="IsVisible" Value="True"/> 
+    </Style>
     
+    <Style Selector="ToggleButton:checked Image.Close">
+        <Setter Property="IsVisible" Value="False"/>
+    </Style>
     
+    <Style Selector="ToggleButton Image.Open">
+        <Setter Property="IsVisible" Value="False"/> 
+    </Style>
+    
+    <Style Selector="ToggleButton:checked Image.Open">
+        <Setter Property="IsVisible" Value="True"/>
+    </Style>
 </Styles>

@@ -8,51 +8,43 @@
              xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
              xmlns:class="clr-namespace:course_work.Models.Classes"
              x:DataType="vm:TestPageViewModel">
-    <Grid ColumnDefinitions="300,*" RowDefinitions="Auto,*">
-        
-        <TextBlock Grid.ColumnSpan="1" Text="{Binding CurrentTest.Title}"/>
-        <ListBox 
-            Grid.Row="1" 
-            ItemsSource="{Binding CurrentTest.Questions}"
-            SelectedItem="{Binding SelectedQuestion}"
-            VerticalAlignment="Top"
-            >
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="5"/>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-           
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Foreground="Black" Text="{Binding OrderIndex}"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-                
-        <ContentControl 
-            Grid.Column="1"
-            Grid.Row="1"
-            Content="{Binding SelectedQuestion}">
-            <ContentControl.ContentTemplate>
-                <DataTemplate x:DataType="class:TestQuestion">
-                    <Grid RowDefinitions="Auto,*,Auto">
-                        <TextBlock Foreground="Black" Text="{Binding QuestionText}"/>
-                        <ListBox Grid.Row="1"  
-                            ItemsSource="{Binding Options}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <RadioButton Content="{Binding OptionText}"/>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <StackPanel Grid.Row="2" Orientation="Horizontal">
-                            <Button x:DataType="vm:TestPageViewModel" Content="Сохранить ответ" Command="{Binding NextQuestionCommand}"/>
-                            <Button x:DataType="vm:TestPageViewModel" Content="Прошлый вопрос" Command="{Binding LastQuestionCommand}"/>
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </ContentControl.ContentTemplate>
-        </ContentControl>
-    </Grid>
+    <ScrollViewer>
+        <StackPanel Spacing="24" Margin="20">
+            <StackPanel Spacing="8">
+                <TextBlock Text="{Binding CurrentTest.Title}"
+                           FontSize="32"
+                           FontWeight="Bold"/>
+                <TextBlock Text="{Binding CurrentTest.Description}"
+                           FontSize="18"
+                           TextWrapping="Wrap"/>
+            </StackPanel>
+            <ItemsControl ItemsSource="{Binding CurrentTest.Questions}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="class:TestQuestion">
+                        <Border BorderBrush="LightGray" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,20">
+                            <StackPanel Spacing="12">
+                                <TextBlock Text="{Binding QuestionText}"
+                                           FontSize="20"
+                                           FontWeight="SemiBold"
+                                           TextWrapping="Wrap"/>
+
+                                <ItemsControl ItemsSource="{Binding Options}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="class:TestQuestionOption">
+                                            <RadioButton Content="{Binding OptionText}"
+                                                         IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                                         GroupName="{Binding Question.Id}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12">
+                <Button Content="Сдать тест" Command="{Binding FinishTestCommand}" Background="#4CAF50" Foreground="White"/>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

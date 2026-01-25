@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
+             xmlns:service="clr-namespace:course_work.Services.Service"
              mc:Ignorable="d" d:DesignWidth="1920" d:DesignHeight="1080"
              x:Class="course_work.Views.Pages.CoursePageView"
              x:DataType="vm:CoursePageViewModel">
@@ -25,7 +26,7 @@
             </StackPanel>
         </Grid>
        
-        <Grid RowDefinitions="Auto,*" Grid.Row="1" Classes="Main">
+        <Grid RowDefinitions="Auto,Auto,Auto,*" Grid.Row="1" Classes="Main">
             <!--Header-->
             <Grid Grid.Row="0"
                   ColumnDefinitions="*,Auto"
@@ -34,30 +35,111 @@
                   Margin="0,20">
 
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="{Binding Currentcourse.Title}"
+                    <TextBox Text="{Binding Currentcourse.Title}"
                                FontSize="40"
+                               IsReadOnly="{Binding !IsAuthor}"
                                FontWeight="Bold"/>
 
-                    <TextBlock Text="{Binding Currentcourse.Description}"
+                    <TextBox Text="{Binding Currentcourse.Description}"
                                FontSize="24"
+                               IsReadOnly="{Binding !IsAuthor}"
                                TextWrapping="Wrap"/>
                 </StackPanel>
 
-                <ToggleButton Grid.Column="1"
-                              IsChecked="{Binding IsTracked}"
-                              IsVisible="{Binding IsAuthor,Converter={StaticResource ToggleButtonAuthor}}"
-                              VerticalAlignment="Top"
-                              Margin="20,6,0,0">
-                    <Panel>
-                        <TextBlock Classes="track-off" Text="Отслеживать"/>
-                        <TextBlock Classes="track-on" Text="Отслеживается"/>
-                    </Panel>
-                </ToggleButton>
-
+                <StackPanel Grid.Column="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Margin="10"
+                    Spacing="6">
+                    <DropDownButton Content="Действия с курсом">
+                        <DropDownButton.Flyout>
+                            <MenuFlyout>
+                                <MenuItem Header="Редактировать курс" IsVisible="{Binding IsAuthor}"/>
+                                <MenuItem Header="Тест курса" Command="{Binding NavigateToCreateTestCommand}" IsVisible="{Binding IsAuthor}"/>
+                                <MenuItem Header="Оставить отзыв" Command="{Binding OpenReviewCommand}"/>
+                                <MenuItem Header="Написать жалобу" Command="{Binding OpenClaimCommand}"/>
+                            </MenuFlyout>
+                        </DropDownButton.Flyout>
+                    </DropDownButton>
+                    
+                    <ToggleButton
+                                  IsChecked="{Binding IsTracked}"
+                                  IsVisible="{Binding IsAuthor,Converter={StaticResource ToggleButtonAuthor}}"
+                                  VerticalAlignment="Top"
+                                  Command="{Binding ChangeCommandCommand}"
+                                  Margin="20,6,0,0">
+                        <Panel>
+                            <TextBlock Classes="track-off" Text="Отслеживать"/>
+                            <TextBlock Classes="track-on" Text="Отслеживается"/>
+                        </Panel>
+                    </ToggleButton>
+                </StackPanel>
             </Grid>
+            
+            <StackPanel Grid.Row="1" Orientation="Vertical" Width="300" Margin="0,20,0,0" IsVisible="{Binding IsTracked}">
+                <TextBlock Text="Прогресс курса" FontSize="20" FontWeight="Bold"/>
+                <ProgressBar Value="{Binding CompletePercent}" 
+                             Minimum="0" Maximum="100"
+                             Height="20"
+                             Margin="0,5,0,0"
+                             />
+                <TextBlock Text="{Binding CompletePercent, StringFormat={}{0:0}%}" 
+                           FontSize="18" 
+                           HorizontalAlignment="Right"
+                           Margin="0,5,0,0"
+                           />
+                <Button Content="Пройти тестирование по курсу" 
+                        Command="{Binding NavigateToCompleteTetsCommand}" 
+                        IsVisible="{Binding IsComplete}"/>
+            </StackPanel>
         
+            <StackPanel Grid.Row="2"
+                        Width="1100"
+                        HorizontalAlignment="Center"
+                        Margin="0,20,0,20"
+                        Spacing="20">
+
+                <!-- Рейтинг курса -->
+                <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                    <TextBlock Text="Рейтинг курса:" FontSize="18" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Rating, StringFormat={}{0:0.0}}"
+                               FontSize="22" FontWeight="Bold"/>
+                    <TextBlock Text="из 5" FontSize="16" VerticalAlignment="Bottom"/>
+                </StackPanel>
+
+                <!-- Последние 3 отзыва -->
+                <TextBlock Text="Последние отзывы" FontSize="20" FontWeight="Bold"/>
+
+                <ItemsControl ItemsSource="{Binding LastReview}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="10"
+                                    Background="#3A3A3A"
+                                    Padding="12"
+                                    Margin="0,6,0,0">
+                                <StackPanel Spacing="6">
+
+                                    <!-- Пользователь + рейтинг -->
+                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                        <TextBlock Text="{Binding User.Name}"
+                                                   FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Rating, StringFormat=⭐ {0}/5}"
+                                                   Foreground="Gold"/>
+                                    </StackPanel>
+
+                                    <!-- Текст отзыва -->
+                                    <TextBlock Text="{Binding ReviewText}"
+                                               TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+            
             <!--Main-->
-            <Grid Grid.Row="1" RowDefinitions="*,Auto">
+            <Grid Grid.Row="3" RowDefinitions="*,Auto">
                     <ListBox 
                         ItemsSource="{Binding Module}" 
                         Width="1100" 
@@ -73,9 +155,12 @@
                             <DataTemplate>
                                 <Border Grid.Row="2" CornerRadius="10"  Width="400" Height="300" ClipToBounds="True">  
                                     <Grid RowDefinitions="2*,*">
-                                        <Image 
+                                        <!--<Image 
                                             Source="{Binding PreviewImage,Converter={StaticResource UrlToBitmapConverter}}" 
-                                            Stretch="UniformToFill"/>
+                                            Stretch="UniformToFill"/>-->
+                                        
+                                        <Image
+                                            service:ImageExtensions.SourceUrl="{Binding PreviewImage}" Stretch="UniformToFill" />
                                         <TextBlock Grid.Row="1" Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Grid>
                                 </Border>
@@ -90,8 +175,7 @@
         </Grid>
         
         
-        
-        <!--Это для читаателей-->
+        <!--Показ модял-->
         <Grid Grid.RowSpan="3" 
               IsVisible="{Binding IsDialogOpen}"
               Background="#80000000"
@@ -121,17 +205,12 @@
                             <Button Content="Удалить"/>
                         </StackPanel>
                     </Grid>
-
-                    <!--Title-->
                     <TextBox 
                         Padding="20" 
                         Grid.Row="2" 
                         Text="{Binding SelectedModule.Title}" 
                         DockPanel.Dock="Top" 
                         Classes="ChangeText"/>
-                    
-                    
-                    <!--Lesson List-->
                     <Grid Grid.Row="3" RowDefinitions="*,Auto" >
                         <ListBox  
                              Classes="ModulePreview"
@@ -147,13 +226,111 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                        
                         <Button Classes="AddВutton" 
                                 Grid.Row="1" 
                                 Content="Добавить урок" 
                                 Command="{Binding AddLessonCommand}" 
                                 IsVisible="{Binding IsAuthor}"/>
                     </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+        <!--Отзыв-->
+        <Grid Grid.RowSpan="3"
+              IsVisible="{Binding ReviewWindow}"
+              Background="#80000000"
+              ZIndex="10">
+
+            <Border Width="600"
+                    Height="400"
+                    CornerRadius="14"
+                    Background="#2B2B2B"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Padding="20">
+
+                <Grid RowDefinitions="Auto,Auto,*,Auto">
+                    <TextBlock Text="Оставить отзыв"
+                               FontSize="24"
+                               FontWeight="Bold"/>
+
+                    <StackPanel Grid.Row="1"
+                                Orientation="Horizontal"
+                                Spacing="10"
+                                Margin="0,20,0,0">
+
+                        <TextBlock Text="Рейтинг:" VerticalAlignment="Center"/>
+
+                        <Slider Minimum="0"
+                                Maximum="5"
+                                TickFrequency="1"
+                                IsSnapToTickEnabled="True"
+                                Width="200"
+                                Value="{Binding ReviewRating}"/>
+
+                        <TextBlock Text="{Binding ReviewRating}" />
+                    </StackPanel>
+
+                    <TextBox Grid.Row="2"
+                             Text="{Binding ReviewMessage}"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             Watermark="Введите отзыв..."
+                             Margin="0,20,0,0"/>
+
+                    <StackPanel Grid.Row="3"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Spacing="10"
+                                Margin="0,20,0,0">
+
+                        <Button Content="Отмена"
+                                Command="{Binding CloseReviewCommand}"/>
+
+                        <Button Content="Отправить"
+                                Command="{Binding AddReviewCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+        <!--Жалоба-->
+        <Grid Grid.RowSpan="3"
+              IsVisible="{Binding ClaimWindow}"
+              Background="#80000000"
+              ZIndex="10">
+
+            <Border Width="600"
+                    Height="300"
+                    CornerRadius="14"
+                    Background="#2B2B2B"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Padding="20">
+
+                <Grid RowDefinitions="Auto,*,Auto">
+                    <TextBlock Text="Пожаловаться на курс"
+                               FontSize="24"
+                               FontWeight="Bold"/>
+
+                    <TextBox Grid.Row="1"
+                             Text="{Binding ClaimMessage}"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             Watermark="Опишите проблему..."
+                             Margin="0,20,0,0"/>
+
+                    <StackPanel Grid.Row="2"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Spacing="10"
+                                Margin="0,20,0,0">
+
+                        <Button Content="Отмена"
+                                Command="{Binding CloseClaimCommand}"/>
+
+                        <Button Content="Отправить"
+                                Command="{Binding AddClaimCommand}"/>
+                    </StackPanel>
                 </Grid>
             </Border>
         </Grid>

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using course_work.Models.Classes;
 using User = course_work.Migrations.User;
 
@@ -15,7 +16,7 @@ public interface ITestService
     Task<TestQuestion> AddQuestionAsync(int testId, TestQuestion question);
     Task UpdateQuestionAsync(TestQuestion question);
     Task DeleteQuestionAsync(int questionId);
-    Task<TestQuestionOption> AddOptionAsync(int questionId, TestQuestionOption option);
+    Task AddOptionAsync(TestQuestionOption option);
     Task UpdateOptionAsync(TestQuestionOption option);
     Task DeleteOptionAsync(int optionId);
     Task<TestResult> StartTestAsync(int testId, int userId);
@@ -28,4 +29,6 @@ public interface ITestService
     Task<TestResult> FinishTestAsync(int testResultId);
     Task<TestResult?> GetLastResultAsync(int testId, int userId);
     Task<TestResult> GetUserResultsAsync(int testId, int userId);
+    Task<List<TestQuestionOption>>  GetQuestionOptionsAsync(int questionId);
+    
 }
