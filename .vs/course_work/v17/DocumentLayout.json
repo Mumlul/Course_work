@@ -1,7 +1,16 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\shugu\\OneDrive\\test\\Course_work\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\st310-07\\Documents\\\u041F\u043B\u043E\u0441\u043A\u0438\u0445\\f\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5E9187BE-F421-4235-A716-DC124B0E12BC}|course_work\\course_work.csproj|c:\\users\\st310-07\\documents\\\u043F\u043B\u043E\u0441\u043A\u0438\u0445\\f\\course_work\\viewmodels\\pages\\coursepageviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E9187BE-F421-4235-A716-DC124B0E12BC}|course_work\\course_work.csproj|solutionrelative:course_work\\viewmodels\\pages\\coursepageviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E9187BE-F421-4235-A716-DC124B0E12BC}|course_work\\course_work.csproj|c:\\users\\st310-07\\documents\\\u043F\u043B\u043E\u0441\u043A\u0438\u0445\\f\\course_work\\views\\pages\\coursepageview.axaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{5E9187BE-F421-4235-A716-DC124B0E12BC}|course_work\\course_work.csproj|solutionrelative:course_work\\views\\pages\\coursepageview.axaml||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,15 +18,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
-              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CoursePageViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\st310-07\\Documents\\\u041F\u043B\u043E\u0441\u043A\u0438\u0445\\f\\course_work\\ViewModels\\Pages\\CoursePageViewModel.cs",
+              "RelativeDocumentMoniker": "course_work\\ViewModels\\Pages\\CoursePageViewModel.cs",
+              "ToolTip": "C:\\Users\\st310-07\\Documents\\\u041F\u043B\u043E\u0441\u043A\u0438\u0445\\f\\course_work\\ViewModels\\Pages\\CoursePageViewModel.cs",
+              "RelativeToolTip": "course_work\\ViewModels\\Pages\\CoursePageViewModel.cs",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAowFgAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-27T07:02:25.159Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CoursePageView.axaml",
+              "DocumentMoniker": "C:\\Users\\st310-07\\Documents\\\u041F\u043B\u043E\u0441\u043A\u0438\u0445\\f\\course_work\\Views\\Pages\\CoursePageView.axaml",
+              "RelativeDocumentMoniker": "course_work\\Views\\Pages\\CoursePageView.axaml",
+              "ToolTip": "C:\\Users\\st310-07\\Documents\\\u041F\u043B\u043E\u0441\u043A\u0438\u0445\\f\\course_work\\Views\\Pages\\CoursePageView.axaml",
+              "RelativeToolTip": "course_work\\Views\\Pages\\CoursePageView.axaml",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABcAAABeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-01-27T07:00:59.374Z",
+              "EditorCaption": ""
             }
           ]
         }
