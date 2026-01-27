@@ -239,14 +239,13 @@
         </Grid>
         <!--Отзыв-->
         <Grid Grid.RowSpan="3"
+			  Background="#80000000"
               IsVisible="{Binding ReviewWindow}"
-              Background="#80000000"
               ZIndex="10">
 
             <Border Width="600"
                     Height="400"
                     CornerRadius="14"
-                    Background="#2B2B2B"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Padding="20">
@@ -304,7 +303,6 @@
             <Border Width="600"
                     Height="300"
                     CornerRadius="14"
-                    Background="#2B2B2B"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Padding="20">
