@@ -76,7 +76,7 @@
                 
                 
                 <TabControl>
-                    <TabItem Header="Текущие курсы">
+                    <TabItem Header="Отслежтваемые курсы">
                         <ListBox ItemsSource="{Binding Courses}"
                                  SelectedItem="{Binding SelectedCourse}">
                             <ListBox.ItemTemplate>
