@@ -58,22 +58,25 @@ public partial class MainPageViewModel:PageViewModelBase
             {
                 new CatalogPageViewModel(_userService,_courseService,course => OpenCurse(course),user => OpenProfile(user)),
                 new UserProfilePageViewModel(_userService,provider.GetRequiredService<IUserProfile>(), course => OpenCurse(course),User),
-                new SettingPageViewModel(_userService),
+                new SettingPageViewModel(_userService,User),
                 new CourseListPageViewModel(_courseService,course => OpenCurse(course)),
-                /*new AddCoursePageViewModel(_courseService,User,course => OpenCurse(course)),*/
-                /*new TestPageViewModel(_provider.GetRequiredService<ITestService>(),1),*/
-                /*new CreateTestPageViewModel(_provider.GetRequiredService<ITestService>())*/
+                /*new CreateTestPageViewModel(_provider.GetRequiredService<ITestService>(),12,course => OpenCurse(course))*/
             };
         }
         else
         {
+            var _adminCourseClaimVM = new AdminCourseClaimViewModel(_courseService,
+                course => OpenCurse(course),
+                user => OpenProfile(user));
+
+            var  _adminUserClaimVM = new AdminUserClaimViewModel(_userService, user => OpenProfile(user));
+            var _settingPageVM = new SettingPageViewModel(_userService,User);
+
             Pages = new ObservableCollection<PageViewModelBase>
             {
-                new AdminCourseClaimViewModel(_courseService,
-                    course => OpenCurse(course),
-                    user => OpenProfile(user)),
-                new AdminUserClaimViewModel(_userService,user => OpenProfile(user)),
-                new SettingPageViewModel(_userService),
+                _adminCourseClaimVM,
+                _adminUserClaimVM,
+                _settingPageVM,
             };
         }
         
@@ -138,7 +141,8 @@ public partial class MainPageViewModel:PageViewModelBase
             _provider.GetRequiredService<IModuleService>(),
             _provider.GetRequiredService<ILessonService>(),
             (Lesson lesson) => OpenLesson(lesson),
-            (int courseId,bool v) => OpenTest(courseId,v),
+            (int courseId,User User,bool v) => OpenTest(courseId,User,v),
+            (User user) => OpenProfile(User),
             course,
             User
         );
@@ -193,13 +197,11 @@ public partial class MainPageViewModel:PageViewModelBase
         
         Currentpagemain = createvm;
     }
-
     
-    //Если будет писарь курса то переходим на редактирвоание курса если же обычный обыватьель то путь головой деумает
-    public void OpenTest(int courseId,bool av)
+    public void OpenTest(int courseId,User? user,bool av)
     {
         Currentpagemain = null;
-        if (av == true)
+        if (av)
         {
             var testvm = ActivatorUtilities.CreateInstance<CreateTestPageViewModel>(
                 _provider,
@@ -216,7 +218,8 @@ public partial class MainPageViewModel:PageViewModelBase
                 _provider,
                 _provider.GetRequiredService<ITestService>(),
                 courseId,
-                User
+                User,
+                (User user) => OpenProfile(user)
             );
             
             Currentpagemain = test;

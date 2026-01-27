@@ -91,7 +91,7 @@ public partial class CreateTestPageViewModel:PageViewModelBase
         var op = new TestQuestionOption()
         {
             QuestionId = SelectedQuestion.Id,
-            OptionText = "Вариант ответа",
+            OptionText = "",
             IsCorrect = false,
             OrderIndex = QuestionOptions.Count+1
         };

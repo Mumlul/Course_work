@@ -30,8 +30,12 @@ public partial class UserProfilePageViewModel : PageViewModelBase
     [ObservableProperty] private Course _selectedCourse;
     [ObservableProperty] private Bitmap _avatar;
     [ObservableProperty] private bool _isAuthor=false;
+    [ObservableProperty] private bool _openClaimButton=false;
+    [ObservableProperty] private string _claimMessage = "";
     public ObservableCollection<Course> Courses { get; } = new();
     public ObservableCollection<Course> AllCursesAuthor { get; } = new();
+    public ObservableCollection<Course> CompleteCurse { get; } = new();
+    public ObservableCollection<TestResult> CompleteTest { get; } = new();
     
     [ObservableProperty] private bool isUser=false;
 
@@ -39,12 +43,15 @@ public partial class UserProfilePageViewModel : PageViewModelBase
     {
         var courses = await _userService.GetAllCourses(User);
         Courses.Clear();
+        
         foreach (var course in courses)
             Courses.Add(course);
-        Console.WriteLine($"USER ser:{_userService.CurrentUser.Id}\n USER :{User.Id}");
+
+        var completed = await _userService.GetCompleteCourses(User.Id);
         
-        
-        Console.WriteLine($"BOOL:{IsUser}");
+        CompleteCurse.Clear();
+        foreach (var course in completed)
+            CompleteCurse.Add(course);
         
         if (User.UserTypeId == 2)
         {
@@ -54,12 +61,12 @@ public partial class UserProfilePageViewModel : PageViewModelBase
             foreach (var curse in aithorsc)
                 AllCursesAuthor.Add(curse);
         }
-        else
-        {
-            AllCursesAuthor.Clear();
-            foreach (var c in Courses.Take(6))
-                AllCursesAuthor.Add(c);
-        }
+
+        var completedtest = await _userService.GetCompletedTest(User.Id);
+        CompleteTest.Clear();
+        foreach (var test in completedtest)
+            CompleteTest.Add(test);
+
     }
     //Поработать над загрузками потому что если выбирать из другого метода у примеру просмотр страницы то будет трудно + фото не меняется + кнпока изменения тоже не приятно стоит
     public UserProfilePageViewModel(IUserService userService,IUserProfile userProfile, Action<Course> openCourse,User currentUser)
@@ -70,7 +77,7 @@ public partial class UserProfilePageViewModel : PageViewModelBase
         Profile = User.Profile;
         _openCourse = openCourse;
         Title = "UserProfile";
-        Image = "../../Assets/icons/user-profile-03.svg";
+        ImageBlock = "../../Assets/icons/user-profile-03.svg";
         _ = LoadAvatarAsync();
         if (User.Id != _userService.CurrentUser.Id) isUser = false;
         else  isUser = true;
@@ -80,10 +87,14 @@ public partial class UserProfilePageViewModel : PageViewModelBase
     private async Task ChangeAvatar()
     {
         var file_path = await ChooseFile();
-        Profile.Avatar= await UploadImage(file_path);
-        await _userProfile.UpdateProfileAsync(Profile);
-        Console.WriteLine(Profile.Avatar);
-        await LoadAvatarAsync();
+        if (!string.IsNullOrEmpty(file_path))
+        {
+            Profile.Avatar= await UploadImage(file_path);
+            Console.WriteLine($"Image:a {file_path} a");
+            await _userProfile.UpdateProfileAsync(Profile);
+            await LoadAvatarAsync();
+        }
+        
     }
     
     private async Task LoadAvatarAsync()
@@ -119,29 +130,37 @@ public partial class UserProfilePageViewModel : PageViewModelBase
         _openCourse?.Invoke(value);
         SelectedCourse = null;
     }
-    
-    //Загрузка фото
+
     [RelayCommand]
-    public async Task Test()
+    public async Task AddClaim()
     {
-      
-       /* var config = new AmazonS3Config
+        var claim = new UserComplaint
         {
-            ServiceURL = "https://s3.twcstorage.ru", 
-            ForcePathStyle = true 
-        };
-        
-        using var client = new AmazonS3Client("2H4NLFXQSWUC8A31U1PB", "EYBr2GBUGTtSdS7fTM8XgBXwSEUDROFMK1wpCwcF", config);
-
-        var putRequest = new PutObjectRequest
-        {
-            BucketName = "6a3814f9-ce7403ca-f211-439b-8e9f-f85196600672",
-            Key = "photo.jpg", 
-            FilePath = @"C:\Users\mumlul\Downloads\коала.jpg",
-            ContentType = "image/jpeg"
+            FromUser = _userService.CurrentUser,
+            ToUser = User,
+            ComplaintText = ClaimMessage,
+            CreatedAt = DateTime.UtcNow,
+            FromUserId = _userService.CurrentUser.Id,
+            ToUserId = User.Id
         };
 
-        var response = await client.PutObjectAsync(putRequest);
-        Console.WriteLine("Файл загружен!");*/
+        try
+        {
+            await _userService.AddClaim(claim);
+            ClaimMessage=string.Empty;
+            OpenClaimButton = false;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
     }
+    
+    [RelayCommand]
+    public void OpenClaim()=>OpenClaimButton=true;
+
+    [RelayCommand]
+    public void CloseClaim() => OpenClaimButton = false;
+
+
 }

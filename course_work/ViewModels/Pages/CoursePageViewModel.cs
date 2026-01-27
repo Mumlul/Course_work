@@ -20,7 +20,8 @@ public partial class CoursePageViewModel:PageViewModelBase
     private ILessonService _lessonService;
     
     private readonly Action<Lesson> _openLesson;
-    private readonly Action<int,bool> _openTest;
+    private readonly Action<int,User,bool> _openTest;
+    private readonly Action<User> _openUser;
      
     public ObservableCollection<Module> Module { get; } = new();
     public ObservableCollection<LessonPrewie> Lessons { get; } = new();
@@ -31,7 +32,7 @@ public partial class CoursePageViewModel:PageViewModelBase
     [ObservableProperty] private LessonPrewie _selectedLesson;
     [ObservableProperty] private User _currentUser;
     
-    [ObservableProperty] private Bitmap _image;
+    [ObservableProperty] private string _image;
     [ObservableProperty] private bool _isAuthor=false;
     [ObservableProperty] private Bitmap _moduleImage;
     [ObservableProperty] private bool _isTracked;
@@ -83,18 +84,7 @@ public partial class CoursePageViewModel:PageViewModelBase
         
         if (string.IsNullOrEmpty(Currentcourse?.PreviewImage)) return;
 
-        try
-        {
-            using var http = new HttpClient();
-            var bytes = await http.GetByteArrayAsync(Currentcourse?.PreviewImage);
-            using var ms = new MemoryStream(bytes);
-            Image = new Bitmap(ms);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Не удалось загрузить аватар: {ex.Message}");
-            Image = null;
-        }
+        Image = Currentcourse?.PreviewImage;
 
         IsAuthor= await _courseService.IsAuthorOfCourse(Currentcourse.Id,CurrentUser.Id);
         IsTracked = await _courseService.IsTrackedCourse(Currentcourse.Id, CurrentUser.Id);
@@ -115,7 +105,7 @@ public partial class CoursePageViewModel:PageViewModelBase
 
     public override async Task OnNavigatedFrom()
     {
-        await _courseService.UpdateCourse(Currentcourse);
+        /*await _courseService.UpdateCourse(Currentcourse);*/
     }
 
 
@@ -124,7 +114,8 @@ public partial class CoursePageViewModel:PageViewModelBase
     IModuleService moduleService,
     ILessonService lessonService,
     Action<Lesson> openLesson,
-    Action<int,bool> openTest,
+    Action<int,User,bool> openTest,
+    Action<User> openUser,
     Course course,
     User user)
     {
@@ -136,6 +127,7 @@ public partial class CoursePageViewModel:PageViewModelBase
         _openLesson=openLesson;
         CurrentUser = user;
         _openTest = openTest;
+        _openUser = openUser;
     }
     
     [RelayCommand]
@@ -201,13 +193,18 @@ public partial class CoursePageViewModel:PageViewModelBase
             Lesson = lesson,
             IsCompleted = false,
         });
-        /*SelectedLesson = lesson;*/
     }
 
     [RelayCommand]
     public async Task DeleteModule()
     {
+        await _moduleService.DeleteModule(SelectedModule.Id);
+        SelectedModule = null;
         
+        Module.Clear();
+        var modules = await _courseService.GetAllModules(Currentcourse.Id);
+        foreach (var module in modules)
+            Module.Add(module);
     }
 
     [RelayCommand]
@@ -231,24 +228,28 @@ public partial class CoursePageViewModel:PageViewModelBase
     [RelayCommand]
     public async Task NavigateToCreateTest()
     {
-        _openTest?.Invoke(Currentcourse.Id,true);
+        _openTest?.Invoke(Currentcourse.Id,null,true);
+        
     }
 
 
     [RelayCommand]
-    public async Task ChangeCommand()
+    public async Task ChangeStatus()
     {
-        if (IsTracked == true)
-            _courseService.EndTrackCourse(CurrentUser.Id, Currentcourse.Id);
+        /*Console.WriteLine("ChangeStatus");*/
+        if (IsTracked != true)
+           _courseService.EndTrackCourse(CurrentUser.Id, Currentcourse.Id);
+           /*Console.WriteLine("Delete");*/
         else
-            _courseService.StartTrackCourse(CurrentUser.Id, Currentcourse.Id);
+           _courseService.StartTrackCourse(CurrentUser.Id, Currentcourse.Id);
+           /*Console.WriteLine("Create");*/
         
     }
 
     [RelayCommand]
     public async Task NavigateToCompleteTets()
     {
-        _openTest?.Invoke(Currentcourse.Id,false);
+        _openTest?.Invoke(Currentcourse.Id,CurrentUser,false);
     }
 
     [RelayCommand]
@@ -278,6 +279,8 @@ public partial class CoursePageViewModel:PageViewModelBase
             ReviewMessage = string.Empty;
             ReviewRating = 0;
             ReviewWindow = false;
+            
+            
         }
         catch (Exception ex)
         {
@@ -305,14 +308,18 @@ public partial class CoursePageViewModel:PageViewModelBase
 
             ClaimMessage = string.Empty;
             ClaimWindow = false;
+            
+            LastReview.Clear();
+            var reviews = await _courseService.LastReview(Currentcourse.Id);
+            foreach (var review in reviews)
+                LastReview.Add(review);
+            
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
         }
     }
-    
-
     [RelayCommand]
     public void OpenReview() => ReviewWindow = true;
     
@@ -324,6 +331,24 @@ public partial class CoursePageViewModel:PageViewModelBase
     
     [RelayCommand]
     public void CloseClaim()=> ClaimWindow = false;
+
+    [RelayCommand]
+    public async Task ChangeCourseImage()
+    {
+        var file = await ChooseFile();
+        if (file is null) return;
+        Image= await UploadImage(file);
+        Currentcourse.PreviewImage = Image;
+        _courseService.UpdateCourse(Currentcourse);
+    }
+
+    [RelayCommand]
+    public async Task DeleteCourse()
+    {
+        await _courseService.DeleteCourse(Currentcourse.Id);
+        _openUser?.Invoke(CurrentUser);
+    }
+    
     
     
 

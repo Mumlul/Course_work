@@ -17,8 +17,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
-        <!--Header-->
-        <!--<TextBox Background="#4D4D4D" Text="{Binding SearcText}" Width="1100" BorderBrush="#19BD62" CornerRadius="10" Margin="20"/>-->
         <AutoCompleteBox Grid.Row="0"
                          Width="1100"
                          Margin="20"

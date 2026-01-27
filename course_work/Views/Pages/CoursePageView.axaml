@@ -10,8 +10,8 @@
     <Grid RowDefinitions="200,*">
         <!--Image-->
         <Grid>
-            <Image Source="{Binding Image}"
-                   Stretch="UniformToFill"/>
+            <Image
+                service:ImageExtensions.SourceUrl="{Binding Image}" Stretch="UniformToFill" />
 
             <StackPanel Classes="ImageActions"
                         Orientation="Horizontal"
@@ -21,8 +21,7 @@
                         Spacing="6"
                         IsVisible="{Binding IsAuthor}"
                         >
-                <Button Content="+"/>
-                <Button Content="-"/>
+                <Button Content="Изменить фото" Command="{Binding}"/>
             </StackPanel>
         </Grid>
        
@@ -34,14 +33,16 @@
                   HorizontalAlignment="Center"
                   Margin="0,20">
 
-                <StackPanel Grid.Column="0">
+                <StackPanel Grid.Column="0" Spacing="20">
                     <TextBox Text="{Binding Currentcourse.Title}"
                                FontSize="40"
+                               Classes="ChangeText"
                                IsReadOnly="{Binding !IsAuthor}"
                                FontWeight="Bold"/>
 
                     <TextBox Text="{Binding Currentcourse.Description}"
                                FontSize="24"
+                               Classes="ChangeText"
                                IsReadOnly="{Binding !IsAuthor}"
                                TextWrapping="Wrap"/>
                 </StackPanel>
@@ -54,24 +55,25 @@
                     Spacing="6">
                     <DropDownButton Content="Действия с курсом">
                         <DropDownButton.Flyout>
-                            <MenuFlyout>
-                                <MenuItem Header="Редактировать курс" IsVisible="{Binding IsAuthor}"/>
+                            <MenuFlyout >
+                                <MenuItem Header="Удалить курс" IsVisible="{Binding IsAuthor}" Command="{Binding DeleteCourseCommand}"/>
                                 <MenuItem Header="Тест курса" Command="{Binding NavigateToCreateTestCommand}" IsVisible="{Binding IsAuthor}"/>
-                                <MenuItem Header="Оставить отзыв" Command="{Binding OpenReviewCommand}"/>
-                                <MenuItem Header="Написать жалобу" Command="{Binding OpenClaimCommand}"/>
+                                <MenuItem Header="Оставить отзыв" Command="{Binding OpenReviewCommand}" IsVisible="{Binding !IsAuthor}"/>
+                                <MenuItem Header="Написать претензию" Command="{Binding OpenClaimCommand}" IsVisible="{Binding !IsAuthor}"/>
                             </MenuFlyout>
                         </DropDownButton.Flyout>
                     </DropDownButton>
                     
                     <ToggleButton
+                                Background="{DynamicResource PrimaryColor}"
                                   IsChecked="{Binding IsTracked}"
                                   IsVisible="{Binding IsAuthor,Converter={StaticResource ToggleButtonAuthor}}"
                                   VerticalAlignment="Top"
-                                  Command="{Binding ChangeCommandCommand}"
+                                  Command="{Binding ChangeStatusCommand}"
                                   Margin="20,6,0,0">
                         <Panel>
-                            <TextBlock Classes="track-off" Text="Отслеживать"/>
-                            <TextBlock Classes="track-on" Text="Отслеживается"/>
+                            <TextBlock Classes="track-off" Text="Отслеживать" />
+                            <TextBlock Classes="track-on" Text="Отслеживается" />
                         </Panel>
                     </ToggleButton>
                 </StackPanel>
@@ -94,13 +96,50 @@
                         IsVisible="{Binding IsComplete}"/>
             </StackPanel>
         
-            <StackPanel Grid.Row="2"
+            
+            
+            <!--Main-->
+            <ScrollViewer Grid.Row="3">
+                <StackPanel>
+                    <Grid RowDefinitions="*,Auto">
+                        <ListBox 
+                            ItemsSource="{Binding Module}" 
+                            Width="1100" 
+                            Background="Transparent"
+                            SelectedValueBinding=""
+                            SelectedItem="{Binding SelectedModule}">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Columns="2"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Grid.Row="2" CornerRadius="10"  Width="400" Height="300" ClipToBounds="True">  
+                                        <Grid RowDefinitions="2*,*">
+                                            <!--<Image 
+                                            Source="{Binding PreviewImage,Converter={StaticResource UrlToBitmapConverter}}" 
+                                            Stretch="UniformToFill"/>-->
+                                        
+                                            <Image
+                                                service:ImageExtensions.SourceUrl="{Binding PreviewImage}" Stretch="UniformToFill" />
+                                            <TextBlock Grid.Row="1" Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button Grid.Row="1" Content="Добавить модуль" 
+                                Classes="AddВutton" 
+                                IsVisible="{Binding IsAuthor}" 
+                                Command="{Binding AddModuleCommand}"/>
+                    </Grid>
+                    <StackPanel Grid.Row="2"
                         Width="1100"
                         HorizontalAlignment="Center"
                         Margin="0,20,0,20"
                         Spacing="20">
 
-                <!-- Рейтинг курса -->
                 <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
                     <TextBlock Text="Рейтинг курса:" FontSize="18" FontWeight="Bold"/>
                     <TextBlock Text="{Binding Rating, StringFormat={}{0:0.0}}"
@@ -108,27 +147,21 @@
                     <TextBlock Text="из 5" FontSize="16" VerticalAlignment="Bottom"/>
                 </StackPanel>
 
-                <!-- Последние 3 отзыва -->
                 <TextBlock Text="Последние отзывы" FontSize="20" FontWeight="Bold"/>
-
                 <ItemsControl ItemsSource="{Binding LastReview}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border CornerRadius="10"
-                                    Background="#3A3A3A"
                                     Padding="12"
                                     Margin="0,6,0,0">
                                 <StackPanel Spacing="6">
 
-                                    <!-- Пользователь + рейтинг -->
                                     <StackPanel Orientation="Horizontal" Spacing="10">
                                         <TextBlock Text="{Binding User.Name}"
                                                    FontWeight="Bold"/>
                                         <TextBlock Text="{Binding Rating, StringFormat=⭐ {0}/5}"
                                                    Foreground="Gold"/>
                                     </StackPanel>
-
-                                    <!-- Текст отзыва -->
                                     <TextBlock Text="{Binding ReviewText}"
                                                TextWrapping="Wrap"/>
                                 </StackPanel>
@@ -137,41 +170,10 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
+                </StackPanel>
+                
+            </ScrollViewer>
             
-            <!--Main-->
-            <Grid Grid.Row="3" RowDefinitions="*,Auto">
-                    <ListBox 
-                        ItemsSource="{Binding Module}" 
-                        Width="1100" 
-                        Background="Transparent"
-                        SelectedValueBinding=""
-                        SelectedItem="{Binding SelectedModule}">
-                        <ListBox.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid Columns="2"/>
-                            </ItemsPanelTemplate>
-                        </ListBox.ItemsPanel>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border Grid.Row="2" CornerRadius="10"  Width="400" Height="300" ClipToBounds="True">  
-                                    <Grid RowDefinitions="2*,*">
-                                        <!--<Image 
-                                            Source="{Binding PreviewImage,Converter={StaticResource UrlToBitmapConverter}}" 
-                                            Stretch="UniformToFill"/>-->
-                                        
-                                        <Image
-                                            service:ImageExtensions.SourceUrl="{Binding PreviewImage}" Stretch="UniformToFill" />
-                                        <TextBlock Grid.Row="1" Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                <Button Grid.Row="1" Content="Добавить модуль" 
-                        Classes="AddВutton" 
-                        IsVisible="{Binding IsAuthor}" 
-                        Command="{Binding AddModuleCommand}"/>
-            </Grid>
         </Grid>
         
         
@@ -202,7 +204,7 @@
                                     IsVisible="{Binding IsAuthor}">
                             
                             <Button Content="+" Command="{Binding ChangeImageCommand}"/>
-                            <Button Content="Удалить"/>
+                            <Button Content="Удалить" Command="{Binding DeleteModuleCommand}"/>
                         </StackPanel>
                     </Grid>
                     <TextBox 
@@ -336,3 +338,5 @@
         </Grid>
     </Grid>
 </UserControl>
+
+

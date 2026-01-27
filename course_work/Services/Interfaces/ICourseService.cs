@@ -26,6 +26,7 @@ public interface ICourseService
     Task<List<CourseReview>> LastReview (int courseId);
     Task<double>  GetAverageRating(int courseId);
     Task<List<CourseComplaint>> GetAllComplaints();
+    Task<User> GetCourseAuthor(int courseId);
     
 
 

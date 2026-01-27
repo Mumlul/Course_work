@@ -11,7 +11,7 @@
              x:Class="course_work.Views.Pages.UserProfilePageView">
     
     
-    <Grid ColumnDefinitions="300,*" Classes="Main" Margin="20" ColumnSpacing="20">
+    <Grid ColumnDefinitions="300,*" Classes="Main" Margin="20" ColumnSpacing="20" MinWidth="1100">
         <Border Classes="Profile" Padding="20" CornerRadius="14">
             <StackPanel Spacing="30" HorizontalAlignment="Center">
 
@@ -28,15 +28,20 @@
                         Command="{Binding ChangeAvatarCommand}" 
                         IsVisible="{Binding IsUser}"
                         HorizontalAlignment="Center"/>
+                
+                <Button Content="Подать претензию"
+                        Command="{Binding OpenClaimCommand}"
+                        IsVisible="{Binding !IsUser}"
+                        HorizontalAlignment="Center"/>
             </StackPanel>
         </Border>
 
         <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Disabled" ClipToBounds="True">
             <StackPanel Spacing="20">
                 
-                <TextBlock Text="Мои курсы" FontSize="28" FontWeight="Bold" Margin="10,0"/>
+                <TextBlock Text="Завершенные курсы" FontSize="28" FontWeight="Bold" Margin="10,0"/>
                 
-                <ListBox ItemsSource="{Binding AllCursesAuthor}" SelectedItem="{Binding SelectedCourse}">
+                <ListBox ItemsSource="{Binding CompleteCurse}" SelectedItem="{Binding SelectedCourse}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Orientation="Horizontal" ItemWidth="300" ItemHeight="350" Margin="0" />
@@ -47,8 +52,6 @@
                             <Border Classes="PreviewCard" CornerRadius="14" ClipToBounds="True" Margin="10">
                                 <Grid RowDefinitions="180,*">
                                     <Grid>
-                                        <!--<Image Source="{Binding PreviewImage, Converter={StaticResource UrlToBitmapConverter}}"
-                                               Stretch="UniformToFill"/>-->
                                         <Image
                                             service:ImageExtensions.SourceUrl="{Binding PreviewImage}" Stretch="UniformToFill" />
                                     </Grid>
@@ -70,77 +73,86 @@
                                TextWrapping="Wrap"
                                MaxWidth="800"/>
                 </Border>
-
-                <ListBox ItemsSource="{Binding AllCursesAuthor}" 
-                         SelectedItem="{Binding SelectedCourse}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Title}"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                
+                
+                <TabControl>
+                    <TabItem Header="Текущие курсы">
+                        <ListBox ItemsSource="{Binding Courses}"
+                                 SelectedItem="{Binding SelectedCourse}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Title}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </TabItem>
+                    <TabItem Header="Пройденое тестирование">
+                        <ListBox ItemsSource="{Binding CompleteTest}"
+                                 SelectedItem="{Binding SelectedCourse}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Test.Title}" />
+                                        <TextBlock Text="{Binding Score, StringFormat='С баллом {0:F2}'}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </TabItem>
+                    <TabItem Header="Авторство" IsVisible="{Binding IsAuthor}">
+                        <ListBox ItemsSource="{Binding AllCursesAuthor}"
+                                 SelectedItem="{Binding SelectedCourse}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Title}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </TabItem>
+                </TabControl>
                 
             </StackPanel>
         </ScrollViewer>
 
-    </Grid>
-    
-    <!--<Grid ColumnDefinitions="Auto,*" Classes="Main">
-        ~1~ Боковой профиль @1@
-        <Border Classes="Profile">
-            <StackPanel>
-                <Border Classes="BigImage">
-                    <Image Source="{Binding Avatar}"
-                           Stretch="UniformToFill"/>
-                </Border>
-            
-                <TextBlock Classes="h1" Text="{Binding User.Name}"/>
-                <TextBlock Text="Автор" Classes="second" IsVisible="{Binding IsAuthor}"/>
-                <Button Content="Изменить фото профиля" 
-                        Command="{Binding ChangeAvatarCommand}" 
-                        IsVisible="{Binding IsUser}"/>
-            </StackPanel>
-        </Border>
+        <Grid ColumnSpan="2"
+              IsVisible="{Binding OpenClaimButton}"
+              Background="#80000000"
+              ZIndex="10">
+            <Border Width="600"
+                    Height="300"
+                    CornerRadius="14"
+                    Background="#2B2B2B"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Padding="20">
+
+                <Grid RowDefinitions="Auto,*,Auto">
+                    <TextBlock Text="Пожаловаться на пользователя"
+                               FontSize="24"
+                               FontWeight="Bold"/>
+
+                    <TextBox Grid.Row="1"
+                             Text="{Binding ClaimMessage}"
+                             AcceptsReturn="True"
+                             TextWrapping="Wrap"
+                             Watermark="Опишите проблему..."
+                             Margin="0,20,0,0"/>
+
+                    <StackPanel Grid.Row="2"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Spacing="10"
+                                Margin="0,20,0,0">
+
+                        <Button Content="Отмена"
+                                Command="{Binding CloseClaimCommand}"/>
+
+                        <Button Content="Отправить"
+                                Command="{Binding AddClaimCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
         
-        <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Disabled" ClipToBounds="True">
-            <Grid RowDefinitions="Auto,*,*">
-                <ListBox Grid.Row="0" ItemsSource="{Binding AllCursesAuthor}"
-						 Background="Transparent"
-                         SelectedItem="{Binding SelectedCourse}">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" ItemWidth="300" ItemHeight="350" Margin="10"/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border Classes="PreviewCard">
-                                <Grid Margin="10" RowDefinitions="*,Auto" >
-                                    <Image Source="{Binding PreviewImage,Converter={StaticResource UrlToBitmapConverter}}" 
-                                           Stretch="UniformToFill"/>
-                                    <TextBlock Grid.Row="1" Text="{Binding Title}" 
-                                               FontSize="18" 
-                                               FontWeight="Bold"
-                                               Margin="0 0 0 10"/>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                
-                ~1~Краткая статистика@1@
-                <TextBlock Grid.Row="1" Width="500" Text="{Binding Profile.Description}" ClipToBounds="True"/>
-                
-                <ListBox Grid.Row="2" ItemsSource="{Binding AllCursesAuthor}" 
-                         SelectedItem="{Binding SelectedCourse}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Title}"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                
-            </Grid>
-        </ScrollViewer>
-    </Grid>-->
+    </Grid>
 </UserControl>

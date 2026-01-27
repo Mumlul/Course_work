@@ -58,10 +58,16 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/DockPanel.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/Flyout.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/Grid.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/ListBox.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/MenuItem.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
 [C:/Users/mumlul/RiderProjects/course_work/course_work/Styles/UI/PopUp.axaml]

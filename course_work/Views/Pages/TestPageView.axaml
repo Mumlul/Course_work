@@ -8,7 +8,8 @@
              xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
              xmlns:class="clr-namespace:course_work.Models.Classes"
              x:DataType="vm:TestPageViewModel">
-    <ScrollViewer>
+    <Grid>
+        <ScrollViewer>
         <StackPanel Spacing="24" Margin="20">
             <StackPanel Spacing="8">
                 <TextBlock Text="{Binding CurrentTest.Title}"
@@ -18,33 +19,51 @@
                            FontSize="18"
                            TextWrapping="Wrap"/>
             </StackPanel>
-            <ItemsControl ItemsSource="{Binding CurrentTest.Questions}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate x:DataType="class:TestQuestion">
-                        <Border BorderBrush="LightGray" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,20">
-                            <StackPanel Spacing="12">
-                                <TextBlock Text="{Binding QuestionText}"
-                                           FontSize="20"
-                                           FontWeight="SemiBold"
-                                           TextWrapping="Wrap"/>
-
-                                <ItemsControl ItemsSource="{Binding Options}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate x:DataType="class:TestQuestionOption">
-                                            <RadioButton Content="{Binding OptionText}"
-                                                         IsChecked="{Binding IsSelected, Mode=TwoWay}"
-                                                         GroupName="{Binding Question.Id}"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12">
-                <Button Content="Сдать тест" Command="{Binding FinishTestCommand}" Background="#4CAF50" Foreground="White"/>
+                <ItemsControl ItemsSource="{Binding CurrentTest.Questions}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="class:TestQuestion">
+                            <Border BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,20">
+                                <StackPanel Spacing="12">
+                                    <TextBlock Text="{Binding QuestionText}"
+                                               FontSize="20"
+                                               FontWeight="SemiBold"
+                                               TextWrapping="Wrap"/>
+                                    <ItemsControl ItemsSource="{Binding Options}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="class:TestQuestionOption">
+                                                <RadioButton Content="{Binding OptionText}"
+                                                             IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                                             GroupName="{Binding Question.Id}"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="12">
+                    <Button Content="Сдать тест" Command="{Binding FinishTestCommand}" Background="#4CAF50" Foreground="White"/>
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-    </ScrollViewer>
+        </ScrollViewer>
+        
+        <Border IsVisible="{Binding IsCompleted}" Width="300" Height="300">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+
+                <TextBlock Text="{Binding TestResultMessage}" 
+                           FontSize="18"
+                           HorizontalAlignment="Center" 
+                           TextAlignment="Center"/>
+
+                <Button Content="Пройти к аккаунту" 
+                        Command="{Binding GoProfileCommand}" 
+                        HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+        
+    </Grid>
+    
+    
+    
 </UserControl>

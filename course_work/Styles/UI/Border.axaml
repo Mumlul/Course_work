@@ -24,10 +24,7 @@
         <Setter Property="MinHeight" Value="200"/>
     </Style>
     
-    <Style Selector="Border.PopUpHint">
-        <Setter Property="Padding" Value="10"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource PrimaryColor}"/>
-    </Style>
+    
     
     <Style Selector="Border.Profile"> 
         <Setter Property="Background" Value="Transparent"/>

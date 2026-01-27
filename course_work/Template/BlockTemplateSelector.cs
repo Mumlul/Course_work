@@ -53,13 +53,45 @@ namespace course_work.Template
 
                 if (block.Image != null)
                 {
-                    var image = new Image
+                    // Если в модели уже есть InlineUIContainer, возвращаем его в RichTextBox
+                    if (block.Image.InlineUIContainer != null)
                     {
-                        DataContext = block.Image,
+                        var rtb = new RichTextBox
+                        {
+                            FlowDocument = new FlowDocument()
+                        };
+
+                        var par = new Paragraph();
+                        par.Inlines.Add(block.Image.InlineUIContainer);
+                        rtb.FlowDocument.Blocks.Add(par);
+
+                        rtb.IsReadOnly = true;
+                        return rtb;
+                    }
+
+                    // Иначе создаем новый Image и оборачиваем его в InlineUIContainer
+                    var imgControl = new Image
+                    {
                         [!Image.SourceProperty] = new Binding("ImagePath") { Converter = new UrlToBitmap() },
-                        Stretch = Stretch.UniformToFill
+                        Stretch = Stretch.None,
+                        Width = 100, // Можно задать нужный размер
+                        Height = 50
                     };
-                    return image;
+
+                    var inlineContainer = new EditableInlineUIContainer(imgControl);
+                    block.Image.InlineUIContainer = inlineContainer;
+
+                    var rtbWithImage = new RichTextBox
+                    {
+                        FlowDocument = new FlowDocument(),
+                        IsReadOnly = true
+                    };
+
+                    var paragraph = new Paragraph();
+                    paragraph.Inlines.Add(inlineContainer);
+                    rtbWithImage.FlowDocument.Blocks.Add(paragraph);
+
+                    return rtbWithImage;
                 }
             }
 

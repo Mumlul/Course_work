@@ -61,9 +61,5 @@ public partial class LoginPageViewModel:PageViewModelBase
         AuthError = null;
         Register?.Invoke();
     }
-
-    
-
-    
     
 }

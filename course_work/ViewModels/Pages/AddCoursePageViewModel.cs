@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Avalonia.Media.Imaging;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using course_work.Models.Classes;
@@ -13,10 +14,11 @@ public partial class AddCoursePageViewModel:PageViewModelBase
     private readonly Action<Course> _openCourse;
     [ObservableProperty] private User _currentUser;
     [ObservableProperty] private Course _newCourse=new Course();
+    [ObservableProperty] private string _image;
 
     public override async Task OnNavigatedTo()
     {
-        Console.WriteLine("asdad");
+        Image = NewCourse.PreviewImage;
     }
 
     public AddCoursePageViewModel(ICourseService courseService,User currentUser,Action<Course> openCourse)
@@ -37,9 +39,10 @@ public partial class AddCoursePageViewModel:PageViewModelBase
     
     [RelayCommand]
     public async Task SelectPhoto()
-    {
+    {   
         var file = await ChooseFile();
-        if (file != null) NewCourse.PreviewImage=await UploadImage(file);
+        NewCourse.PreviewImage=await UploadImage(file);
+        Image = NewCourse.PreviewImage;
     }
     
 }

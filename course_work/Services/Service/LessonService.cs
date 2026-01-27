@@ -92,7 +92,7 @@ public class LessonService:ILessonService
         return $"Урок {lessonId}_Course{lesson.Module.Course.Id}_Module{lesson.Module.Id}.docx";
     }
 
-    public async Task CompleteLesson(int lessonId,int userId)
+    public async Task CompleteLesson(int lessonId,int userId,bool completed)
     {
         var progress = await _context.LessonProgresses
             .FirstOrDefaultAsync(lp => lp.LessonId == lessonId && lp.UserId == userId);
@@ -102,7 +102,7 @@ public class LessonService:ILessonService
             {
                 LessonId = lessonId,
                 UserId = userId,
-                Completed = true,
+                Completed = completed,
                 CompletedAt = DateTime.Now
             });
         }

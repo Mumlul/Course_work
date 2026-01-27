@@ -5,7 +5,7 @@ public class MyCoursesPageViewModel:PageViewModelBase
     public MyCoursesPageViewModel()
     {
         Title = "My Courses";
-        Image = "../../Assets/icons/arrow-left-square.svg";
+        ImageBlock = "../../Assets/icons/arrow-left-square.svg";
     }
     
 }

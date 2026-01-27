@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using course_work.Models.Classes;
 
@@ -23,4 +24,10 @@ public interface IUserService
     Task<List<Course>> GetAithorsCurse(int userId);
     Task<int> GetCourseProgressPercent(int userId, int courseId);
     Task<List<UserComplaint>> GetAllComplaints();
+    Task<bool> CheckEmail(string email);
+    Task<bool> CheckLogin( string login);
+    Task AddClaim(UserComplaint uc);
+    Task<List<Course>> GetCompleteCourses(int  userId);
+    Task<List<TestResult>> GetCompletedTest(int userId);
+    Task UpdateProfile(UserProfile profile);
 }

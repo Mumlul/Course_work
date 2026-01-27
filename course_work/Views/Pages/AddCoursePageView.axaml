@@ -5,16 +5,27 @@
              mc:Ignorable="d" d:DesignWidth="1900" d:DesignHeight="1200"
              x:Class="course_work.Views.Pages.AddCoursePageView"
              xmlns:vm="clr-namespace:course_work.ViewModels.Pages"
-             Background="#5B5B5B"
+             xmlns:service="clr-namespace:course_work.Services.Service"
              x:DataType="vm:AddCoursePageViewModel"
              >
-    <StackPanel>
-        <TextBox Text="{Binding NewCourse.Title}" Watermark="Название курса"/>
-        <TextBox Text="{Binding NewCourse.Description}" Watermark="Описание курса" TextWrapping="Wrap"/>
-        <TextBox Text="{Binding NewCourse.Slug}" Watermark="Краткое название"/>
-        <TextBlock Text="{Binding NewCourse.PreviewImage}"/>
-        <Button Content="Добавить фото" Command="{Binding SelectPhotoCommand}"/>
-        <Button Content="Добавить" Command="{Binding CreateCourseCommand}"/>
-    </StackPanel>
-    
+    <Grid RowDefinitions="300,*">
+        <Grid Grid.Row="0" RowDefinitions="200,Auto">
+            <Image
+                service:ImageExtensions.SourceUrl="{Binding Image}" Stretch="UniformToFill" />
+            <StackPanel Grid.Row="1" Spacing="5">
+                <TextBlock Text="Превью изображения:" FontWeight="SemiBold"/>
+                <Button Content="Изменить фото курса" Command="{Binding SelectPhotoCommand}"/>
+            </StackPanel>
+        </Grid>
+        
+        <Grid Grid.Row="1" RowSpacing="10" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+            <TextBlock Grid.Row="0" Text="Создание нового курса" FontSize="20" FontWeight="Bold"/>
+            <TextBox Grid.Row="1" Text="{Binding NewCourse.Title}" Watermark="Название курса" MinHeight="30"/>
+            <TextBox Grid.Row="2" Text="{Binding NewCourse.Description}" 
+                     Watermark="Описание курса" TextWrapping="Wrap" AcceptsReturn="True" MinHeight="60"/>
+            <TextBox Grid.Row="3" Text="{Binding NewCourse.Slug}" Watermark="Краткое название" MinHeight="30"/>
+            
+            <Button Grid.Row="4" Content="Создать курс" Command="{Binding CreateCourseCommand}" Width="120" Height="35"/>
+        </Grid>
+    </Grid>
 </UserControl>

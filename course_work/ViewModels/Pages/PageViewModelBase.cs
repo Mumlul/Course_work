@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Avalonia.Media.Imaging;
+using course_work.Models.Classes;
 
 
 namespace course_work.ViewModels.Pages;
@@ -19,7 +20,8 @@ namespace course_work.ViewModels.Pages;
 public partial class PageViewModelBase:ViewModelBase
 {
     public string? Title { get; set; }
-    public string? Image { get; set; }
+    public string? ImageBlock { get; set; }
+    
     
     [ObservableProperty]
     public bool _textVisible  = false;
@@ -104,13 +106,27 @@ public partial class PageViewModelBase:ViewModelBase
         );
         return code.ToString();
     }
+    
+    public async Task SendMail(string email,string text)
+    {
+        var code = GenerateSecretCode();
+        SendMessageAsync(
+            fromEmail: "ploskih44@gmail.com",
+            password: "qhyz ocrc yvfi lxbr",
+            toEmail: email,
+            subject: "Сообщение от администрации",
+            body: text
+        ); 
+    }
 
     private static string pas = "2H4NLFXQSWUC8A31U1PB";
 
     private static string pas2 = "EYBr2GBUGTtSdS7fTM8XgBXwSEUDROFMK1wpCwcF";
-    //Добавить проверке есть ли такой файл уже 
     public static  async Task<string> UploadImage(string name)
     {
+        if (string.IsNullOrEmpty(name))
+            return null;
+        
          var config = new AmazonS3Config
          {
             ServiceURL = "https://s3.twcstorage.ru",

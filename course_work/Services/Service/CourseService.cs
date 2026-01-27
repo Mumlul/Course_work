@@ -62,9 +62,11 @@ public class CourseService : ICourseService
             .ToListAsync();;
     }
 
-    public Task DeleteCourse(int id)
+    public async Task DeleteCourse(int id)
     {
-        throw new System.NotImplementedException();
+        var course = await _context.Courses.FirstOrDefaultAsync(c => c.Id == id);
+        _context.Courses.Remove(course);
+        await _context.SaveChangesAsync();
     }
     
     public async Task<List<Course>> SearchCoursesByTitle(string query, int maxResults = 10)
@@ -133,6 +135,7 @@ public class CourseService : ICourseService
             StartedAt = DateTime.UtcNow,
             Completed = false
         };
+        Console.WriteLine("отслеживается");
         _context.CourseStudents.Add(tc);
         await _context.SaveChangesAsync();
     }
@@ -216,9 +219,23 @@ public class CourseService : ICourseService
     public async Task<List<CourseComplaint>> GetAllComplaints()
     {
         return await _context.CourseComplaints
-            .Include(c => c.User)   
+            .Include(c => c.User)
+                .ThenInclude(u => u.Profile)
             .Include(c => c.Course) 
             .OrderByDescending(c => c.CreatedAt) 
             .ToListAsync();
+    }
+
+    public async Task<User> GetCourseAuthor(int courseId)
+    {
+        var author = await _context.CourseAuthors
+            .Where(ca => ca.CourseId == courseId)
+            .Select(ca => ca.User)
+            .FirstOrDefaultAsync();
+
+        if (author == null)
+            throw new InvalidOperationException("Автор курса не найден");
+
+        return author;
     }
 }

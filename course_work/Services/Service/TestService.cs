@@ -21,6 +21,7 @@ public class TestService:ITestService
     
     public async Task<Test?> GetTestByCourseIdAsync(int courseId)
     {
+        
         var test = await _context.Tests
             .Include(t => t.Questions)
             .ThenInclude(q => q.Options)
@@ -42,6 +43,8 @@ public class TestService:ITestService
         await _context.SaveChangesAsync();
 
         return test;
+
+        
     }
 
     public async Task<Test?> GetTestByIdAsync(int testId)
@@ -148,7 +151,12 @@ public class TestService:ITestService
         return result;
     }
 
-    public async Task SaveUserAnswerAsync(int testResultId, int questionId, int? optionId, string? textAnswer)
+    public Task SaveUserAnswerAsync(int testResultId, int questionId, int? optionId, string? textAnswer)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task SaveUserAnswerAsync(int testResultId, int questionId, int? optionId)
     {
         /*var result = await _context.TestResults.FindAsync(testResultId);
         if (result == null) return;
@@ -205,6 +213,29 @@ public class TestService:ITestService
         await _context.SaveChangesAsync();*/
         return result;
     }
+    
+    public async Task<TestResult> RecordTestResultAsync(int testId, int userId, double score)
+    {
+        var test = await _context.Tests
+            .FirstOrDefaultAsync(t => t.Id == testId);
+
+        if (test == null)
+            throw new Exception($"Тест с Id={testId} не найден.");
+
+        var result = new TestResult
+        {
+            TestId = testId,
+            UserId = userId,
+            Score = score,
+            Passed = true,
+            CompletedAt = DateTime.UtcNow
+        };
+
+        _context.TestResults.Add(result);
+        await _context.SaveChangesAsync();
+
+        return result;
+    }
 
     public async Task<TestResult?> GetLastResultAsync(int testId, int userId)
     {
@@ -231,5 +262,11 @@ public class TestService:ITestService
             .ToListAsync();
 
         return options ?? new List<TestQuestionOption>();
+    }
+
+    public async Task<bool> TestExists(int courseId)
+    {
+        return await _context.Tests
+            .AnyAsync(t => t.CourseId == courseId);
     }
 }

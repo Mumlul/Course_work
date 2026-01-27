@@ -31,7 +31,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Margin="0">
-                                <Svg Path="{Binding Image}" Height="20"/>
+                                <Svg Path="{Binding ImageBlock}" Height="20"/>
                                 <TextBlock Text="{Binding Title}" IsVisible="{Binding TextVisible}"/>
                             </StackPanel>
                         </DataTemplate>
@@ -39,13 +39,14 @@
                 </ListBox>
                 
                 <Button Grid.Row="2" Classes="SidePanel">
-                    <Border Width="50" Height="50" CornerRadius="25" ClipToBounds="True">
+                    <Border Width="50" Height="50" CornerRadius="25" ClipToBounds="True" >
                         <Image Source="{Binding User.Profile.Avatar, Converter={StaticResource UrlToBitmapConverter}}"
                                Stretch="UniformToFill"/>
-                    </Border>
-                    <Button.Flyout>
-                        <Flyout Placement="Top" >
-                            <Border Classes="PopUpHint" Padding="10">
+                    </Border >
+                    <Button.Flyout >
+                        <Flyout Placement="Right">
+                            
+                            <Border Background="{DynamicResource Background}">
                                 <Grid RowDefinitions="Auto,*">
                                     <Border Width="50" Height="50" CornerRadius="25" ClipToBounds="True">
                                         <Image Source="{Binding User.Profile.Avatar, Converter={StaticResource UrlToBitmapConverter}}"
@@ -59,7 +60,6 @@
                                                 IsVisible="{Binding IsAuthor}"/>
                                         <Button Content="Выйти из аккаунта" Command="{Binding LogOutCommand}"/>
                                     </StackPanel>
-                                    
                                 </Grid>
                             </Border>
                         </Flyout>

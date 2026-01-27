@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 namespace course_work.Services;
 
 
+
 public class UserService:IUserService
 {
     private readonly ApplicationDbContext _context;
@@ -165,9 +166,56 @@ public class UserService:IUserService
     public async Task<List<UserComplaint>> GetAllComplaints()
     {
         return await _context.UserComplaints
-            .Include(c => c.FromUser)   
-            .Include(c => c.ToUser) 
+            .Include(c => c.FromUser)  
+                .ThenInclude(u => u.Profile)
+            .Include(c => c.ToUser)
+                .ThenInclude(u => u.Profile)
             .OrderByDescending(c => c.CreatedAt) 
             .ToListAsync();
+    }
+
+    public async Task<bool> CheckEmail(string email)
+    {
+        return await _context.Users
+            .AnyAsync(u => u.Email == email);
+    }
+
+    public async Task<bool> CheckLogin(string login)
+    {
+        return await _context.Users
+            .AnyAsync(u => u.Login == login);
+    }
+
+    public async Task AddClaim(UserComplaint uc)
+    {
+        var exists = await _context.UserComplaints
+            .AnyAsync(c => c.FromUserId == uc.FromUserId &&
+                           c.ToUserId == uc.ToUserId);
+        if (exists)
+            throw new InvalidOperationException("Жалоба на этого пользователя уже отправлена");
+        await _context.UserComplaints.AddAsync(uc);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<Course>> GetCompleteCourses(int userId)
+    {
+        return await _context.CourseStudents
+            .Where(cs => cs.UserId == userId && cs.Completed)
+            .Select(cs => cs.Course)
+            .ToListAsync();
+    }
+
+    public async Task<List<TestResult>> GetCompletedTest(int userId)
+    {
+        return await _context.TestResults
+            .Where(tc => tc.UserId == userId)
+            .Include(t=>t.Test)
+            .ToListAsync();
+    }
+
+    public async Task UpdateProfile(UserProfile profile)
+    {
+        _context.UserProfiles.Update(profile);
+        await _context.SaveChangesAsync();
     }
 }

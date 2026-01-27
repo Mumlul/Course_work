@@ -45,9 +45,10 @@ public class ModuleService:IModuleService
         await _context.SaveChangesAsync();
     }
 
-    public Task DeleteModule(int id)
+    public async Task DeleteModule(int id)
     {
-        throw new System.NotImplementedException();
+        _context.Modules.Remove(await _context.Modules.FindAsync(id));
+        await _context.SaveChangesAsync();
     }
 
     public async Task<List<LessonPrewie>> GetLessons(int moduleId,int userId,bool author)

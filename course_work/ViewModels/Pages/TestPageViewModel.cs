@@ -18,6 +18,10 @@ public partial class TestPageViewModel:PageViewModelBase
     [ObservableProperty] private Bitmap _image;
     [ObservableProperty] private TestQuestion _selectedQuestion;
     [ObservableProperty] private User _CurrentUser;
+    [ObservableProperty] private bool _isCompleted;
+    [ObservableProperty] private string _testResultMessage = string.Empty;
+    
+    private readonly Action<User> _openProfile; 
 
     private int _courseId;
 
@@ -32,12 +36,13 @@ public partial class TestPageViewModel:PageViewModelBase
         return Task.CompletedTask;
     }
 
-    public TestPageViewModel(ITestService testService,int courseId,User currentUser)
+    public TestPageViewModel(ITestService testService,int courseId,User currentUser,Action<User> openProfile)
     {
         Title = "Test Page";
         _testService = testService;
         _courseId=courseId;
         CurrentUser=currentUser;
+        _openProfile = openProfile;
     }
     
     [RelayCommand]
@@ -45,16 +50,13 @@ public partial class TestPageViewModel:PageViewModelBase
     {
         var (score,pas) = CheckTest();
 
-        if (pas)
-        {
-            Console.WriteLine("прошел");
-        }
-        else
-        {
-            Console.WriteLine("yt ghjitk");
-        }
-        
-        
+        var result = await _testService.RecordTestResultAsync(CurrentTest.Id, CurrentUser.Id, score);
+
+        TestResultMessage = $"Пользователь: {CurrentUser.Name}\n" +
+                            $"Результат: {(result.Passed ? "Сдал" : "Не сдал")}\n" +
+                            $"Баллы: {result.Score:F2}%";
+
+        IsCompleted = true;
         
     }
 
@@ -93,5 +95,8 @@ public partial class TestPageViewModel:PageViewModelBase
         
         return (scorePercent,passed ? true : false);
     }
+    
+    [RelayCommand]
+    public void GoProfile()=>_openProfile?.Invoke(_CurrentUser);
     
 }

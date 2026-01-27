@@ -33,5 +33,6 @@
         <StyleInclude Source="../Styles/UI/TextBox.axaml"/>
         <StyleInclude Source="../Styles/UI/ListBox.axaml"/>
         <StyleInclude Source="../Styles/UI/Grid.axaml"/>
+        <StyleInclude Source="../Styles/UI/MenuItem.axaml"/>
     </Application.Styles>
 </Application>

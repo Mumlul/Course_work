@@ -23,6 +23,7 @@ public partial class CatalogPageViewModel:PageViewModelBase
     [ObservableProperty] private Course? _selectedCourse;
     [ObservableProperty] private SearchBlock? _searchItem;
     [ObservableProperty] private bool _isDialogOpened=false;
+    [ObservableProperty] private string _seacrchText;
     public ObservableCollection<Course> Courses { get; set; } = new();
     public ObservableCollection<User> Authors { get; } = new();
     public ObservableCollection<SearchBlock> FilteredSearchItems { get; } = new();
@@ -80,7 +81,7 @@ public partial class CatalogPageViewModel:PageViewModelBase
     {
         Console.WriteLine("2");
         Title = "Главная";
-        Image = "../../Assets/icons/home-04.svg";
+        ImageBlock = "../../Assets/icons/home-04.svg";
         _userService = userService;
         _courseService = courseService;
         _openCourse=openCourse;

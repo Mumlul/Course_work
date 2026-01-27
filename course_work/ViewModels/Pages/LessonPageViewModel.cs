@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform.Storage;
 using AvRichTextBox;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using course_work.Convertors;
 using course_work.Models;
 using course_work.Models.Classes;
 using course_work.Services;
@@ -26,62 +29,68 @@ public partial class LessonPageViewModel:PageViewModelBase
     //ОБЯЗАТЕЛЬНО ПОМЕНЯТЬ СДЕЛАТЬ НОРМАЛЬНУЮ ЗАГРУЗКУ
     [ObservableProperty] private bool _isAuthor=true;
     [ObservableProperty] private bool _isReader=true;
-    [ObservableProperty] private Bitmap _image;
+    [ObservableProperty] private Bitmap _imageLesson;
     [ObservableProperty] private TextBlockModel? _selectedTextBlock;
     [ObservableProperty] private bool _isCompleted;
     private int _userId;
 
     public async override Task OnNavigatedTo()
     {
-        Image = await ConvertImageToByteArray(CurrentLesson.PreviewImage);
+        ImageLesson = await ConvertImageToByteArray(CurrentLesson.PreviewImage);
         IsAuthor=await _lessonService.GetAuthor(CurrentLesson.Id, _userId);
         IsReader = !IsAuthor;
         if (CurrentLesson.ContentUrl != null)
         {
-
             var path = await DownloadWordToTempAsync(CurrentLesson.ContentUrl);
             
             var rtb = new AvRichTextBox.RichTextBox();
             rtb.LoadWordDoc(path);
-            Console.WriteLine(path);
+            
+            
 
             var blocks = new ObservableCollection<UIBlocks>();
             FlowDocument? currentDoc = new FlowDocument();
 
-            foreach (var block in rtb.FlowDocument.Blocks)
+            
+            foreach (var par in rtb.FlowDocument.Blocks.OfType<AvRichTextBox.Paragraph>())
             {
-                if (block is AvRichTextBox.Paragraph par)
+                foreach (var inline in par.Inlines)
                 {
-                    foreach (var run in par.Inlines.OfType<AvRichTextBox.EditableRun>())
+                    switch (inline)
                     {
-                        var lines = run.Text.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
-                        foreach (var line in lines)
-                        {
-                            if (Uri.IsWellFormedUriString(line, UriKind.Absolute))
+                        case AvRichTextBox.EditableRun run:
+                            var newPar = new AvRichTextBox.Paragraph();
+                            newPar.Inlines.Add(new AvRichTextBox.EditableRun { Text = run.Text });
+                            currentDoc.Blocks.Add(newPar);
+                            break;
+
+                        case AvRichTextBox.EditableInlineUIContainer container:
+                            if (currentDoc.Blocks.Count > 0)
                             {
-                                if (currentDoc.Blocks.Count > 0)
-                                {
-                                    blocks.Add(new UIBlocks
-                                    {
-                                        RText = new TextBlockModel { FlowDocument = currentDoc }
-                                    });
-                                    currentDoc = new FlowDocument();
-                                }
                                 blocks.Add(new UIBlocks
                                 {
-                                    Image = new ImageBlockModel { ImagePath = line }
+                                    RText = new TextBlockModel { FlowDocument = currentDoc }
+                                });
+                                currentDoc = new FlowDocument();
+                            }
+
+                            if (container.Child is Image img)
+                            {
+                                blocks.Add(new UIBlocks
+                                {
+                                    Image = new ImageBlockModel
+                                    {
+                                        InlineUIContainer = container,
+                                        Image = img.Source as Bitmap,
+                                        ImagePath = "" 
+                                    }
                                 });
                             }
-                            else
-                            {
-                                var newPar = new AvRichTextBox.Paragraph();
-                                newPar.Inlines.Add(new AvRichTextBox.EditableRun { Text = line });
-                                currentDoc.Blocks.Add(newPar);
-                            }
-                        }
+                            break;
                     }
                 }
             }
+
             if (currentDoc.Blocks.Count > 0)
             {
                 blocks.Add(new UIBlocks
@@ -93,13 +102,11 @@ public partial class LessonPageViewModel:PageViewModelBase
             Blocks.Clear();
             foreach (var b in blocks)
                 Blocks.Add(b);
-            File.Delete(path);
         }
         
         IsCompleted=await _lessonService.IsCompleteLesson(CurrentLesson.Id, _userId);
     }
-
-
+    
     public LessonPageViewModel(ILessonService lessonService,Lesson lesson,Action<Course> backtocourse,int userid)
     {
         Title = "Lesson";
@@ -136,23 +143,31 @@ public partial class LessonPageViewModel:PageViewModelBase
     public async Task AddImageBlock()
     {
         var path = await ChooseFile();
-        Console.WriteLine($"PATH:{path}");
+        if (string.IsNullOrEmpty(path)) return;
+
         var url = await UploadImage(path);
-        Console.WriteLine($"URL:{url}");
+        var bitmap = new Bitmap(path);
+        var imgControl = new Avalonia.Controls.Image
+        {
+            Source = bitmap,
+            Stretch = Avalonia.Media.Stretch.Uniform
+        };
+
+        var inlineContainer = new EditableInlineUIContainer(imgControl);
         
         var imageModel = new ImageBlockModel
         {
             Order = Blocks.Count,
-            ImagePath = url
+            ImagePath = url,
+            Image = bitmap,
+            InlineUIContainer = inlineContainer
         };
 
-        var block = new UIBlocks
+        Blocks.Add(new UIBlocks
         {
             RText = null,
             Image = imageModel
-        };
-
-        Blocks.Add(block);
+        });
     }
     
     public void ApplyFontColor(Color color)
@@ -202,41 +217,68 @@ public partial class LessonPageViewModel:PageViewModelBase
     
     
     
-    
-    
     [RelayCommand]
     public async Task SaveAllBlocksToWordAsync()
     {
         if (_isAuthor)
         {
             var mergedDocument = new FlowDocument();
+
             foreach (var block in Blocks)
             {
                 if (block.RText?.FlowDocument != null)
                 {
-                    foreach (var b in block.RText.FlowDocument.Blocks)
+                    foreach (var textBlock in block.RText.FlowDocument.Blocks)
                     {
-                        mergedDocument.Blocks.Add(b);
+                        mergedDocument.Blocks.Add(textBlock);
                     }
                 }
+
                 if (block.Image != null)
                 {
-                    var par = new Paragraph();
-                    par.Inlines.Add(new EditableRun
+                    var paragraph = new Paragraph();
+
+                    Image imgControl;
+
+                    if (block.Image.InlineUIContainer != null)
                     {
-                        Text = block.Image.ImagePath
-                    });
-                    mergedDocument.Blocks.Add(par);
+                        paragraph.Inlines.Add(block.Image.InlineUIContainer);
+                    }
+                    else
+                    {
+                        imgControl = new Image
+                        {
+                            Stretch = Avalonia.Media.Stretch.None,
+                            Width = 100,
+                            Height = 5
+                        };
+                        
+                        imgControl.Bind(Image.SourceProperty, new Avalonia.Data.Binding("ImagePath")
+                        {
+                            Source = block.Image,
+                            Converter = new UrlToBitmap()
+                        });
+
+                        var inlineContainer = new EditableInlineUIContainer(imgControl);
+                        block.Image.InlineUIContainer = inlineContainer; // кешируем
+
+                        paragraph.Inlines.Add(inlineContainer);
+                    }
+
+                    mergedDocument.Blocks.Add(paragraph);
                 }
             }
+
             var fileName = await _lessonService.GetLessonFileName(CurrentLesson.Id);
             var tempPath = Path.Combine(Path.GetTempPath(), fileName);
+
             try
             {
                 var tempRtb = new RichTextBox
                 {
                     FlowDocument = mergedDocument
                 };
+
                 tempRtb.SaveWordDoc(tempPath);
                 var url = await UploadWordToTempAsync(tempPath);
                 CurrentLesson.ContentUrl = url;
@@ -259,14 +301,15 @@ public partial class LessonPageViewModel:PageViewModelBase
         var file = await ChooseFile();
         if (file is null) return;
         CurrentLesson.PreviewImage =await UploadImage(file);
-        Image = await ConvertImageToByteArray(CurrentLesson.PreviewImage);
+        ImageLesson = await ConvertImageToByteArray(CurrentLesson.PreviewImage);
         _lessonService.UpdateLesson(CurrentLesson);
     }
     
     [RelayCommand]
     public async Task CompleteLesson()
     {
-        await _lessonService.CompleteLesson(lessonId: CurrentLesson.Id, userId: _userId);
+        Console.WriteLine(IsCompleted);
+        await _lessonService.CompleteLesson(lessonId: CurrentLesson.Id, userId: _userId,completed: IsCompleted);
         await _lessonService.UpdateCourseProgress(await _lessonService.GetCurseId(CurrentLesson.Id), _userId);
     }
     

@@ -87,4 +87,8 @@
     <Style Selector="ToggleButton:checked Image.Open">
         <Setter Property="IsVisible" Value="True"/>
     </Style>
+    
+    <!--DDb-->
+    
+    
 </Styles>

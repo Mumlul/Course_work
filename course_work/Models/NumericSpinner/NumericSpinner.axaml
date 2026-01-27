@@ -63,14 +63,14 @@
 						 HorizontalContentAlignment="Right" 
 						 VerticalContentAlignment="Center" 
 						 Margin="0, 0, 1, 0"
-						 FontSize="{Binding FontSize, DataType={x:Type local:NumericSpinner}}" 
-						 FontWeight="{Binding FontWeight, DataType={x:Type local:NumericSpinner}}" 
+						 FontSize="{Binding FontSize, RelativeSource={RelativeSource AncestorType=local:NumericSpinner}}" 
+						 FontWeight="{Binding FontWeight, RelativeSource={RelativeSource AncestorType=local:NumericSpinner}}" 
 						 Padding="0, 0, 0, 0"
 						 BorderBrush="Transparent" 
 						 BorderThickness="0" 
 						 VerticalAlignment="Stretch" 
 						 HorizontalAlignment="Stretch"
-						 Text="{Binding Value, Converter={StaticResource doubleToStringConverter}, FallbackValue=10, DataType={x:Type local:NumericSpinner}}"
+						 Text="{Binding Value, Converter={StaticResource doubleToStringConverter}, FallbackValue=10, RelativeSource={RelativeSource AncestorType=local:NumericSpinner}}"
 						  />
 			</Grid>
 			

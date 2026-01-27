@@ -18,7 +18,7 @@
     <Grid RowDefinitions="200,Auto,*">
         <!--Image-->
         <Grid>
-            <Image Source="{Binding Image}" Stretch="UniformToFill"/>
+            <Image Source="{Binding ImageLesson}" Stretch="UniformToFill"/>
             <StackPanel Classes="ImageActions"
                         Orientation="Horizontal"
                         HorizontalAlignment="Right"
@@ -89,7 +89,7 @@
                         </DataTemplate>
                         
                         <DataTemplate DataType="models:ImageBlockModel">
-                            <Image  Source="{Binding ImagePath,Converter={StaticResource UrlToBitmapConverter}}" Stretch="UniformToFill"/>
+                            <Image  Source="{Binding ImagePath,Converter={StaticResource UrlToBitmapConverter}}" Stretch="UniformToFill" Width="600" Height="400"/>
                         </DataTemplate>
                     </ItemsControl.DataTemplates>
                 </ItemsControl>

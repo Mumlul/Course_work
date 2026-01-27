@@ -25,13 +25,13 @@ public class ViewLocator : IDataTemplate
         var viewType = viewModelType.Assembly.GetType(viewTypeName);
         if (viewType == null)
         {
-            Console.WriteLine($"View not found for {viewTypeName}");
+            /*Console.WriteLine($"View not found for {viewTypeName}");*/
             return new TextBlock { Text = "View not found: " + viewTypeName };
         }
         
         var control = (Control)Activator.CreateInstance(viewType)!;
         control.DataContext = param;
-        Console.WriteLine($"View built for {viewModelType.Name}");
+        /*Console.WriteLine($"View built for {viewModelType.Name}");*/
         return control;
     }
 

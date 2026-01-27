@@ -30,5 +30,6 @@ public interface ITestService
     Task<TestResult?> GetLastResultAsync(int testId, int userId);
     Task<TestResult> GetUserResultsAsync(int testId, int userId);
     Task<List<TestQuestionOption>>  GetQuestionOptionsAsync(int questionId);
-    
+    Task<TestResult> RecordTestResultAsync(int testId, int userId, double score);
+
 }
