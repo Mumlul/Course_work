@@ -56,12 +56,12 @@
 
                     <Separator/>
 
-                    <TextBlock Text="Сообщение ябеде:" FontWeight="Bold"/>
+                    <TextBlock Text="Сообщение полльзователю:" FontWeight="Bold"/>
                     <TextBox Text="{Binding UserMessage}"
                              AcceptsReturn="True"
                              Height="80"/>
 
-                    <Button Content="Отправить ябеде"
+                    <Button Content="Отправить пользователю"
                             Command="{Binding SendMessageToUserCommand}"/>
 
                     <Separator/>

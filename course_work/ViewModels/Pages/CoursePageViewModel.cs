@@ -81,12 +81,14 @@ public partial class CoursePageViewModel:PageViewModelBase
         Module.Clear();
         foreach (var module in modules)
             Module.Add(module);
-        
-        if (string.IsNullOrEmpty(Currentcourse?.PreviewImage)) return;
+
+        if (string.IsNullOrEmpty(Currentcourse?.PreviewImage))
+            return;
+        /*Currentcourse.PreviewImage = @"C:\Users\st310-07\Documents\Плоских\f\course_work\Assets\test\";*/
 
         Image = Currentcourse?.PreviewImage;
 
-        IsAuthor= await _courseService.IsAuthorOfCourse(Currentcourse.Id,CurrentUser.Id);
+        IsAuthor = await _courseService.IsAuthorOfCourse(Currentcourse.Id,CurrentUser.Id);
         IsTracked = await _courseService.IsTrackedCourse(Currentcourse.Id, CurrentUser.Id);
 
         if (IsTracked)
@@ -105,7 +107,7 @@ public partial class CoursePageViewModel:PageViewModelBase
 
     public override async Task OnNavigatedFrom()
     {
-        /*await _courseService.UpdateCourse(Currentcourse);*/
+        await _courseService.UpdateCourse(Currentcourse);
     }
 
 
@@ -217,12 +219,14 @@ public partial class CoursePageViewModel:PageViewModelBase
     [RelayCommand]
     public async Task ChangeImage()
     {
-        var file = await ChooseFile();
+
+        Console.WriteLine(ModuleImage);
+        /*var file = await ChooseFile();
         if (file is null) return;
         var url=await UploadImage(file);
         ModuleImage = await ConvertImageToByteArray(url);
         SelectedModule.PreviewImage = url;
-        _moduleService.UpdateModule(SelectedModule);
+        _moduleService.UpdateModule(SelectedModule);*/
     }
 
     [RelayCommand]
@@ -336,7 +340,7 @@ public partial class CoursePageViewModel:PageViewModelBase
     public async Task ChangeCourseImage()
     {
         var file = await ChooseFile();
-        if (file is null) return;
+        if (file is null||file=="") return;
         Image= await UploadImage(file);
         Currentcourse.PreviewImage = Image;
         _courseService.UpdateCourse(Currentcourse);

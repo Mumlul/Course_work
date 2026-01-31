@@ -107,6 +107,7 @@ public partial class AdminCourseClaimViewModel:PageViewModelBase
     [RelayCommand]
     public async Task SendMessageToUser()
     {
+        Console.WriteLine(SelectedComplaint.User.Email);
         await SendMail(SelectedComplaint.User.Email, UserMessage);
     }
 
